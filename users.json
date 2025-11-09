@@ -1,0 +1,25 @@
+{
+    "admin": {
+        "password": "admin123",
+        "role": "admin",
+        "data": {
+            "permissions": [
+                "manage_users"
+            ],
+            "info": {
+                "name": "Super Admin"
+            }
+        }
+    },
+    "1": {
+        "password": "1234567a",
+        "role": "user",
+        "gold": 1000,
+        "data": {
+            "toko": {
+                "nama": "op",
+                "stock": ""
+            }
+        }
+    }
+}
