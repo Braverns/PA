@@ -26,7 +26,7 @@ def penguasa_main():
     while True:
         choice = pilihan_admin(menu_admin)
         if choice == f"|{'1. Kebijakan':<{105}}|":
-            choice = create_admin(menu_admin_)
+            choice = create_admin(menu_admin)
             if choice == f"|{'2. Kebijakan Pinjaman':<{105}}|":
                 os.system('cls || clear')
                 tampilkan_semua_surat()
