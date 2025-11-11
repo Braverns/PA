@@ -1,15 +1,17 @@
 from data import *
 from login import *
-
 import json
 import os
 
 USERS_FILE = "users.json"
 
-# Load data user dari file JSON, jika tidak ada buat default
 if os.path.exists(USERS_FILE):
-    with open(USERS_FILE, "r") as f:
-        users_db = json.load(f)
+    try:
+        with open(USERS_FILE, "r") as f:
+            users_db = json.load(f)
+    except json.JSONDecodeError:
+        print("File users.json rusak, membuat ulang database kosong.")
+        users_db = {}
 else:
     users_db = {
         'admin': {
@@ -26,16 +28,20 @@ def save_users():
     with open(USERS_FILE, "w") as f:
         json.dump(users_db, f, indent=4)
 
-def login(role):
+def login():
     username = input('Username: ').strip()
     password = input('Password: ').strip()
     user = users_db.get(username)
-    if user and user['password'] == password and user['role'] == role:
-        print(f'Login berhasil! Welcome {username}')
-        return username
-    else:
-        print('Username/password salah')
-        return None
+    if not user:
+        print("Username tidak ditemukan.")
+        return None, None
+    if user['password'] != password:
+        print("Password salah.")
+        return None, None  
+
+    print(f"\n✅ Login berhasil! Selamat datang, {username} ({user['role']}).\n")
+    return username, user['role']  # <--- return 2 nilai, aman
+
 
 def register_user():
     while True:
@@ -48,7 +54,7 @@ def register_user():
             continue
 
         password = input('Password baru: ').strip()
-        if not password or ' ' in password or username == password or password.isdigit() or len(password) < 8 or len(password) > 64:
+        if not password or ' ' in password or username == password or password.isdigit() or len(password) < 8 or len(password) > 64 or not any(c.isalpha() for c in password):
             print('\n1. Password tidak boleh kosong\n2. Password tidak boleh ada spasi \n3. Password tidak boleh sama dengan username \n4. Password harus ada huruf \n5. Password minimal 8 karakter dan maksimal 64 karakter\n')
             continue
 
@@ -58,6 +64,12 @@ def register_user():
             continue
 
         namat = input('Nama toko: ').strip()
+        if len(namat) > 50:
+            print('Nama toko terlalu panjang. Maksimal 50 karakter.')
+            continue
+        if not namat:
+            print('Nama toko tidak boleh kosong.')
+            continue
         break
 
     users_db[username] = {
@@ -66,5 +78,5 @@ def register_user():
         'gold': 1000,
         'data': {'toko': {'nama': namat, 'stock': ''}}
     }
-    save_users()  # simpan ke JSON
+    save_users()  
     print(f'User "{username}" berhasil didaftarkan!')

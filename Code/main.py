@@ -4,19 +4,31 @@ from menu import *
 from InquirerPy import inquirer
 
 def main_menu():
+    print(menu_welcome)
+    input(f'{'Tekan Enter untuk melanjutkan...' :^{105}}')
     while True:
-        choice = menu()
+        choice = pilihan(menu_login)
         os.system('cls || clear')
 
-        if choice == f"|{'1. Master':<{105}}|":
-            login('admin')
-            input('Enter untuk kembali... ')
-        elif choice == f"|{'2. Murid':<{105}}|":
-            login('user')
-            input('Enter untuk kembali... ')
-        elif choice == f"|{'3. Daftar Sebagai Murid':<{105}}|":
+        if choice == f"|{'1. Penguasa / Pedagang':<{105}}|":
+            
+            username, role = login()
+            
+            if role == 'admin':
+                print('Kamu adalah penguasa')
+                break
+            elif role == 'user':
+                print('Kamu adalah pedagang')
+                break
+            else:
+                input('Tekan Enter untuk kembali ke menu utama... ')
+                continue
+            
+            
+        elif choice == f"|{'2. Daftar Sebagai Pedagang':<{105}}|":
             register_user()
             input('Enter untuk kembali... ')
+
         else:
             print(f'{BOLD}{WHITE}{atas}{RESET}')
             print(f'{BOLD}{BLUE}{REVERSE}{panjang}{RESET}')
