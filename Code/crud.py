@@ -14,6 +14,8 @@ daftar_pesan = []
 pinjam = {}
 id_pinjam = 1
 
+""" DATA MUJA """
+
 
 
 """ FEATURE ARYA  """
@@ -172,3 +174,7 @@ def proses_pengajuan():
     lihat_daftar_pengajuan()
     if not daftar_pesan:
         return
+    
+""" FEATURE MUJA  """
+def fitur_muja():
+    pass
