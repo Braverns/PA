@@ -208,4 +208,3 @@ def proses_pengajuan():
 def fitur_muja():
     pass
 
-proses_pengajuan()

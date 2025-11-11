@@ -7,7 +7,8 @@ from pedagang import *
 
 def main_menu():
     print(menu_welcome)
-    input(f'{'Tekan Enter untuk melanjutkan...' :^{105}}')
+    print('\n         ', end='')
+    input(f'{BOLD}{CYAN}{f'{UNDERLINE}{'Tekan Enter untuk melanjutkan...'}{RESET}' :^{105}}{RESET}')
     while True:
         choice = pilihan(menu_login)
         os.system('cls || clear')
@@ -23,7 +24,7 @@ def main_menu():
                 pedagang_main()
                 break
             else:
-                input('Tekan Enter untuk kembali ke menu utama... ')
+                input(f'{NEON_RED}{'Tekan Enter untuk kembali ke menu utama... '}{RESET}')
                 continue
             
             

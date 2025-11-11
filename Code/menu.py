@@ -36,6 +36,13 @@ menu_pedagang = (
     + f"\n   {CYAN}{tengah}{RESET}"
 )
 
+menu_admin2 = (
+    '   ' + f'{CYAN}{atas}{RESET}\n'
+    + f"   {CYAN}{panjang}{RESET}\n"
+    + f"   {CYAN}|{'KEBIJAKAN ADMIN':^{105}}|{RESET}"
+    + f"\n   {CYAN}{tengah}{RESET}"
+)
+
 
 # Buat custom style
 custom_style = InquirerPyStyle({
