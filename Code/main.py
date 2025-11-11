@@ -3,6 +3,7 @@ from login import *
 from menu import *
 from penguasa import *
 from InquirerPy import inquirer
+from pedagang import *
 
 def main_menu():
     print(menu_welcome)
@@ -19,7 +20,7 @@ def main_menu():
                 penguasa_main()
                 break
             elif role == 'user':
-                print('Kamu adalah pedagang')
+                pedagang_main()
                 break
             else:
                 input('Tekan Enter untuk kembali ke menu utama... ')
