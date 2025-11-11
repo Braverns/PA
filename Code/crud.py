@@ -172,3 +172,7 @@ def proses_pengajuan():
     lihat_daftar_pengajuan()
     if not daftar_pesan:
         return
+    
+    try: 
+        pilih = int(input("Masukkan nomor pengajuan yang ingin di proses. ")) - 1
+        if pilih <0 or pilih
