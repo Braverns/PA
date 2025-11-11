@@ -10,7 +10,7 @@ hari_ke = 1
 
 
 """  DATA YOGA  """
-daftar_pesan = []
+daftar_surat = []
 pinjam = {}
 id_pinjam = 1
 
@@ -132,22 +132,21 @@ def pinjam_uang(users_db):
 def ajukan_pinjaman():
     print("\n===Ajukan pinjaman anda===")
     kata = input("Isi pesan anda - jumlah (Gold): ")
-    pesan = f"Mengajukan pinjaman sebesar {kata}"
+    pesan = input("Masukkan pesan anda. ")
     
     pengajuan = {
-        "pesan" : kata,
-        "pengajuan" : pesan,
+        "surat" : pesan,
         "status" : "Menunggu persetujuan",
         "bunga" : None
     }
-    daftar_pesan.append(pengajuan)
+    daftar_surat.append(pengajuan)
 
     print("\n===Pengajuan berhasil dikirim ke admin.")
     print("Status: Menunggu persetujuan.\n")
 
 def lihat_laporan_pinjaman():
     print("\n===LAPORAN PINJAMAN===")
-    if not daftar_pesan:
+    if not daftar_surat:
         print("\nBelum ada pengajuan data pinjaman.")
         return
     
@@ -157,13 +156,13 @@ def lihat_laporan_pinjaman():
         if pinjaman["status"] == "Disetujui":
             print(f"Bunga : {pinjaman['bunga']}%")
             print()
-
+# Admin
 def lihat_daftar_pengajuan():
     print("\n=== DAFTAR PENGAJUAN DARI PEDAGANG===")
-    if not daftar_pesan:
+    if not daftar_surat:
         print("Belum ada pinjaman data yang di ajukan.\n")
         return
-    for i, p in enumerate(daftar_pesan, 1):
+    for i, p in enumerate(daftar_surat, 1):
         print(f"{i}. {p['pengajuan']}")
         print(f"Status : {p['status']}")
         if p['bunga'] is not None:
@@ -172,12 +171,35 @@ def lihat_daftar_pengajuan():
 
 def proses_pengajuan():
     lihat_daftar_pengajuan()
-    if not daftar_pesan:
+    if not daftar_surat:
         return
     
     try: 
         pilih = int(input("Masukkan nomor pengajuan yang ingin di proses. ")) - 1
-        if pilih <0 or pilih
+        if pilih < 0 or pilih > len(daftar_surat):
+            print("Nomor tidak valid.")
+            return
+            
+        data = daftar_surat[pilih]
+        if data["status"] != "Menunggu persetujuan":
+            print("Pengajuan ini sudah diproses sebelumnya.\n")
+            return
+        
+        keputusan = input("Setujui pinjaman ini? (YA / TIDAK): ").lower()
+        if keputusan == "YA":
+            bunga = float(input("Masukkan beasr bunga (%): "))
+            data["status"] = "Disetujui."
+            data["bunga"] = bunga
+            print(f"PINJAMAN ANDA DISETUJUI DENGAN BUNGA {bunga}%")
+        else:
+            data["status"] = "Ditolak!"
+            print("MAAF PINJAMAN ANDA DITOLAK.")
+
+    except:
+        ValueError
+        print("Pilihan tidak valid.\n")
+
+
 
 """ FEATURE MUJA  """
 def fitur_muja():
