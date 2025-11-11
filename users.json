@@ -2,8 +2,24 @@
     "admin": {
         "password": "admin123",
         "role": "admin",
+        "data": {}
+    },
+    "koko": {
+        "password": "koko1234",
+        "role": "user",
+        "gold": 1000,
         "data": {
-    
+            "toko": {
+                "nama": "allin",
+                "stock": ""
+            },
+            "surat": [
+                {
+                    "surat": "berikan aku 2000 gold",
+                    "status": "Menunggu persetujuan",
+                    "bunga": null
+                }
+            ]
         }
     }
 }

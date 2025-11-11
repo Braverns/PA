@@ -20,7 +20,7 @@ def main_menu():
                 penguasa_main()
                 break
             elif role == 'user':
-                pedagang_main()
+                pedagang_main(username)
                 break
             else:
                 input('Tekan Enter untuk kembali ke menu utama... ')
