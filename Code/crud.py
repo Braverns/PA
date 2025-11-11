@@ -2,6 +2,7 @@ import inquirer, time,sys
 from data import *
 from login import *
 
+
 """ DATA ARYA  """
 pajak = {}
 id_pajak = 1
@@ -128,10 +129,9 @@ def pinjam_uang(users_db):
     id_pinjam += 1
     time.sleep(2)
 
-
-def ajukan_pinjaman():
+#user
+def ajukan_pinjaman(username):
     print("\n===Ajukan pinjaman anda===")
-    kata = input("Isi pesan anda - jumlah (Gold): ")
     pesan = input("Masukkan pesan anda. ")
     
     pengajuan = {
@@ -139,7 +139,8 @@ def ajukan_pinjaman():
         "status" : "Menunggu persetujuan",
         "bunga" : None
     }
-    daftar_surat.append(pengajuan)
+    users_db[username]['data']['surat'].append(pengajuan)
+    save_users()
 
     print("\n===Pengajuan berhasil dikirim ke admin.")
     print("Status: Menunggu persetujuan.\n")
@@ -150,7 +151,7 @@ def lihat_laporan_pinjaman():
         print("\nBelum ada pengajuan data pinjaman.")
         return
     
-    for i, pinjaman in enumerate(daftar_pesan, 1):
+    for i, pinjaman in enumerate(daftar_surat, 1):
         print(f"{i}. {pinjaman['pesan']}")
         print(f"Status : {pinjaman['pesan']}")
         if pinjaman["status"] == "Disetujui":
@@ -170,6 +171,7 @@ def lihat_daftar_pengajuan():
         print() 
 
 def proses_pengajuan():
+    global gold_pedagang
     lihat_daftar_pengajuan()
     if not daftar_surat:
         return
@@ -179,18 +181,20 @@ def proses_pengajuan():
         if pilih < 0 or pilih > len(daftar_surat):
             print("Nomor tidak valid.")
             return
-            
+
         data = daftar_surat[pilih]
         if data["status"] != "Menunggu persetujuan":
             print("Pengajuan ini sudah diproses sebelumnya.\n")
             return
-        
+    
         keputusan = input("Setujui pinjaman ini? (YA / TIDAK): ").lower()
         if keputusan == "YA":
-            bunga = float(input("Masukkan beasr bunga (%): "))
+            bunga = float(input("Masukkan besar bunga (%): "))
             data["status"] = "Disetujui."
             data["bunga"] = bunga
+            gold_pedagang += int(data["jumlah"])
             print(f"PINJAMAN ANDA DISETUJUI DENGAN BUNGA {bunga}%")
+            print("Pedagang kini memiliki total {gold_pedagang} Gold.\n")
         else:
             data["status"] = "Ditolak!"
             print("MAAF PINJAMAN ANDA DITOLAK.")
@@ -200,7 +204,8 @@ def proses_pengajuan():
         print("Pilihan tidak valid.\n")
 
 
-
 """ FEATURE MUJA  """
 def fitur_muja():
     pass
+
+proses_pengajuan()
