@@ -17,7 +17,7 @@ else:
         'admin': {
             'password': 'admin123',
             'role': 'admin',
-            'data': {'permissions': ['manage_users'], 'info': {'name': 'Super Admin'}}
+            'data': {}
         }
     }
     with open(USERS_FILE, "w") as f:
@@ -76,7 +76,8 @@ def register_user():
         'password': password,
         'role': 'user',
         'gold': 1000,
-        'data': {'toko': {'nama': namat, 'stock': ''}}
+        'data': {'toko': {'nama': namat, 'stock': ''},
+                 'surat': []}
     }
     save_users()  
     print(f'User "{username}" berhasil didaftarkan!')

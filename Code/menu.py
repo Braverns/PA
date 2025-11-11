@@ -22,6 +22,13 @@ menu_login = (
     + f"\n   {CYAN}{tengah}{RESET}"
 )
 
+menu_admin = (
+    '   ' + f'{CYAN}{atas}{RESET}\n'
+    + f"   {CYAN}{panjang}{RESET}\n"
+    + f"   {CYAN}|{'SELAMAT DATANG ADMIN':^{105}}|{RESET}"
+    + f"\n   {CYAN}{tengah}{RESET}"
+)
+
 
 # Buat custom style
 custom_style = InquirerPyStyle({
@@ -43,6 +50,25 @@ def pilihan(menu):
             f"|{'1. Penguasa / Pedagang':<{105}}|",
             f"|{'2. Daftar Sebagai Pedagang':<{105}}|",
             f"|{'3. Log Out':<{105}}|",
+            Separator(f"|{'_'*105}|")
+        ],
+        pointer="💠 ",
+        qmark="",
+        style=custom_style,   
+    ).execute()
+    return choice
+
+def pilihan_admin(menu):
+    os.system('cls || clear')
+    print(menu)
+    choice = inquirer.select(
+        message=f"   |{' '*105}|",
+        choices=[
+            f"|{'1. Kebijakan':<{105}}|",
+            f"|{'2. Daftar Toko':<{105}}|",
+            f"|{'3. Memperbarui Kebijakan':<{105}}|",
+            f"|{'4. Menggusur Toko':<{105}}|",
+            f"|{'5. Log Out':<{105}}|",
             Separator(f"|{'_'*105}|")
         ],
         pointer="💠 ",

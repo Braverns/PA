@@ -1,6 +1,7 @@
 from data import *
 from login import *
 from menu import *
+from penguasa import *
 from InquirerPy import inquirer
 
 def main_menu():
@@ -15,7 +16,7 @@ def main_menu():
             username, role = login()
             
             if role == 'admin':
-                print('Kamu adalah penguasa')
+                penguasa_main()
                 break
             elif role == 'user':
                 print('Kamu adalah pedagang')
