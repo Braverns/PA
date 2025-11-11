@@ -29,6 +29,13 @@ menu_admin = (
     + f"\n   {CYAN}{tengah}{RESET}"
 )
 
+menu_pedagang = (
+    '   ' + f'{CYAN}{atas}{RESET}\n'
+    + f"   {CYAN}{panjang}{RESET}\n"
+    + f"   {CYAN}|{'SELAMAT DATANG USER':^{105}}|{RESET}"
+    + f"\n   {CYAN}{tengah}{RESET}"
+)
+
 
 # Buat custom style
 custom_style = InquirerPyStyle({
@@ -69,6 +76,42 @@ def pilihan_admin(menu):
             f"|{'3. Memperbarui Kebijakan':<{105}}|",
             f"|{'4. Menggusur Toko':<{105}}|",
             f"|{'5. Log Out':<{105}}|",
+            Separator(f"|{'_'*105}|")
+        ],
+        pointer="💠 ",
+        qmark="",
+        style=custom_style,   
+    ).execute()
+    return choice
+
+def create_admin(menu):
+    os.system('cls || clear')
+    print(menu)
+    choice = inquirer.select(
+        message=f"   |{' '*105}|",
+        choices=[
+            f"|{'1. Kebijakan Pajak':<{105}}|",
+            f"|{'2. Kebijakan Pinjaman':<{105}}|",
+            f"|{'3. Kebijakan Harga Barang':<{105}}|",
+            f"|{'4. Kembali':<{105}}|",
+            Separator(f"|{'_'*105}|")
+        ],
+        pointer="💠 ",
+        qmark="",
+        style=custom_style,   
+    ).execute()
+    return choice
+
+def create_user(menu):
+    os.system('cls || clear')
+    print(menu)
+    choice = inquirer.select(
+        message=f"   |{' '*105}|",
+        choices=[
+            f"|{'1. Kebijakan Pajak':<{105}}|",
+            f"|{'2. Ajukan Pinjaman':<{105}}|",
+            f"|{'3. Kebijakan Harga Barang':<{105}}|",
+            f"|{'4. Kembali':<{105}}|",
             Separator(f"|{'_'*105}|")
         ],
         pointer="💠 ",
