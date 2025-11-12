@@ -1,7 +1,8 @@
 from data import *
 from login import *
-import json
-import os
+from menu import *
+from time import sleep
+import json, os
 
 USERS_FILE = "users.json"
 
@@ -29,12 +30,20 @@ def save_users():
         json.dump(users_db, f, indent=4)
 
 def login():
-    username = input('Username: ').strip()
-    password = input('Password: ').strip()
+    print(menu_logins)
+    print(f'{CYAN}   {panjang}{RESET}')
+    username = input(f'{CYAN}   |{' Username anda : ':<{17}}{RESET}').strip()
+    print('\033[F', end='')   
+    print(f'{CYAN}   |{f' Username anda : {username}':<{105}}|{RESET}')
     user = users_db.get(username)
     if not user:
         print("Username tidak ditemukan.")
         return None, None
+    password = input(f'{CYAN}   |{' Password anda : ':<{17}}{RESET}').strip()
+    print('\033[F', end='')   
+    print(f'{CYAN}   |{f' Password anda : {len(password) * '*'}':<{105}}|{RESET}')
+    print(f'{CYAN}   {tengah}{RESET}')
+    sleep(100)
     if user['password'] != password:
         print("Password salah.")
         return None, None  

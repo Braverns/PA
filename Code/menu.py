@@ -5,6 +5,7 @@ from InquirerPy.utils import InquirerPyStyle
 import os 
 from time import sleep
 from data import *
+
 menu_welcome = (
     f'   ' + f'{BLACK}{atas}{RESET}\n'
     + f"   {BOLD}{REVERSE}{WHITE}{panjang}{RESET}\n"
@@ -28,18 +29,27 @@ menu_admin = (
     + f"   {CYAN}|{'SELAMAT DATANG ADMIN':^{105}}|{RESET}"
     + f"\n   {CYAN}{tengah}{RESET}"
 )
+def menu_pedagang(username):
+    tabel = (
+        '   ' + f'{CYAN}{atas}{RESET}\n'
+        + f"   {CYAN}{panjang}{RESET}\n"
+        + f"   {CYAN}|{f'SELAMAT DATANG PEDAGANG {username.title()}':^{105}}|{RESET}"
+        + f"\n   {CYAN}{tengah}{RESET}"
+    )
+    return tabel
 
-menu_pedagang = (
-    '   ' + f'{CYAN}{atas}{RESET}\n'
-    + f"   {CYAN}{panjang}{RESET}\n"
-    + f"   {CYAN}|{'SELAMAT DATANG USER':^{105}}|{RESET}"
-    + f"\n   {CYAN}{tengah}{RESET}"
-)
 
 menu_admin2 = (
     '   ' + f'{CYAN}{atas}{RESET}\n'
     + f"   {CYAN}{panjang}{RESET}\n"
-    + f"   {CYAN}|{'KEBIJAKAN ADMIN':^{105}}|{RESET}"
+    + f"   {CYAN}|{'KEBIJAKAN PENGUASA':^{105}}|{RESET}"
+    + f"\n   {CYAN}{tengah}{RESET}"
+)
+
+menu_logins = (
+    '   ' + f'{CYAN}{atas}{RESET}\n'
+    + f"   {CYAN}{panjang}{RESET}\n"
+    + f"   {CYAN}|{'LOGIN PENGUASA / PEDAGANG':^{105}}|{RESET}"
     + f"\n   {CYAN}{tengah}{RESET}"
 )
 
@@ -55,7 +65,7 @@ custom_style = InquirerPyStyle({
     "questionmark": "#00ffff bold ",
 })
 
-def pilihan(menu):
+def pilihan_login(menu):
     os.system('cls || clear')
     print(menu)
     choice = inquirer.select(

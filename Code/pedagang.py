@@ -4,7 +4,7 @@ from crud import *
 
 def pedagang_main(username):
     while True:
-        choice = create_user(menu_pedagang)
+        choice = create_user(menu_pedagang(username))
         if choice == f"|{'1. Lihat Status Pajak':<{105}}|":
             pass
         elif choice == f"|{'2. Ajukan Pinjaman':<{105}}|":

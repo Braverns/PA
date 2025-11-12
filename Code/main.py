@@ -10,7 +10,7 @@ def main_menu():
     print('\n         ', end='')
     input(f'{BOLD}{CYAN}{f'{UNDERLINE}{'Tekan Enter untuk melanjutkan...'}{RESET}' :^{105}}{RESET}')
     while True:
-        choice = pilihan(menu_login)
+        choice = pilihan_login(menu_login)
         os.system('cls || clear')
 
         if choice == f"|{'1. Penguasa / Pedagang':<{105}}|":
