@@ -37,15 +37,15 @@ def login():
     print(f'{CYAN}   |{f' Username anda : {username}':<{105}}|{RESET}')
     user = users_db.get(username)
     if not user:
-        print("Username tidak ditemukan.")
+        error_message('Username Tidak Ditemukan', '', 'Username Tidak Ditemukan', '', 'Username Tidak Ditemukan')
         return None, None
     password = input(f'{CYAN}   |{' Password anda : ':<{17}}{RESET}').strip()
     print('\033[F', end='')   
     print(f'{CYAN}   |{f' Password anda : {len(password) * '*'}':<{105}}|{RESET}')
     print(f'{CYAN}   {tengah}{RESET}')
-    sleep(100)
+    sleep(1.5)
     if user['password'] != password:
-        print("Password salah.")
+        error_message('Password Salah', '', 'Password Salah', '', 'Password Salah')
         return None, None  
 
     print(f"\n✅ Login berhasil! Selamat datang, {username} ({user['role']}).\n")
@@ -53,33 +53,44 @@ def login():
 
 
 def register_user():
-    while True:
-        username = input('Username baru: ').strip()
-        if not username:
-            print('Username tidak boleh kosong.')
-            continue
-        if username in users_db:
-            print('Username sudah ada. Coba yang lain.')
-            continue
+    
+    print(menu_daftar)
+    print(f'{CYAN}   {panjang}{RESET}')
+    username = input(f'{CYAN}   |{' Username anda   : ':<{19}}{RESET}').strip()
+    print('\033[F', end='')   
+    print(f'{CYAN}   |{f' Username anda   : {username}':<{105}}|{RESET}')
+    if not username:
+        error_message('Username Tidak Boleh Kosong', '', 'Username Tidak Boleh Kosong', '', 'Username Tidak Boleh Kosong')
+        return False
+    if username in users_db:
+        error_message('Username Sudah Terdaftar, Silahkan Pilih Nama Yang Lain', '', 'Username Sudah Terdaftar, Silahkan Pilih Nama Yang Lain', '', 'Username Sudah Terdaftar, Silahkan Pilih Nama Yang Lain')
+        return False
 
-        password = input('Password baru: ').strip()
-        if not password or ' ' in password or username == password or password.isdigit() or len(password) < 8 or len(password) > 64 or not any(c.isalpha() for c in password):
-            print('\n1. Password tidak boleh kosong\n2. Password tidak boleh ada spasi \n3. Password tidak boleh sama dengan username \n4. Password harus ada huruf \n5. Password minimal 8 karakter dan maksimal 64 karakter\n')
-            continue
+    password = input(f'{CYAN}   |{' Password anda   : ':<{19}}{RESET}').strip()
+    print('\033[F', end='')   
+    print(f'{CYAN}   |{f' Password anda   : {len(password) * '*'}':<{105}}|{RESET}')
+    if not password or ' ' in password or username == password or password.isdigit() or len(password) < 8 or len(password) > 64 or not any(c.isalpha() for c in password):
+        error_message('1. Password Tidak Boleh Kosong', '2. Password Tidak Boleh Ada Spasi ', '3. Password Tidak Boleh Sama Dengan Username ', '4. Password Harus Ada Huruf ', '5. Password Minimal 8 Karakter & Maksimal 64 Karakter')
+        return False
 
-        confirm = input('Ulangi password: ').strip()
-        if password != confirm:
-            print('Password tidak cocok. Coba lagi.')
-            continue
+    confirm = input(f'{CYAN}   |{' Ulangi Password : ':<{19}}{RESET}').strip()
+    print('\033[F', end='')   
+    print(f'{CYAN}   |{f' Ulangi Password : {len(confirm) * '*'}':<{105}}|{RESET}')
+    if password != confirm:
+        error_message('Password Tidak Cocok', '', 'Password Tidak Cocok', '', 'Password Tidak Cocok')
+        return False
 
-        namat = input('Nama toko: ').strip()
-        if len(namat) > 50:
-            print('Nama toko terlalu panjang. Maksimal 50 karakter.')
-            continue
-        if not namat:
-            print('Nama toko tidak boleh kosong.')
-            continue
-        break
+    namat = input(f'{CYAN}   |{' Nama Toko       : ':<{19}}{RESET}').strip()
+    print('\033[F', end='')   
+    print(f'{CYAN}   |{f' Nama Toko       : {namat}':<{105}}|{RESET}')
+    print(f'{CYAN}   {tengah}{RESET}') 
+    sleep(1.5)
+    if len(namat) > 50:
+        error_message('Nama Toko Terlalu Panjang, Maksimal 50 Karakter', '', 'Nama Toko Terlalu Panjang, Maksimal 50 Karakter', '', 'Nama Toko Terlalu Panjang, Maksimal 50 Karakter')
+        return False        
+    if not namat:
+        error_message('Nama Toko Tidak Boleh Kosong', '', 'Nama Toko Tidak Boleh Kosong', '', 'Nama Toko Tidak Boleh Kosong')
+        return False
 
     users_db[username] = {
         'password': password,
@@ -89,4 +100,4 @@ def register_user():
                  'surat': []}
     }
     save_users()  
-    print(f'User "{username}" berhasil didaftarkan!')
+    return True

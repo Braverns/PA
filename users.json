@@ -39,5 +39,29 @@
                 }
             ]
         }
+    },
+    "ahmad": {
+        "password": "ahmad123",
+        "role": "user",
+        "gold": 1000,
+        "data": {
+            "toko": {
+                "nama": "all in one",
+                "stock": ""
+            },
+            "surat": []
+        }
+    },
+    "12": {
+        "password": "1234567a",
+        "role": "user",
+        "gold": 1000,
+        "data": {
+            "toko": {
+                "nama": "90000000",
+                "stock": ""
+            },
+            "surat": []
+        }
     }
 }

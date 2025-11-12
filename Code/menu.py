@@ -53,8 +53,34 @@ menu_logins = (
     + f"\n   {CYAN}{tengah}{RESET}"
 )
 
+menu_daftar = (
+    '   ' + f'{CYAN}{atas}{RESET}\n'
+    + f"   {CYAN}{panjang}{RESET}\n"
+    + f"   {CYAN}|{'PENDAFTARAN PEDAGANG':^{105}}|{RESET}"
+    + f"\n   {CYAN}{tengah}{RESET}"
+)
 
-# Buat custom style
+def error_message(isi1, isi2, isi3, isi4, isi5):
+    os.system('cls || clear')
+    print(
+        f'   ' + f'{WHITE}{atas}{RESET}\n'
+        + f"   {REVERSE}{BLUE}{panjang}{RESET}\n"
+        + f"   {REVERSE}{BLUE}|{'!!! ERROR !!!':^{105}}|{RESET}\n"
+        + f"   {REVERSE}{BLUE}{tengah}{RESET}"
+        + f"\n   {REVERSE}{BLUE}{panjang}{RESET}\n"
+        + f"   {REVERSE}{BLUE}|{isi1:^{105}}|{RESET}\n"
+        + f"   {REVERSE}{BLUE}|{isi2:^{105}}|{RESET}\n"
+        + f"   {REVERSE}{BLUE}|{isi3:^{105}}|{RESET}\n"
+        + f"   {REVERSE}{BLUE}|{isi4:^{105}}|{RESET}\n"
+        + f"   {REVERSE}{BLUE}|{isi5:^{105}}|{RESET}\n"
+        + f"   {REVERSE}{BLUE}{tengah}{RESET}"
+    )
+    print('\n         ', end='')
+    input(f'{BOLD}{WHITE}{f'{UNDERLINE}{'Tekan Enter untuk melanjutkan...'}{RESET}' :^{105}}{RESET}')
+    
+
+
+
 custom_style = InquirerPyStyle({
     "question": "#00ffee bold",
     "answer": "#00ff00 bold",

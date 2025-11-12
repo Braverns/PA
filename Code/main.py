@@ -24,23 +24,25 @@ def main_menu():
                 pedagang_main(username)
                 break
             else:
-                input(f'{NEON_RED}{'Tekan Enter untuk kembali ke menu utama... '}{RESET}')
                 continue
             
             
         elif choice == f"|{'2. Daftar Sebagai Pedagang':<{105}}|":
-            register_user()
-            input('Enter untuk kembali... ')
+            berhasil = register_user()
+            if berhasil:
+                input('Enter untuk kembali... ')
+            else:
+                continue     
 
         else:
-            print(f'{BOLD}{WHITE}{atas}{RESET}')
-            print(f'{BOLD}{BLUE}{REVERSE}{panjang}{RESET}')
-            print(f'{BOLD}{BLUE}{REVERSE}|{'GOODBYE MY FRIEND':^{105}}|{RESET}')
-            print(f'{BOLD}{BLUE}{REVERSE}{panjang}{RESET}')
-            print(f'{BOLD}{BLUE}{REVERSE}|{'Remember, the finest steel is born from the fiercest fire.':^{105}}|{RESET}')
-            print(f'{BOLD}{BLUE}{REVERSE}|{'If the world starts to burn you, it only means you’re being forged into something stronger.':^{105}}|{RESET}')
-            print(f'{BOLD}{BLUE}{REVERSE}|{'Now go… and forge your own fate.':^{105}}|{RESET}')
-            print(f'{BOLD}{BLUE}{REVERSE}{panjang}{RESET}')
-            print(f'{BOLD}{BLUE}{REVERSE}{tengah}{RESET}')
+            print(f'{BOLD}{BLACK}{atas}{RESET}')
+            print(f'{BOLD}{WHITE}{REVERSE}{panjang}{RESET}')
+            print(f'{BOLD}{WHITE}{REVERSE}|{'GOODBYE MY FRIEND':^{105}}|{RESET}')
+            print(f'{BOLD}{WHITE}{REVERSE}{panjang}{RESET}')
+            print(f'{BOLD}{WHITE}{REVERSE}|{'Remember, the finest steel is born from the fiercest fire.':^{105}}|{RESET}')
+            print(f'{BOLD}{WHITE}{REVERSE}|{'If the world starts to burn you, it only means you’re being forged into something stronger.':^{105}}|{RESET}')
+            print(f'{BOLD}{WHITE}{REVERSE}|{'Now go… and forge your own fate.':^{105}}|{RESET}')
+            print(f'{BOLD}{WHITE}{REVERSE}{panjang}{RESET}')
+            print(f'{BOLD}{WHITE}{REVERSE}{tengah}{RESET}')
             break
 main_menu()
