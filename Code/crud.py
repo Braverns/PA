@@ -5,8 +5,6 @@ from login import *
 
 """ DATA ARYA  """
 pajak = {}
-id_pajak = 1
-pajak_aktif = None
 hari_ke = 1
 
 
@@ -20,77 +18,76 @@ id_pinjam = 1
 
 
 """ FEATURE ARYA  """
+#CREATE PAJAK
 def kebijakan_pajak():
-    global id_pajak, pajak, pajak_aktif
+    global pajak, hari_ke
+    print('=' * 50)
+    print("=== KEBIJAKAN PAJAK BARU ===".center(50))
+    print('=' * 50)
 
-    print("\n=== KEBIJAKAN PAJAK BARU ===")
-    persen = int(input("Masukkan tarif pajak (%) : "))
+    try:
+        persen = int(input("Masukkan tarif pajak (%): "))
+    except ValueError:
+        print("Input tidak valid. Harus angka!")
+        return
 
-    tipe_durasi = inquirer.list_input("Pilih tipe durasi :", choices=["Sementara", "Permanent"])
+    tipe_durasi = inquirer.list_input("Pilih tipe pajak:", choices=["Sementara", "Permanent"])
 
     if tipe_durasi == "Sementara":
-        durasi_hari = int(input("Masukkan durasi (hari): "))
+        try:
+            durasi_hari = int(input("Masukkan durasi (hari): "))
+        except ValueError:
+            print(f"Input durasi tidak valid.")
+            return
     else:
         durasi_hari = None
 
-    hari_mulai = time.strftime("%Y-%m-%d")
-
-    kebijakan = {
-        "id": id_pajak,
-        "persen pajak": persen,
-        "tipe durasi": tipe_durasi,
-        "durasi hari": durasi_hari,
-        "hari mulai": hari_mulai,
-        "hari_aktif": hari_ke,
+    pajak.clear()
+    pajak.update({
+        "tarif": persen,
+        "tipe": tipe_durasi,
+        "durasi": durasi_hari,
+        "hari_mulai": hari_ke,
         "hari_berakhir": (hari_ke + durasi_hari - 1) if durasi_hari else None,
         "status": "aktif"
-    }
+    })
 
-    pajak[id_pajak] = kebijakan
-    pajak_aktif = kebijakan
-    id_pajak += 1
+    print(f"\n Pajak {persen}% telah diterapkan ({tipe_durasi}).")
+    if durasi_hari:
+        print(f" Berlaku selama {durasi_hari} hari (hari {hari_ke} s.d. {hari_ke + durasi_hari - 1}).")
+    else:
+        print("Berlaku permanen tanpa batas waktu.")
 
-    print("\nKebijakan pajak berhasil dibuat!")
-    for i in range(3):
-        print(".", end=" ")
-        sys.stdout.flush()
-        time.sleep(0.5)
-    print("\n")
+    time.sleep(1)
 
+#READ PAJAK
+def lihat_pajak():
+    global pajak,hari_ke
+    print('=' * 50)
+    print("=== STATUS PAJAK ===".center(50))
+    print('=' * 50)
 
-def terapkan_pajak(users_db):
-    global pajak_aktif, hari_ke
+    try:
+        if not pajak or pajak.get("status") != "aktif":
+            print("Tidak ada pajak yang aktif saat ini.")
+            raise ValueError("Tidak ada pajak aktif.")
+        
+        print(f"Tarif Pajak : {pajak['tarif']} %")
+        print(f"Tipe pajak : {pajak['tipe']}")
+        if pajak['tipe'] == "Sementara":
+            print(f"Durasi pajak : {pajak['durasi']} hari")
+            print(f"Hari mulai pajak : Hari ke-{pajak["hari_mulai"]}")
+            print(f"Hari berakhir pajak : Hari ke-{pajak["hari_berakhir"]}")
 
-    if not pajak_aktif or pajak_aktif["status"] != "aktif":
-        print("Tidak ada kebijakan pajak aktif.")
-        return
+        else:
+            print("Durasi pajak : Permanent")
 
-    persen = pajak_aktif["persen pajak"]
-    print(f"\n=== PENERAPAN PAJAK HARI KE-{hari_ke} ({persen}%) ===")
+        print(f"Status pajak : {pajak['status']}")
+        print(f"Hari saat ini : Hari ke-{hari_ke}")
+    except ValueError as e:
+        print(e)
 
-    for user, data in users_db.items():
-        if data['role'] == 'user':
-            pajak_gold = int(data['gold'] * persen / 100)
-            data['gold'] -= pajak_gold
-            if data['gold'] < 0:
-                data['gold'] = 0
-            print(f"User {user} membayar pajak {pajak_gold} gold. Sisa gold: {data['gold']}")
-
-    if pajak_aktif["tipe durasi"] == "Sementara":
-        if hari_ke >= pajak_aktif["hari_berakhir"]:
-            pajak_aktif["status"] = "berakhir"
-            print("\nKebijakan pajak sementara telah berakhir.")
-
-
-def next_day(users_db):
-    global hari_ke
-    hari_ke += 1
-    print(f"\n=== HARI BERGANTI ===\nSekarang hari ke-{hari_ke}")
-    terapkan_pajak(users_db)
-
-    for _ in range(5):  
-        next_day(users_db)
-        time.sleep(1)
+    
 
 
 """ FEATURE YOGA  """
