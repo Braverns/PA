@@ -30,7 +30,7 @@ def save_users():
         json.dump(users_db, f, indent=4)
 
 def login():
-    print(menu_logins)
+    print(header('LOGIN PENGUASA / PEDAGANG'))
     print(f'{CYAN}   {panjang}{RESET}')
     username = input(f'{CYAN}   |{' Username anda : ':<{17}}{RESET}').strip()
     print('\033[F', end='')   
@@ -58,7 +58,7 @@ def login():
 
 def register_user():
     
-    print(menu_daftar)
+    print(header('PENDAFTARAN PEDAGANG'))
     print(f'{CYAN}   {panjang}{RESET}')
     username = input(f'{CYAN}   |{' Username anda   : ':<{19}}{RESET}').strip()
     print('\033[F', end='')   

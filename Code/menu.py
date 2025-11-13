@@ -9,79 +9,41 @@ from data import *
 menu_welcome = (
     f'   ' + f'{BLACK}{atas}{RESET}\n'
     + f"   {BOLD}{REVERSE}{WHITE}{panjang}{RESET}\n"
-    + f"   {BOLD}{REVERSE}{WHITE}|{'THE BLACKSMITH':^{105}}|{RESET}\n"
+    + f"   {BOLD}{REVERSE}{WHITE}|{'Governance and Economic Policy: Administration and Trade':^{105}}|{RESET}\n"
     + f"   {BOLD}{REVERSE}{WHITE}{panjang}{RESET}\n"
-    + f"   {BOLD}{REVERSE}{WHITE}|{'Through fire and hammer, the blacksmith shapes the world.':^{105}}|{RESET}\n"
-    + f"   {BOLD}{REVERSE}{WHITE}|{'Are You One Of Us?':^{105}}|{RESET}"
+    + f"   {BOLD}{REVERSE}{WHITE}|{'Sebuah simulasi tata kelola pemerintahan dan kebijakan ekonomi.':^{105}}|{RESET}\n"
+    + f"   {BOLD}{REVERSE}{WHITE}|{'terkait dengan administrasi dan perdagangan. Terdapat 2 Peran':^{105}}|{RESET}\n"
+    + f"   {BOLD}{REVERSE}{WHITE}|{'dalam simulasi ini, yaitu "penguasa" dan "user".':^{105}}|{RESET}"
     + f"\n   {BOLD}{REVERSE}{WHITE}{tengah}{RESET}"
 )
 
-menu_login = (
-    '   ' + f'{CYAN}{atas}{RESET}\n'
-    + f"   {CYAN}{panjang}{RESET}\n"
-    + f"   {CYAN}|{'LOGIN':^{105}}|{RESET}"
-    + f"\n   {CYAN}{tengah}{RESET}"
-)
 
-menu_admin = (
-    '   ' + f'{CYAN}{atas}{RESET}\n'
-    + f"   {CYAN}{panjang}{RESET}\n"
-    + f"   {CYAN}|{'SELAMAT DATANG ADMIN':^{105}}|{RESET}"
-    + f"\n   {CYAN}{tengah}{RESET}"
-)
 def menu_pedagang(username):
     tabel = (
         '   ' + f'{CYAN}{atas}{RESET}\n'
         + f"   {CYAN}{panjang}{RESET}\n"
-        + f"   {CYAN}|{f'SELAMAT DATANG PEDAGANG {username.title()}':^{105}}|{RESET}"
+        + f"   {CYAN}|{f'Selamat Datang {username}':^{105}}|{RESET}"
         + f"\n   {CYAN}{tengah}{RESET}"
     )
     return tabel
 
+def menu_kelola_toko(namatoko):
+    tabel = (
+        '   ' + f'{CYAN}{atas}{RESET}\n'
+        + f"   {CYAN}{panjang}{RESET}\n"
+        + f"   {CYAN}|{f'{'TOKO '}{namatoko}':^{105}}|{RESET}"
+        + f"\n   {CYAN}{tengah}{RESET}"
+    )
+    return tabel
 
-menu_admin2 = (
-    '   ' + f'{CYAN}{atas}{RESET}\n'
-    + f"   {CYAN}{panjang}{RESET}\n"
-    + f"   {CYAN}|{'KEBIJAKAN PENGUASA':^{105}}|{RESET}"
-    + f"\n   {CYAN}{tengah}{RESET}"
-)
-
-menu_logins = (
-    '   ' + f'{CYAN}{atas}{RESET}\n'
-    + f"   {CYAN}{panjang}{RESET}\n"
-    + f"   {CYAN}|{'LOGIN PENGUASA / PEDAGANG':^{105}}|{RESET}"
-    + f"\n   {CYAN}{tengah}{RESET}"
-)
-
-menu_daftar = (
-    '   ' + f'{CYAN}{atas}{RESET}\n'
-    + f"   {CYAN}{panjang}{RESET}\n"
-    + f"   {CYAN}|{'PENDAFTARAN PEDAGANG':^{105}}|{RESET}"
-    + f"\n   {CYAN}{tengah}{RESET}"
-)
-
-menu_kebijakan = (
-    '   ' + f'{CYAN}{atas}{RESET}\n'
-    + f"   {CYAN}{panjang}{RESET}\n"
-    + f"   {CYAN}|{'KEBIJAKAN':^{105}}|{RESET}"
-    + f"\n   {CYAN}{tengah}{RESET}"
-)
-
-menu_kelola_toko = (
-    '   ' + f'{CYAN}{atas}{RESET}\n'
-    + f"   {CYAN}{panjang}{RESET}\n"
-    + f"   {CYAN}|{'KELOLA TOKO':^{105}}|{RESET}"
-    + f"\n   {CYAN}{tengah}{RESET}"
-)
-
-menu_laporans = (
-    '   ' + f'{CYAN}{atas}{RESET}\n'
-    + f"   {CYAN}{panjang}{RESET}\n"
-    + f"   {CYAN}|{'LAPORAN':^{105}}|{RESET}"
-    + f"\n   {CYAN}{tengah}{RESET}"
-)
-
-
+def header(judul):
+    tabel = (
+        '   ' + f'{CYAN}{atas}{RESET}\n'
+        + f"   {CYAN}{panjang}{RESET}\n"
+        + f"   {CYAN}|{judul:^{105}}|{RESET}"
+        + f"\n   {CYAN}{tengah}{RESET}"
+    )
+    return tabel
 
 def error_message(isi1, isi2, isi3, isi4, isi5):
     os.system('cls || clear')

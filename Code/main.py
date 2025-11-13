@@ -8,9 +8,9 @@ from pedagang import *
 def main_menu():
     print(menu_welcome)
     print('\n         ', end='')
-    input(f' {BOLD}{CYAN}{f'{UNDERLINE}{'Tekan Enter untuk melanjutkan...'}{RESET}' :^{105}}{RESET}')
+    input(f'{BOLD}{WHITE}{f'{UNDERLINE}{'Tekan Enter untuk melanjutkan...'}{RESET}' :^{105}}{RESET}')
     while True:
-        choice = pilihan_login(menu_login)
+        choice = pilihan_login(header('LOGIN'))
         os.system('cls || clear')
 
         if choice == f"|{'1. Penguasa / Pedagang':<{105}}|":
@@ -37,12 +37,15 @@ def main_menu():
         else:
             print(f'{BOLD}{BLACK}{atas}{RESET}')
             print(f'{BOLD}{WHITE}{REVERSE}{panjang}{RESET}')
-            print(f'{BOLD}{WHITE}{REVERSE}|{'GOODBYE MY FRIEND':^{105}}|{RESET}')
+            print(f'{BOLD}{WHITE}{REVERSE}|{'TERIMAKASIH':^{105}}|{RESET}')
             print(f'{BOLD}{WHITE}{REVERSE}{panjang}{RESET}')
-            print(f'{BOLD}{WHITE}{REVERSE}|{'Remember, the finest steel is born from the fiercest fire.':^{105}}|{RESET}')
-            print(f'{BOLD}{WHITE}{REVERSE}|{'If the world starts to burn you, it only means you’re being forged into something stronger.':^{105}}|{RESET}')
-            print(f'{BOLD}{WHITE}{REVERSE}|{'Now go… and forge your own fate.':^{105}}|{RESET}')
+            print(f'{BOLD}{WHITE}{REVERSE}|{'“ Setiap keputusan yang kau lakukan membentuk suatu masa depan.':^{105}}|{RESET}')
+            print(f'{BOLD}{WHITE}{REVERSE}|{'Sejarah akan mengingat apakah keputusan mu membawa':^{105}}|{RESET}')
+            print(f'{BOLD}{WHITE}{REVERSE}|{'kemajuan maupun kehancuran. ”':^{105}}|{RESET}')
             print(f'{BOLD}{WHITE}{REVERSE}{panjang}{RESET}')
             print(f'{BOLD}{WHITE}{REVERSE}{tengah}{RESET}')
+            print()
+            print()
+            print()
             break
 main_menu()

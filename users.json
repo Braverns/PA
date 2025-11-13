@@ -39,5 +39,17 @@
             },
             "surat": []
         }
+    },
+    "muja": {
+        "password": "mujahid123",
+        "role": "user",
+        "gold": 1000,
+        "data": {
+            "toko": {
+                "nama": "120",
+                "stock": ""
+            },
+            "surat": []
+        }
     }
 }

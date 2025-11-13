@@ -4,10 +4,10 @@ from crud import *
 
 def penguasa_main():
     while True:
-        choice = pilihan_admin(menu_admin)
+        choice = pilihan_admin(header(' SELAMAT DATANG PENGUASA'))
         if choice == f"|{'1. Kebijakan':<{105}}|":
             while True:
-                choice = create_admin(menu_kebijakan)
+                choice = create_admin(header('KEBIJAKAN'))
                 if choice == f"|{'1. Kebijakan Pajak':<{105}}|":
                     pass
                 elif choice == f"|{'2. Kebijakan Pinjaman':<{105}}|":

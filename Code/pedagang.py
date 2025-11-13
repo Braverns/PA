@@ -6,7 +6,7 @@ def pedagang_main(username):
     while True:
         choice = menu_user_main(menu_pedagang(username))
         if choice == f"|{'1. Kelola Toko':<{105}}|":
-            choice = kelola_toko(menu_kelola_toko)
+            choice = kelola_toko(menu_kelola_toko(users_db[username]['data']['toko']['nama']))
             if choice == f"|{'1. Membeli Barang':<{105}}|":
                 pass
             elif choice == f"|{'2. Menjual Barang':<{105}}|":
@@ -22,7 +22,7 @@ def pedagang_main(username):
             else:
                 continue
         elif choice == f"|{'2. Laporan':<{105}}|":
-            choice = menu_laporan(menu_laporans)
+            choice = menu_laporan(header('LAPORAN'))
             if choice == f"|{'1. Laporan Penjualan':<{105}}|":
                 pass
             elif choice == f"|{'2. Laporan Harian':<{105}}|":
