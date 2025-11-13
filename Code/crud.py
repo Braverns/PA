@@ -10,6 +10,7 @@ hari_ke = 1
 
 """  DATA YOGA  """
 daftar_surat = []
+laporan_pembelian = []
 pinjam = {}
 id_pinjam = 1
 
@@ -126,7 +127,7 @@ def pinjam_uang(users_db):
     id_pinjam += 1
     time.sleep(2)
 
-#user
+#user pinjaman
 def ajukan_pinjaman(username):
     print("\n===Ajukan pinjaman anda===")
     pesan = input("Masukkan pesan anda. ")
@@ -154,7 +155,7 @@ def lihat_laporan_pinjaman():
         if pinjaman["status"] == "Disetujui":
             print(f"Bunga : {pinjaman['bunga']}%")
             print()
-# Admin
+# Admin pinjaman
 def lihat_daftar_pengajuan():
     print("\n=== DAFTAR PENGAJUAN DARI PEDAGANG===")
     if not daftar_surat:
@@ -200,6 +201,48 @@ def proses_pengajuan():
         ValueError
         print("Pilihan tidak valid.\n")
 
+# user pembelian
+gold_user = 1000
+
+def tambah_pembelian():
+    global gold_user
+    print("\n===Tambah Pembelian Barang===")
+    nama_barang = input("Masukkan nama barang yang ingin dibeli: ")
+    harga = int(input("Masukkan harga per unit (Gold): "))
+    jumlah = int(input("Masukkan jumlah barang: "))
+    total_harga = harga * jumlah
+
+    if total_harga > gold_user:
+        print("\n Gold anda tidak mencukupi.")
+        return
+    gold_user -= total_harga
+    Pembelian = {
+        "nama" : nama_barang,
+        "harga" : harga,
+        "jumlah" : jumlah,
+        "total" : total_harga
+    }
+    laporan_pembelian.append(Pembelian)
+    print(f"\n pembelian {nama_barang} sebanyak {jumlah}")
+    print(f"Gold tersisa: {gold_user} Gold.\n")
+
+
+def lihat_laporan_pembelian():
+    print("\n=== LAPORAN PEMBELIAN BARANG ===")
+    if not laporan_pembelian:
+        print("Belum ada data pembelian.\n")
+        return
+    
+    total_pengeluaran = 0
+    for i, item in enumerate(laporan_pembelian, 1):
+        print(f"{i}. {item['nama']} (x{item['jumlah']})")
+        print(f" Harga per unit: {item['harga']} Gold")
+        print(f" Total harga : {item['total']} Gold\n")
+        total_pengeluaran += item['total'] 
+
+    print(f"Total Pengeluaran : {total_pengeluaran} Gold")
+    print(f" Sisa Gold Saat Ini : {gold_user} Gold\n")
+    
 
 """ FEATURE MUJA  """
 def fitur_muja():
