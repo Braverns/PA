@@ -10,6 +10,7 @@ hari_ke = 1
 
 """  DATA YOGA  """
 daftar_surat = []
+laporan_pembelian = []
 pinjam = {}
 id_pinjam = 1
 
@@ -87,8 +88,74 @@ def lihat_pajak():
     except ValueError as e:
         print(e)
 
-    
+# UPDATE PAJAK
+def update_pajak():
+    global pajak,hari_ke
+    print('=' * 50)
+    print("=== UPDATE KEBIJAKAN PAJAK ===".center(50))
+    print('=' * 50)
 
+    if not pajak or pajak.get("status") != "aktif":
+        print("Tidak ada kebijakan pajak yang aktif untuk diperbarui.")
+        return
+    
+    print("Kebijakan pajak saat ini : ")
+    print(f" Tarif pajak : {pajak['tarif']} % ")
+    print(f" Tipe pajak : {pajak['tipe']}")
+    print(f" Status pajak : {pajak['status']}")
+    print(f" Hari saat ini : Hari ke-{hari_ke}")
+
+    pilihan = inquirer.list_input("Apa yang ingin diperbarui?",
+               choiches = ['Tarif Pajak', ' Durasi Pajak', 'Batalkan'])
+
+
+    if pilihan == 'Tarif Pajak':
+        try:
+            tarif_baru = int(input("Masukkan tarif pajak baru (%) : "))
+            pajak['tarif'] = tarif_baru
+            print(f" Tarif pajak berhasi diperbarui menjadi {tarif_baru} % ")
+        except ValueError:
+             print("Input tidak valid. Harus angka!!")
+
+    elif pilihan == 'Durasi Pajak':
+        if pajak['tipe'] == 'Semnentara':
+            try:
+                durasi_baru = int(input("Masukkan durasi pajak baru (hari) : "))
+                pajak['durasi'] = durasi_baru
+                pajak['hari-berakhir'] = hari_ke + durasi_baru - 1
+                print(F" Durasi pajak berhasi diperbarui menjadi {durasi_baru} hari.")
+            except ValueError:
+                print("Input tidak valid. Harus angka!!")
+        else:
+            print("Pajak permanent tidak memiliki durasi untuk diperbarui.")
+    
+    else:
+        print("Pembaruan pajak dibatalkan.")
+
+#DELETE PAJAK
+def hapus_pajak():
+    global pajak
+    print('=' * 50)
+    print("=== HAPUS KEBIJAKAN PAJAK ===".center(50))
+    print('=' * 50)
+
+    if not pajak or pajak.get("status") != "aktif":
+        print("Tidak ada kebijakan pajak yang aktif untuk dihapus.")
+        return
+    
+    try:
+        confrm = inquirer.confirm(
+            message=f"Apakah kamu yakin ingin menghapus kebijakan pajak {pajak['tarif']} % {pajak['tipe']}?",
+            default = False
+        ).execute()
+
+        if confrm:
+            pajak['status'] = "non-aktif"
+            print(f"Kebijakan pajak {pajak['tarif']} % telah di non-aktifkan.")
+        else:
+            print("Penghapusan kebijakan pajak dibatalkan.")
+    except Exception as e:
+        print(f"Terjadi kesalahan : {e}")
 
 """ FEATURE YOGA  """
 def pinjam_uang(users_db):
@@ -126,7 +193,7 @@ def pinjam_uang(users_db):
     id_pinjam += 1
     time.sleep(2)
 
-#user
+#user pinjaman
 def ajukan_pinjaman(username):
     print("\n===Ajukan pinjaman anda===")
     pesan = input("Masukkan pesan anda. ")
@@ -154,7 +221,7 @@ def lihat_laporan_pinjaman():
         if pinjaman["status"] == "Disetujui":
             print(f"Bunga : {pinjaman['bunga']}%")
             print()
-# Admin
+# Admin pinjaman
 def lihat_daftar_pengajuan():
     print("\n=== DAFTAR PENGAJUAN DARI PEDAGANG===")
     if not daftar_surat:
@@ -200,6 +267,48 @@ def proses_pengajuan():
         ValueError
         print("Pilihan tidak valid.\n")
 
+# user pembelian
+gold_user = 1000
+
+def tambah_pembelian():
+    global gold_user
+    print("\n===Tambah Pembelian Barang===")
+    nama_barang = input("Masukkan nama barang yang ingin dibeli: ")
+    harga = int(input("Masukkan harga per unit (Gold): "))
+    jumlah = int(input("Masukkan jumlah barang: "))
+    total_harga = harga * jumlah
+
+    if total_harga > gold_user:
+        print("\n Gold anda tidak mencukupi.")
+        return
+    gold_user -= total_harga
+    Pembelian = {
+        "nama" : nama_barang,
+        "harga" : harga,
+        "jumlah" : jumlah,
+        "total" : total_harga
+    }
+    laporan_pembelian.append(Pembelian)
+    print(f"\n pembelian {nama_barang} sebanyak {jumlah}")
+    print(f"Gold tersisa: {gold_user} Gold.\n")
+
+
+def lihat_laporan_pembelian():
+    print("\n=== LAPORAN PEMBELIAN BARANG ===")
+    if not laporan_pembelian:
+        print("Belum ada data pembelian.\n")
+        return
+    
+    total_pengeluaran = 0
+    for i, item in enumerate(laporan_pembelian, 1):
+        print(f"{i}. {item['nama']} (x{item['jumlah']})")
+        print(f" Harga per unit: {item['harga']} Gold")
+        print(f" Total harga : {item['total']} Gold\n")
+        total_pengeluaran += item['total'] 
+
+    print(f"Total Pengeluaran : {total_pengeluaran} Gold")
+    print(f" Sisa Gold Saat Ini : {gold_user} Gold\n")
+    
 
 """ FEATURE MUJA  """
 def tampilkan_semua_surat():
