@@ -60,6 +60,29 @@ menu_daftar = (
     + f"\n   {CYAN}{tengah}{RESET}"
 )
 
+menu_kebijakan = (
+    '   ' + f'{CYAN}{atas}{RESET}\n'
+    + f"   {CYAN}{panjang}{RESET}\n"
+    + f"   {CYAN}|{'KEBIJAKAN':^{105}}|{RESET}"
+    + f"\n   {CYAN}{tengah}{RESET}"
+)
+
+menu_kelola_toko = (
+    '   ' + f'{CYAN}{atas}{RESET}\n'
+    + f"   {CYAN}{panjang}{RESET}\n"
+    + f"   {CYAN}|{'KELOLA TOKO':^{105}}|{RESET}"
+    + f"\n   {CYAN}{tengah}{RESET}"
+)
+
+menu_laporans = (
+    '   ' + f'{CYAN}{atas}{RESET}\n'
+    + f"   {CYAN}{panjang}{RESET}\n"
+    + f"   {CYAN}|{'LAPORAN':^{105}}|{RESET}"
+    + f"\n   {CYAN}{tengah}{RESET}"
+)
+
+
+
 def error_message(isi1, isi2, isi3, isi4, isi5):
     os.system('cls || clear')
     print(
@@ -145,16 +168,15 @@ def create_admin(menu):
     ).execute()
     return choice
 
-def create_user(menu):
+def menu_user_main(menu):
     os.system('cls || clear')
     print(menu)
     choice = inquirer.select(
         message=f"   |{' '*105}|",
         choices=[
-            f"|{'1. Kebijakan Pajak':<{105}}|",
-            f"|{'2. Ajukan Pinjaman':<{105}}|",
-            f"|{'3. Kebijakan Harga Barang':<{105}}|",
-            f"|{'4. Kembali':<{105}}|",
+            f"|{'1. Kelola Toko':<{105}}|",
+            f"|{'2. Laporan':<{105}}|",
+            f"|{'3. Log Out':<{105}}|",
             Separator(f"|{'_'*105}|")
         ],
         pointer="💠 ",
@@ -163,3 +185,41 @@ def create_user(menu):
     ).execute()
     return choice
 
+def kelola_toko(menu):
+    os.system('cls || clear')
+    print(menu)
+    choice = inquirer.select(
+        message=f"   |{' '*105}|",
+        choices=[
+            f"|{'1. Membeli Barang':<{105}}|",
+            f"|{'2. Menjual Barang':<{105}}|",
+            f"|{'3. Lihat Stok':<{105}}|",
+            f"|{'4. Ubah Harga Barang':<{105}}|",
+            f"|{'5. Tarik Penjualan Barang':<{105}}|",
+            f"|{'6. Mengajukan Pinjaman':<{105}}|",
+            f"|{'7. Kembali':<{105}}|",
+            Separator(f"|{'_'*105}|")
+        ],
+        pointer="💠 ",
+        qmark="",
+        style=custom_style,   
+    ).execute()
+    return choice
+
+def menu_laporan(menu):
+    os.system('cls || clear')
+    print(menu)
+    choice = inquirer.select(
+        message=f"   |{' '*105}|",
+        choices=[
+            f"|{'1. Laporan Penjualan':<{105}}|",
+            f"|{'2. Laporan Harian':<{105}}|",
+            f"|{'3. Laporan Pinjaman':<{105}}|",
+            f"|{'4. Kembali':<{105}}|",
+            Separator(f"|{'_'*105}|")
+        ],
+        pointer="💠 ",
+        qmark="",
+        style=custom_style,   
+    ).execute()
+    return choice

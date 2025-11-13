@@ -8,7 +8,7 @@ from pedagang import *
 def main_menu():
     print(menu_welcome)
     print('\n         ', end='')
-    input(f'{BOLD}{CYAN}{f'{UNDERLINE}{'Tekan Enter untuk melanjutkan...'}{RESET}' :^{105}}{RESET}')
+    input(f' {BOLD}{CYAN}{f'{UNDERLINE}{'Tekan Enter untuk melanjutkan...'}{RESET}' :^{105}}{RESET}')
     while True:
         choice = pilihan_login(menu_login)
         os.system('cls || clear')
@@ -16,13 +16,13 @@ def main_menu():
         if choice == f"|{'1. Penguasa / Pedagang':<{105}}|":
             
             username, role = login()
-            
+    
             if role == 'admin':
                 penguasa_main()
-                break
+                continue
             elif role == 'user':
                 pedagang_main(username)
-                break
+                continue
             else:
                 continue
             
@@ -30,7 +30,7 @@ def main_menu():
         elif choice == f"|{'2. Daftar Sebagai Pedagang':<{105}}|":
             berhasil = register_user()
             if berhasil:
-                input('Enter untuk kembali... ')
+                continue
             else:
                 continue     
 

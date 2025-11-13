@@ -4,49 +4,25 @@
         "role": "admin",
         "data": {}
     },
-    "koko": {
-        "password": "koko1234",
-        "role": "user",
-        "gold": 1000,
-        "data": {
-            "toko": {
-                "nama": "allin",
-                "stock": ""
-            },
-            "surat": [
-                {
-                    "surat": "berikan aku 2000 gold",
-                    "status": "Menunggu persetujuan",
-                    "bunga": null
-                }
-            ]
-        }
-    },
     "1": {
-        "password": "1234567a",
+        "password": "aaaaaaa1",
         "role": "user",
         "gold": 1000,
         "data": {
             "toko": {
-                "nama": "w",
+                "nama": "1",
                 "stock": ""
             },
-            "surat": [
-                {
-                    "surat": "hi",
-                    "status": "Menunggu persetujuan",
-                    "bunga": null
-                }
-            ]
+            "surat": []
         }
     },
-    "ahmad": {
-        "password": "ahmad123",
+    "4": {
+        "password": "aaaaaaa1",
         "role": "user",
         "gold": 1000,
         "data": {
             "toko": {
-                "nama": "all in one",
+                "nama": "2",
                 "stock": ""
             },
             "surat": []
@@ -58,7 +34,7 @@
         "gold": 1000,
         "data": {
             "toko": {
-                "nama": "90000000",
+                "nama": "qwer",
                 "stock": ""
             },
             "surat": []
