@@ -43,7 +43,7 @@ def kebijakan_pajak():
     else:
         durasi_hari = None
 
-    pajak.update{
+    pajak = {
         "tarif": persen,
         "tipe": tipe_durasi,
         "durasi": durasi_hari,
