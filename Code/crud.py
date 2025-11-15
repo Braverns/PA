@@ -43,15 +43,14 @@ def kebijakan_pajak():
     else:
         durasi_hari = None
 
-    pajak.clear()
-    pajak.update({
+    pajak.update{
         "tarif": persen,
         "tipe": tipe_durasi,
         "durasi": durasi_hari,
         "hari_mulai": hari_ke,
         "hari_berakhir": (hari_ke + durasi_hari - 1) if durasi_hari else None,
         "status": "aktif"
-    })
+    }
 
     print(f"\n Pajak {persen}% telah diterapkan ({tipe_durasi}).")
     if durasi_hari:
