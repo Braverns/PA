@@ -2,55 +2,47 @@
     "admin": {
         "password": "admin123",
         "role": "admin",
-        "barang": {"1": {"nama": "salep", "harga": 200, "stock": 20},
-                    "2": {"nama": "belati", "harga": 500, "stock": 10},
-                    "3": {"nama": "roti", "harga": 100, "stock": 50}
-                   }
-    },
-    "1": {
-        "password": "aaaaaaa1",
-        "role": "user",
-        "gold": 1000,
-        "data": {
-            "toko": {
-                "nama": "1",
-                "stock": ""
+        "barang": {
+            "1": {
+                "nama": "Salep",
+                "harga": 200,
+                "stock": 20
             },
-            "surat": []
-        }
-    },
-    "4": {
-        "password": "aaaaaaa1",
-        "role": "user",
-        "gold": 1000,
-        "data": {
-            "toko": {
-                "nama": "2",
-                "stock": ""
+            "2": {
+                "nama": "Belati",
+                "harga": 500,
+                "stock": 10
             },
-            "surat": []
-        }
-    },
-    "12": {
-        "password": "1234567a",
-        "role": "user",
-        "gold": 1000,
-        "data": {
-            "toko": {
-                "nama": "qwer",
-                "stock": ""
+            "3": {
+                "nama": "Roti",
+                "harga": 100,
+                "stock": 50
             },
-            "surat": []
+            "4": {
+                "nama": "Ikan",
+                "harga": 120,
+                "stock": 200
+            },
+            "5": {
+                "nama": "Toples",
+                "harga": 250,
+                "stock": 50
+            },
+            "6": {
+                "nama": "Ikan Bawal",
+                "harga": 150,
+                "stock": 20
+            }
         }
     },
     "muja": {
-        "password": "mujahid123",
+        "password": "muja1234",
         "role": "user",
         "gold": 1000,
         "data": {
             "toko": {
-                "nama": "120",
-                "stock": ""
+                "nama": "op",
+                "barang": {}
             },
             "surat": []
         }

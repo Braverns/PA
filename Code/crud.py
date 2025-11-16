@@ -2,6 +2,7 @@ import inquirer, time, os
 from data import *
 from login import *
 from prettytable import PrettyTable
+from random import randint, choice
 
 """ DATA ARYA  """
 pajak = {}
@@ -331,8 +332,10 @@ def lihat_laporan_pembelian():
 
 
 """ FEATURE MUJA  """
-def barang():
-    data = users_db['admin']['barang']
+def daftar_barang(username):
+    import re
+    ansi = re.compile(r'\x1b\[[0-9;]*m')
+    data = users_db[username]['barang']
     
 
     table = PrettyTable()
@@ -348,7 +351,7 @@ def barang():
             f'{GOLD}{id_barang:^{3}}{RESET}',
             f'{GOLD}{s["nama"] :^{20}}{RESET}',
             f'{GOLD}{s["harga"]:^{20}}{RESET}',
-            f'{GOLD}{s["stock"]:^{20}}{RESET}'
+            f'{GOLD}{randint(1,s["stock"]):^{20}}{RESET}'
         ])
 
     table.junction_char = f"{BOLD}{CYAN}╬{RESET}"
@@ -362,7 +365,50 @@ def barang():
     table.top_right_junction_char = f"{BOLD}{CYAN}╣{RESET}"
     table.bottom_left_junction_char = f"{BOLD}{CYAN}╚{RESET}"
     table.bottom_right_junction_char = f"{BOLD}{CYAN}╝{RESET}"
+    table_str = table.get_string()
+    clean_lines = [ansi.sub('', line) for line in table_str.split("\n")]
+    table_width = max(len(line) for line in clean_lines)
+    print(f'{BOLD}{CYAN}╔{"═" * (table_width - 2)}╗{RESET}') 
+    print(f'{BOLD}{CYAN}║{" " :^{table_width - 2}}║{RESET}') 
+    print(f'{BOLD}{CYAN}║{RESET}{BOLD}{GOLD}{'DAFTAR BARANG':^{table_width - 2}}{RESET}{BOLD}{CYAN}║{RESET}') 
+    print(f'{BOLD}{CYAN}║{" " :^{table_width - 2}}║{RESET}')
+    print(table)
+    return data
 
-    return table
+def barang(username):
+    data = daftar_barang(username)
 
+    nama_barang = input(f'{CYAN}{' Nama Barang : '}{RESET}').strip().title()
+    print('\033[F', end='')   
+    print(f'{CYAN} Nama Barang  : {RESET}{GOLD}{nama_barang}{RESET}')
+    if nama_barang == '':
+        return error_message('Nama Barang Tidak Boleh Kosong', '', 'Nama Barang Tidak Boleh Kosong', '', 'Nama Barang Tidak Boleh Kosong')
+    if nama_barang in [s['nama'] for s in data.values()]:
+        return error_message('Nama Barang Sudah Ada', '', 'Nama Barang Sudah Ada', '', 'Nama Barang Sudah Ada')
+    if nama_barang.isdigit():
+        return error_message('Nama Barang Tidak Boleh Angka', '', 'Nama Barang Tidak Boleh Angka', '', 'Nama Barang Tidak Boleh Angka')
+    if len(nama_barang) > 20:
+        return error_message('Nama Barang Terlalu Panjang, Maksimal 20 Karakter', '', 'Nama Barang Terlalu Panjang, Maksimal 20 Karakter', '', 'Nama Barang Terlalu Panjang, Maksimal 20 Karakter')
+    
+    harga_dasar = input(f'{CYAN}{' Harga Dasar  : '}{RESET}').strip()
+    print('\033[F', end='')   
+    print(f'{CYAN} Harga Dasar  : {RESET}{GOLD}{harga_dasar}{RESET}')
+    if not harga_dasar.isdigit() or int(harga_dasar) <= 0:
+        return error_message('Harga Dasar Harus Angka dan Lebih dari 0', '', 'Harga Dasar Harus Angka dan Lebih dari 0', '', 'Harga Dasar Harus Angka dan Lebih dari 0')
+    harga_dasar = int(harga_dasar)
+
+    stock_barang = input(f'{CYAN}{' Stock Barang : '}{RESET}').strip()
+    print('\033[F', end='')   
+    print(f'{CYAN} Stock Barang : {RESET}{GOLD}{stock_barang}{RESET}')
+    if not stock_barang.isdigit() or int(stock_barang) <= 0:
+        return error_message('Stock Barang Harus Angka dan Lebih dari 0', '', 'Stock Barang Harus Angka dan Lebih dari 0', '', 'Stock Barang Harus Angka dan Lebih dari 0')
+    stock_barang = int(stock_barang)
+
+    users_db[username]['barang'][str(len(data) + 1)] = {
+        'nama': nama_barang,
+        'harga': harga_dasar,
+        'stock': stock_barang
+    }
+    save_users()
+    return True
 

@@ -18,7 +18,7 @@ def main_menu():
             username, role = login()
     
             if role == 'admin':
-                penguasa_main()
+                penguasa_main(username)
                 continue
             elif role == 'user':
                 pedagang_main(username)
@@ -41,7 +41,7 @@ def main_menu():
             print(f'{BOLD}{WHITE}{REVERSE}{panjang}{RESET}')
             print(f'{BOLD}{WHITE}{REVERSE}|{'“ Setiap keputusan yang kau lakukan membentuk suatu masa depan.':^{105}}|{RESET}')
             print(f'{BOLD}{WHITE}{REVERSE}|{'Sejarah akan mengingat apakah keputusan mu membawa':^{105}}|{RESET}')
-            print(f'{BOLD}{WHITE}{REVERSE}|{'kemajuan maupun kehancuran. ”':^{105}}|{RESET}')
+            print(f'{BOLD}{WHITE}{REVERSE}|{'kemajuan atau kehancuran. ”':^{105}}|{RESET}')
             print(f'{BOLD}{WHITE}{REVERSE}{panjang}{RESET}')
             print(f'{BOLD}{WHITE}{REVERSE}{tengah}{RESET}')
             print('\n\n\n')

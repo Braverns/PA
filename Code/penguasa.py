@@ -3,7 +3,7 @@ from menu import *
 from crud import *
 import os
 
-def penguasa_main():
+def penguasa_main(username):
     while True:
         choice = pilihan_admin(header(' SELAMAT DATANG PENGUASA'))
         if choice == f"|{'1. Kebijakan':<{105}}|":
@@ -15,9 +15,8 @@ def penguasa_main():
                     continue
                 elif choice == f"|{'3. Kebijakan Barang':<{105}}|":
                     os.system('cls || clear')
-                    header_barang()
-                    print(barang())
-                    input(f'\n    {BOLD}{CYAN}{f'{UNDERLINE}{'Tekan Enter untuk kembali...'}{RESET}' :^{76}}{RESET}')
+                    barang(username)
+                    continue
                 else:
                     break
         elif choice == f"|{'2. Daftar Toko':<{105}}|":
@@ -40,4 +39,3 @@ def penguasa_main():
             pass
         else:
             break
-

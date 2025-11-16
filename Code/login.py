@@ -108,8 +108,10 @@ def register_user():
         'password': password,
         'role': 'user',
         'gold': 1000,
-        'data': {'toko': {'nama': namat, 'stock': ''},
-                 'surat': []}
+        'data': {'toko': {'nama': namat, 
+                          'barang': {}
+                          },
+                'surat': []}
     }
     save_users()  
     input(f'\n         {BOLD}{WHITE}{f'{UNDERLINE}{'Tekan Enter untuk melanjutkan...'}{RESET}' :^{105}}{RESET}')

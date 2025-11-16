@@ -204,15 +204,3 @@ def perbarui_kebijakan(menu):
     ).execute()
     return choice
 
-def header_barang():
-    import re
-    from crud import barang
-    ansi = re.compile(r'\x1b\[[0-9;]*m')
-    table = barang()
-    table_str = table.get_string()
-    clean_lines = [ansi.sub('', line) for line in table_str.split("\n")]
-    table_width = max(len(line) for line in clean_lines)
-    print(f'{BOLD}{CYAN}╔{"═" * (table_width - 2)}╗{RESET}') 
-    print(f'{BOLD}{CYAN}║{" " :^{table_width - 2}}║{RESET}') 
-    print(f'{BOLD}{CYAN}║{RESET}{BOLD}{GOLD}{'DAFTAR BARANG':^{table_width - 2}}{RESET}{BOLD}{CYAN}║{RESET}') 
-    print(f'{BOLD}{CYAN}║{" " :^{table_width - 2}}║{RESET}')
