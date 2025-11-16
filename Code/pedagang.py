@@ -9,11 +9,17 @@ def pedagang_main(username):
             while True:
                 choice = kelola_toko(menu_kelola_toko(users_db[username]['data']['toko']['nama']))
                 if choice == f"|{'1. Membeli Barang':<{105}}|":
-                    pass
+                    os.system('cls || clear')
+                    beli_barang_user(username, 'user')
+                    continue
                 elif choice == f"|{'2. Menjual Barang':<{105}}|":
                     pass
                 elif choice == f"|{'3. Lihat Stok':<{105}}|":
-                    pass
+                    os.system('cls || clear')
+                    data, table_width = daftar_barang(username, 'toko')
+                    input(f'\n{BOLD}{CYAN}{f'{UNDERLINE}Tekan Enter untuk kembali...{RESET}' :^{table_width}}{RESET}')
+                    
+                    continue
                 elif choice == f"|{'4. Ubah Harga Barang':<{105}}|":
                     pass
                 elif choice == f"|{'5. Tarik Penjualan Barang':<{105}}|":
@@ -35,3 +41,5 @@ def pedagang_main(username):
                     break
         else:
             break
+
+

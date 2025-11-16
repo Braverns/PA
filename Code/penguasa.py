@@ -15,7 +15,7 @@ def penguasa_main(username):
                     continue
                 elif choice == f"|{'3. Kebijakan Barang':<{105}}|":
                     os.system('cls || clear')
-                    barang(username)
+                    barang(username, 'admin')
                     continue
                 else:
                     break

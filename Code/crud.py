@@ -332,27 +332,74 @@ def lihat_laporan_pembelian():
 
 
 """ FEATURE MUJA  """
-def daftar_barang(username):
+def daftar_barang(username, akses):
     import re
     ansi = re.compile(r'\x1b\[[0-9;]*m')
-    data = users_db[username]['barang']
     
+    if akses == 'admin':
+        data = users_db[username]['barang']
+        table = PrettyTable()
+        table.field_names = [
+            f"{BOLD}{GOLD}NO{RESET}",
+            f"{BOLD}{GOLD}Nama{RESET}",
+            f"{BOLD}{GOLD}Harga{RESET}",
+            f"{BOLD}{GOLD}Stock Harian{RESET}",
+            f"{BOLD}{GOLD}Stock Asli{RESET}"
+        ]
+        
+        for id_barang, s in data.items():
+            s["stock_show"] = randint(1, s["stock"])
+            table.add_row([
+                f'{GOLD}{id_barang:^{3}}{RESET}',
+                f'{GOLD}{s["nama"] :^{20}}{RESET}',
+                f'{GOLD}{s["harga"]:^{20}}{RESET}',
+                f'{GOLD}{s['stock_show']:^{20}}{RESET}',
+                f'{GOLD}{s["stock"]:^{20}}{RESET}'
+            ])
+            save_users()
 
-    table = PrettyTable()
-    table.field_names = [
-        f"{BOLD}{GOLD}NO{RESET}",
-        f"{BOLD}{GOLD}Nama{RESET}",
-        f"{BOLD}{GOLD}Harga{RESET}",
-        f"{BOLD}{GOLD}Stock{RESET}"
-    ]
+    elif akses == 'user':
+        data = users_db['admin']['barang']
+        table = PrettyTable()
+        table.field_names = [
+            f"{BOLD}{GOLD}NO{RESET}",
+            f"{BOLD}{GOLD}Nama{RESET}",
+            f"{BOLD}{GOLD}Harga{RESET}",
+            f"{BOLD}{GOLD}Stock{RESET}"
+        ]
+        
+        for id_barang, s in data.items():
+            s["stock_show"] = randint(1, s["stock"])
+            table.add_row([
+                f'{GOLD}{id_barang:^{3}}{RESET}',
+                f'{GOLD}{s["nama"] :^{20}}{RESET}',
+                f'{GOLD}{s["harga"]:^{20}}{RESET}',
+                f'{GOLD}{s['stock_show']:^{20}}{RESET}'
+            ])
+            save_users()
 
-    for id_barang, s in data.items():
-        table.add_row([
-            f'{GOLD}{id_barang:^{3}}{RESET}',
-            f'{GOLD}{s["nama"] :^{20}}{RESET}',
-            f'{GOLD}{s["harga"]:^{20}}{RESET}',
-            f'{GOLD}{randint(1,s["stock"]):^{20}}{RESET}'
-        ])
+    else:
+        data = users_db[username]['data']['toko']['barang']
+        if not data:
+            return error_message('Belum Ada Barang Yang Dijual', '', 'Belum Ada Barang Yang Dijual', '', 'Belum Ada Barang Yang Dijual')
+ 
+        table = PrettyTable()
+        table.field_names = [
+            f"{BOLD}{GOLD}NO{RESET}",
+            f"{BOLD}{GOLD}Nama{RESET}",
+            f"{BOLD}{GOLD}Harga{RESET}",
+            f"{BOLD}{GOLD}Stock{RESET}"
+        ]
+        
+        for id_barang, s in data.items():
+            table.add_row([
+                f'{GOLD}{id_barang:^{3}}{RESET}',
+                f'{GOLD}{s["nama"] :^{20}}{RESET}',
+                f'{GOLD}{s["harga_jual"]:^{20}}{RESET}',
+                f'{GOLD}{s['stock']:^{20}}{RESET}'
+            ])
+            save_users()
+            
 
     table.junction_char = f"{BOLD}{CYAN}╬{RESET}"
     table.horizontal_char = f"{BOLD}{CYAN}═{RESET}"
@@ -373,10 +420,10 @@ def daftar_barang(username):
     print(f'{BOLD}{CYAN}║{RESET}{BOLD}{GOLD}{'DAFTAR BARANG':^{table_width - 2}}{RESET}{BOLD}{CYAN}║{RESET}') 
     print(f'{BOLD}{CYAN}║{" " :^{table_width - 2}}║{RESET}')
     print(table)
-    return data
+    return data, table_width
 
-def barang(username):
-    data = daftar_barang(username)
+def barang(username, akses):
+    data = daftar_barang(username, akses)
 
     nama_barang = input(f'{CYAN}{' Nama Barang : '}{RESET}').strip().title()
     print('\033[F', end='')   
@@ -412,3 +459,39 @@ def barang(username):
     save_users()
     return True
 
+def beli_barang_user(username, akses):
+    daftar_barang(username, akses)
+    data = users_db['admin']['barang']
+    data_user = users_db[username]['data']['toko']['barang']
+    no_barang = input(f'{CYAN}{' No Barang yang ingin dibeli : '}{RESET}').strip()
+    print('\033[F', end='')   
+    print(f'{CYAN} No Barang yang ingin dibeli : {RESET}{GOLD}{no_barang}{RESET}')
+    if no_barang not in users_db['admin']['barang']:
+        return error_message('No Barang Tidak Valid', '', 'No Barang Tidak Valid', '', 'No Barang Tidak Valid')
+    stock = users_db['admin']['barang'][no_barang]["stock_show"]
+    jumlah_beli = input(f'{CYAN}{' Jumlah yang ingin dibeli : '}{RESET}').strip()
+    print('\033[F', end='') 
+    print(f'{CYAN} Jumlah yang ingin dibeli : {RESET}{GOLD}{jumlah_beli}{RESET}')
+    if not jumlah_beli.isdigit() or int(jumlah_beli) <= 0:
+        return error_message('Jumlah Beli Harus Angka dan Lebih dari 0', '', 'Jumlah Beli Harus Angka dan Lebih dari 0', '', 'Jumlah Beli Harus Angka dan Lebih dari 0')
+    jumlah_beli = int(jumlah_beli)
+    if jumlah_beli > stock:
+        return error_message('Jumlah Beli Melebihi Stock', '', 'Jumlah Beli Melebihi Stock', '', 'Jumlah Beli Melebihi Stock')
+    jumlah_beli = int(jumlah_beli)
+
+    total_harga = data[no_barang]['harga'] * jumlah_beli
+    if users_db[username]['gold'] < total_harga:
+        return error_message('Gold Tidak Cukup', '', 'Gold Tidak Cukup', '', 'Gold Tidak Cukup')
+    users_db[username]['gold'] -= total_harga
+    data[no_barang]['stock'] -= jumlah_beli
+    data[no_barang]['stock_show'] -= jumlah_beli
+    id_barang = int(max(data_user.keys())) + 1 if data_user else 1
+    #belum selesai
+    data_user[str(id_barang)] = {
+        'nama': data[no_barang]['nama'],
+        'harga_beli': data[no_barang]['harga'],
+        'harga_jual': data[no_barang]['harga'],
+        'stock': jumlah_beli
+    }
+    save_users()
+    return True
