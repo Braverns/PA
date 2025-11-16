@@ -46,11 +46,11 @@ def login():
     print('\033[F', end='')   
     print(f'{CYAN}   |{f' Password anda : {len(password) * '*'}':<{105}}|{RESET}')
     print(f'{CYAN}   {tengah}{RESET}')
-    # print verifikasi dengan "sedang memverifikasi..." menggunakan for loop dan sleep untuk membuat efek titik-titik munvcul satu per satu
+    
     print(f'\n{CYAN}{'Sedang Memverifikasi':>{66}}{RESET}', end='', flush=True)
     for _ in range(3):
-        sleep(1)
-        print(f'{CYAN} . {RESET}', end='', flush=True)
+        sleep(0.5)
+        print(f'{CYAN}.{RESET}', end='', flush=True)
     sleep(1)
     if user['password'] != password:
         error_message('Password Salah', '', 'Password Salah', '', 'Password Salah')
