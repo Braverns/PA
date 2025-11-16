@@ -43,15 +43,14 @@ def kebijakan_pajak():
     else:
         durasi_hari = None
 
-    pajak.clear()
-    pajak.update({
+    pajak = {
         "tarif": persen,
         "tipe": tipe_durasi,
         "durasi": durasi_hari,
         "hari_mulai": hari_ke,
         "hari_berakhir": (hari_ke + durasi_hari - 1) if durasi_hari else None,
         "status": "aktif"
-    })
+    }
 
     print(f"\n Pajak {persen}% telah diterapkan ({tipe_durasi}).")
     if durasi_hari:
@@ -309,6 +308,27 @@ def lihat_laporan_pembelian():
     print(f"Total Pengeluaran : {total_pengeluaran} Gold")
     print(f" Sisa Gold Saat Ini : {gold_user} Gold\n")
     
+#admin pembelian
+def lihat_laporan_pembelian():
+    print("\n===LAPORAN PEMBELIAN PEDAGANG")
+
+    if not laporan_pembelian:
+        print("Belum ada riwayat pembelian pedagang.\n ")
+        return
+    
+    total_pengeluaran = 0
+
+    for i, item in enumerate(laporan_pembelian):
+        print(f"{i}. {item['nama']} (x{item['jumlah']})")
+        print(f"Harga per unit: {item['harga']} Gold")
+        print(f"Total harga: {item['total']} Gold\n")
+        total_pengeluaran += item['total']
+
+    print("RINGKASAN")
+    print(f"Total Pengeluaran Pedagang: {total_pengeluaran} Gold")
+    print(f"Sisa Gold Pedagang saat ini: {gold_user} Gold\n")
+
+
 
 """ FEATURE MUJA  """
 def barang():
