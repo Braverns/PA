@@ -1,6 +1,5 @@
 from InquirerPy import inquirer
 from InquirerPy.separator import Separator
-from InquirerPy.separator import Separator
 from InquirerPy.utils import InquirerPyStyle
 import os 
 from time import sleep
@@ -101,7 +100,7 @@ def pilihan_admin(menu):
         choices=[
             f"|{'1. Kebijakan':<{105}}|",
             f"|{'2. Daftar Toko':<{105}}|",
-            f"|{'3. Memperbarui Kebijakan':<{105}}|",
+            f"|{'3. Perbarui Kebijakan':<{105}}|",
             f"|{'4. Menggusur Toko':<{105}}|",
             f"|{'5. Log Out':<{105}}|",
             Separator(f"|{'_'*105}|")
@@ -120,7 +119,7 @@ def create_admin(menu):
         choices=[
             f"|{'1. Kebijakan Pajak':<{105}}|",
             f"|{'2. Kebijakan Pinjaman':<{105}}|",
-            f"|{'3. Kebijakan Harga Barang':<{105}}|",
+            f"|{'3. Kebijakan Barang':<{105}}|",
             f"|{'4. Kembali':<{105}}|",
             Separator(f"|{'_'*105}|")
         ],
@@ -185,3 +184,35 @@ def menu_laporan(menu):
         style=custom_style,   
     ).execute()
     return choice
+
+def perbarui_kebijakan(menu):
+    os.system('cls || clear')
+    print(menu)
+    choice = inquirer.select(
+        message=f"   |{' '*105}|",
+        choices=[
+            f"|{'1. Perbarui Pajak':<{105}}|",
+            f"|{'2. Perbarui Pinjaman':<{105}}|",
+            f"|{'3. Perbarui Harga Barang':<{105}}|",
+            f"|{'4. Tarik Barang dari penjualan':<{105}}|",
+            f"|{'5. Kembali':<{105}}|",
+            Separator(f"|{'_'*105}|")
+        ],
+        pointer="💠 ",
+        qmark="",
+        style=custom_style,   
+    ).execute()
+    return choice
+
+def header_barang():
+    import re
+    from crud import barang
+    ansi = re.compile(r'\x1b\[[0-9;]*m')
+    table = barang()
+    table_str = table.get_string()
+    clean_lines = [ansi.sub('', line) for line in table_str.split("\n")]
+    table_width = max(len(line) for line in clean_lines)
+    print(f'{BOLD}{CYAN}╔{"═" * (table_width - 2)}╗{RESET}') 
+    print(f'{BOLD}{CYAN}║{" " :^{table_width - 2}}║{RESET}') 
+    print(f'{BOLD}{CYAN}║{RESET}{BOLD}{GOLD}{'DAFTAR BARANG':^{table_width - 2}}{RESET}{BOLD}{CYAN}║{RESET}') 
+    print(f'{BOLD}{CYAN}║{" " :^{table_width - 2}}║{RESET}')

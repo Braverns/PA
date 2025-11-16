@@ -18,7 +18,10 @@ else:
         'admin': {
             'password': 'admin123',
             'role': 'admin',
-            'data': {}
+            "barang": {"1": {"nama": "salep", "harga": 200, "stock": 20},
+                        "2": {"nama": "belati", "harga": 500, "stock": 10},
+                        "3": {"nama": "roti", "harga": 100, "stock": 50}
+                   }
         }
     }
     with open(USERS_FILE, "w") as f:
@@ -68,6 +71,9 @@ def register_user():
         return False
     if username in users_db:
         error_message('Username Sudah Terdaftar, Silahkan Pilih Nama Yang Lain', '', 'Username Sudah Terdaftar, Silahkan Pilih Nama Yang Lain', '', 'Username Sudah Terdaftar, Silahkan Pilih Nama Yang Lain')
+        return False
+    if len(username) > 30:
+        error_message('Username Terlalu Panjang, Maksimal 30 Karakter', '', 'Username Terlalu Panjang, Maksimal 30 Karakter', '', 'Username Terlalu Panjang, Maksimal 30 Karakter')
         return False
 
     password = input(f'{CYAN}   |{' Password anda   : ':<{19}}{RESET}').strip()

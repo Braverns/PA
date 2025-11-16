@@ -44,8 +44,6 @@ def main_menu():
             print(f'{BOLD}{WHITE}{REVERSE}|{'kemajuan maupun kehancuran. ”':^{105}}|{RESET}')
             print(f'{BOLD}{WHITE}{REVERSE}{panjang}{RESET}')
             print(f'{BOLD}{WHITE}{REVERSE}{tengah}{RESET}')
-            print()
-            print()
-            print()
+            print('\n\n\n')
             break
 main_menu()

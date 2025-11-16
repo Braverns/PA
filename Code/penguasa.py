@@ -1,6 +1,7 @@
 from data import *
 from menu import *  
 from crud import *
+import os
 
 def penguasa_main():
     while True:
@@ -11,21 +12,32 @@ def penguasa_main():
                 if choice == f"|{'1. Kebijakan Pajak':<{105}}|":
                     pass
                 elif choice == f"|{'2. Kebijakan Pinjaman':<{105}}|":
-                    os.system('cls || clear')
-                    tampilkan_semua_surat()
                     continue
-                elif choice == f"|{'3. Kebijakan Harga Barang':<{105}}|":
-                    pass
+                elif choice == f"|{'3. Kebijakan Barang':<{105}}|":
+                    os.system('cls || clear')
+                    header_barang()
+                    print(barang())
+                    input(f'\n    {BOLD}{CYAN}{f'{UNDERLINE}{'Tekan Enter untuk kembali...'}{RESET}' :^{76}}{RESET}')
                 else:
                     break
         elif choice == f"|{'2. Daftar Toko':<{105}}|":
             pass
-        elif choice == f"|{'3. Memperbarui Kebijakan':<{105}}|":
-            pass
+        elif choice == f"|{'3. Perbarui Kebijakan':<{105}}|":
+            while True:
+                choice = perbarui_kebijakan(header('PERBARUI KEBIJAKAN'))
+                if choice == f"|{'1. Perbarui Pajak':<{105}}|":
+                    pass
+                elif choice == f"|{'2. Perbarui Pinjaman':<{105}}|":
+                    pass
+                elif choice == f"|{'3. Perbarui Harga Barang':<{105}}|":
+                    pass
+                elif choice == f"|{'4. Tarik Barang dari penjualan':<{105}}|":
+                    pass
+                else:
+                    break
+            
         elif choice == f"|{'4. Menggusur Toko':<{105}}|":
             pass
         else:
             break
 
-def surat():
-    pass

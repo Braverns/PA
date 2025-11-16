@@ -1,3 +1,2 @@
-from menu import *
-
-print(header('percobaan'))
+from data import *
+from crud import *

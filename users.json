@@ -2,7 +2,10 @@
     "admin": {
         "password": "admin123",
         "role": "admin",
-        "data": {}
+        "barang": {"1": {"nama": "salep", "harga": 200, "stock": 20},
+                    "2": {"nama": "belati", "harga": 500, "stock": 10},
+                    "3": {"nama": "roti", "harga": 100, "stock": 50}
+                   }
     },
     "1": {
         "password": "aaaaaaa1",
