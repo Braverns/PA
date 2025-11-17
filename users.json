@@ -13,31 +13,37 @@
                 "nama": "Belati",
                 "harga": 500,
                 "stock": 10,
-                "stock_show": 8
+                "stock_show": 9
             },
             "3": {
-                "nama": "Roti",
-                "harga": 100,
-                "stock": 49,
-                "stock_show": 14
+                "nama": "Kopi Hitam",
+                "harga": 150,
+                "stock": 30,
+                "stock_show": 12
             },
             "4": {
                 "nama": "Ikan",
                 "harga": 120,
                 "stock": 200,
-                "stock_show": 147
+                "stock_show": 135
             },
             "5": {
                 "nama": "Toples",
                 "harga": 250,
                 "stock": 50,
-                "stock_show": 16
+                "stock_show": 2
             },
             "6": {
                 "nama": "Ikan Bawal",
                 "harga": 150,
                 "stock": 20,
-                "stock_show": 14
+                "stock_show": 15
+            },
+            "7": {
+                "nama": "Ikan Kembung",
+                "harga": 80,
+                "stock": 200,
+                "stock_show": 132
             }
         }
     },

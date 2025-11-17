@@ -424,13 +424,14 @@ def daftar_barang(username, akses):
 
 def barang(username, akses):
     data = daftar_barang(username, akses)
-
+    
     nama_barang = input(f'{CYAN}{' Nama Barang : '}{RESET}').strip().title()
     print('\033[F', end='')   
     print(f'{CYAN} Nama Barang  : {RESET}{GOLD}{nama_barang}{RESET}')
     if nama_barang == '':
         return error_message('Nama Barang Tidak Boleh Kosong', '', 'Nama Barang Tidak Boleh Kosong', '', 'Nama Barang Tidak Boleh Kosong')
-    if nama_barang in [s['nama'] for s in data.values()]:
+    if any(b["nama"].lower() == nama_barang.lower() 
+       for b in users_db["admin"]["barang"].values()):
         return error_message('Nama Barang Sudah Ada', '', 'Nama Barang Sudah Ada', '', 'Nama Barang Sudah Ada')
     if nama_barang.isdigit():
         return error_message('Nama Barang Tidak Boleh Angka', '', 'Nama Barang Tidak Boleh Angka', '', 'Nama Barang Tidak Boleh Angka')
@@ -451,7 +452,7 @@ def barang(username, akses):
         return error_message('Stock Barang Harus Angka dan Lebih dari 0', '', 'Stock Barang Harus Angka dan Lebih dari 0', '', 'Stock Barang Harus Angka dan Lebih dari 0')
     stock_barang = int(stock_barang)
 
-    users_db[username]['barang'][str(len(data) + 1)] = {
+    users_db[username]['barang'][str(len(users_db[username]['barang']) + 1)] = {
         'nama': nama_barang,
         'harga': harga_dasar,
         'stock': stock_barang
@@ -469,6 +470,7 @@ def beli_barang_user(username, akses):
     if no_barang not in users_db['admin']['barang']:
         return error_message('No Barang Tidak Valid', '', 'No Barang Tidak Valid', '', 'No Barang Tidak Valid')
     stock = users_db['admin']['barang'][no_barang]["stock_show"]
+    
     jumlah_beli = input(f'{CYAN}{' Jumlah yang ingin dibeli : '}{RESET}').strip()
     print('\033[F', end='') 
     print(f'{CYAN} Jumlah yang ingin dibeli : {RESET}{GOLD}{jumlah_beli}{RESET}')
@@ -495,3 +497,5 @@ def beli_barang_user(username, akses):
     }
     save_users()
     return True
+
+daftar_barang('muja', 'toko')
