@@ -6,7 +6,7 @@ from InquirerPy import inquirer
 from pedagang import *
 
 def main_menu():
-
+    
     print(menu_welcome)
     print('\n         ', end='')
     input(f'{BOLD}{WHITE}{f'{UNDERLINE}{'Tekan Enter untuk melanjutkan...'}{RESET}' :^{105}}{RESET}')
