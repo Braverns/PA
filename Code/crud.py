@@ -309,25 +309,42 @@ def lihat_laporan_pembelian():
     print(f"Total Pengeluaran : {total_pengeluaran} Gold")
     print(f" Sisa Gold Saat Ini : {gold_user} Gold\n")
     
-#admin pembelian
-def lihat_laporan_pembelian():
-    print("\n===LAPORAN PEMBELIAN PEDAGANG")
+def ubah_harga_user(username):
+    data_toko = users_db[username]['data']['toko']['barang']
 
-    if not laporan_pembelian:
-        print("Belum ada riwayat pembelian pedagang.\n ")
-        return
-    
-    total_pengeluaran = 0
+    if not data_toko:
+        return error_message('Tidak Ada Barang Di Toko', '', 'Tidak Ada Barang Di Toko', '', 'Tidak Ada Barang Di Toko')
 
-    for i, item in enumerate(laporan_pembelian):
-        print(f"{i}. {item['nama']} (x{item['jumlah']})")
-        print(f"Harga per unit: {item['harga']} Gold")
-        print(f"Total harga: {item['total']} Gold\n")
-        total_pengeluaran += item['total']
+    print()
+    print(f"{CYAN}{BOLD}=== DAFTAR BARANG TOKO ANDA ==={RESET}")
+    daftar_barang(username, 'toko')  
 
-    print("RINGKASAN")
-    print(f"Total Pengeluaran Pedagang: {total_pengeluaran} Gold")
-    print(f"Sisa Gold Pedagang saat ini: {gold_user} Gold\n")
+    no_barang = input(f'{CYAN} No Barang yang ingin diubah harganya : {RESET}').strip()
+    print('\033[F', end='')
+    print(f'{CYAN} No Barang yang ingin diubah harganya : {RESET}{GOLD}{no_barang}{RESET}')
+
+    if no_barang not in data_toko:
+        return error_message('Nomor Barang Tidak Valid', '', 'Nomor Barang Tidak Valid', '', 'Nomor Barang Tidak Valid')
+
+    try:
+        harga_baru = input(f'{CYAN} Harga jual baru : {RESET}').strip()
+        print('\033[F', end='')
+        print(f'{CYAN} Harga jual baru : {RESET}{GOLD}{harga_baru}{RESET}')
+
+        if not harga_baru.isdigit() or int(harga_baru) <= 0:
+            return error_message('Harga Harus Angka dan Lebih dari 0', '', 'Harga Harus Angka dan Lebih dari 0', '', 'Harga Harus Angka dan Lebih dari 0')
+
+        harga_baru = int(harga_baru)
+
+        
+        data_toko[no_barang]['harga_jual'] = harga_baru
+        save_users()
+
+        print(f"\n{GREEN}Harga barang '{data_toko[no_barang]['nama']}' berhasil diubah menjadi {harga_baru} Gold!{RESET}\n")
+        return True
+
+    except Exception:
+        return error_message('Terjadi Kesalahan Input', '', 'Terjadi Kesalahan Input', '', 'Terjadi Kesalahan Input')
 
 
 
