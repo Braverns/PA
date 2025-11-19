@@ -59,7 +59,7 @@ def kebijakan_pajak():
     else:
         print("Berlaku permanen tanpa batas waktu.")
 
-    time.sleep(1)
+    time.sleep(3)
 
 #READ PAJAK
 def lihat_pajak():
@@ -498,4 +498,3 @@ def beli_barang_user(username, akses):
     save_users()
     return True
 
-daftar_barang('muja', 'toko')
