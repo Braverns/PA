@@ -17,8 +17,10 @@ def pedagang_main(username):
                 elif choice == f"|{'3. Lihat Stok':<{105}}|":
                     os.system('cls || clear')
                     data, table_width = daftar_barang(username, 'toko')
-                    input(f'\n{BOLD}{CYAN}{f'{UNDERLINE}Tekan Enter untuk kembali...{RESET}' :^{table_width}}{RESET}')
-                    
+                    if data == None:
+                        error_message('Belum Ada Barang Yang Dijual', '', 'Belum Ada Barang Yang Dijual', '', 'Belum Ada Barang Yang Dijual')
+                        continue
+                    input(f'\n{BOLD}{CYAN}{f'{UNDERLINE}Tekan Enter untuk kembali...{RESET}' :^{table_width}}{RESET}')    
                     continue
                 elif choice == f"|{'4. Ubah Harga Barang':<{105}}|":
                     pass

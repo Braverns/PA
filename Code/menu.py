@@ -61,6 +61,7 @@ def error_message(isi1, isi2, isi3, isi4, isi5):
     )
     print('\n         ', end='')
     input(f'{BOLD}{WHITE}{f'{UNDERLINE}{'Tekan Enter untuk melanjutkan...'}{RESET}' :^{105}}{RESET}')
+    return None, None
     
 
 
@@ -185,6 +186,24 @@ def menu_laporan(menu):
     ).execute()
     return choice
 
+def perbarui_kebijakan_barang(menu):
+    os.system('cls || clear')
+    print(menu)
+    choice = inquirer.select(
+        message=f"   |{' '*105}|",
+        choices=[
+            f"|{'1. Perbarui Nama Barang':<{105}}|",
+            f"|{'2. Perbarui Harga Barang':<{105}}|",
+            f"|{'3. Perbarui Stock Barang':<{105}}|",
+            f"|{'4. Kembali':<{105}}|",
+            Separator(f"|{'_'*105}|")
+        ],
+        pointer="💠 ",
+        qmark="",
+        style=custom_style,   
+    ).execute()
+    return choice
+
 def perbarui_kebijakan(menu):
     os.system('cls || clear')
     print(menu)
@@ -193,8 +212,8 @@ def perbarui_kebijakan(menu):
         choices=[
             f"|{'1. Perbarui Pajak':<{105}}|",
             f"|{'2. Perbarui Pinjaman':<{105}}|",
-            f"|{'3. Perbarui Harga Barang':<{105}}|",
-            f"|{'4. Tarik Barang dari penjualan':<{105}}|",
+            f"|{'3. Perbarui Kebijakan Barang':<{105}}|",
+            f"|{'4. Tarik Barang Dari Penjualan':<{105}}|",
             f"|{'5. Kembali':<{105}}|",
             Separator(f"|{'_'*105}|")
         ],
@@ -203,4 +222,14 @@ def perbarui_kebijakan(menu):
         style=custom_style,   
     ).execute()
     return choice
+
+def pesan_berhasil(isi):
+    os.system('cls || clear')
+    print(f'{BOLD}{BLACK}{atas}{RESET}')
+    print(f'{BOLD}{GREEN}{REVERSE}{panjang}{RESET}')
+    print(f'{BOLD}{GREEN}{REVERSE}{panjang}{RESET}')
+    print(f'{BOLD}{GREEN}{REVERSE}|{isi:^{105}}|{RESET}')
+    print(f'{BOLD}{GREEN}{REVERSE}{panjang}{RESET}')
+    print(f'{BOLD}{GREEN}{REVERSE}{tengah}{RESET}')
+    input(f'\n    {BOLD}{GREEN}{f'{UNDERLINE}Tekan Enter Untuk Melanjutkan...{RESET}' :^{107}}{RESET}')  
 

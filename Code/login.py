@@ -114,5 +114,5 @@ def register_user():
                 'surat': []}
     }
     save_users()  
-    input(f'\n         {BOLD}{WHITE}{f'{UNDERLINE}{'Tekan Enter untuk melanjutkan...'}{RESET}' :^{105}}{RESET}')
+    pesan_berhasil('AKUN ANDA BERHASIL DIBUAT')
     return True

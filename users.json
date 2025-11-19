@@ -7,59 +7,98 @@
                 "nama": "Salep",
                 "harga": 200,
                 "stock": 15,
-                "stock_show": 7
+                "stock_show": 13
             },
             "2": {
                 "nama": "Belati",
                 "harga": 500,
                 "stock": 10,
-                "stock_show": 8
+                "stock_show": 10
             },
             "3": {
                 "nama": "Kopi Hitam",
                 "harga": 150,
                 "stock": 30,
-                "stock_show": 14
+                "stock_show": 2
             },
             "4": {
                 "nama": "Ikan",
                 "harga": 120,
                 "stock": 200,
-                "stock_show": 167
+                "stock_show": 2
             },
             "5": {
                 "nama": "Toples",
                 "harga": 250,
                 "stock": 50,
-                "stock_show": 36
+                "stock_show": 10
             },
             "6": {
                 "nama": "Ikan Bawal",
                 "harga": 150,
                 "stock": 20,
-                "stock_show": 18
+                "stock_show": 8
             },
             "7": {
                 "nama": "Ikan Kembung",
                 "harga": 80,
-                "stock": 200,
-                "stock_show": 110
+                "stock": 198,
+                "stock_show": 119
+            },
+            "8": {
+                "nama": "Ikan Patin",
+                "harga": 200,
+                "stock": 50,
+                "stock_show": 11
+            },
+            "9": {
+                "nama": "Ikan Kakap",
+                "harga": 180,
+                "stock": 10,
+                "stock_show": 5
+            },
+            "10": {
+                "nama": "Telur",
+                "harga": 20,
+                "stock": 90,
+                "stock_show": 30
             }
         }
     },
     "muja": {
         "password": "muja1234",
         "role": "user",
-        "gold": 800,
+        "gold": 640,
         "data": {
             "toko": {
                 "nama": "op",
                 "barang": {
                     "1": {
-                        "nama": "Salep",
-                        "harga_beli": 200,
-                        "harga_jual": 200,
-                        "stock": 1
+                        "nama": "Ikan Kembung",
+                        "harga_beli": 80,
+                        "harga_jual": 80,
+                        "stock": 1,
+                        "status": "belum dijual"
+                    }
+                }
+            },
+            "surat": []
+        }
+    },
+    "mujas": {
+        "password": "mujas123",
+        "role": "user",
+        "gold": 800,
+        "data": {
+            "toko": {
+                "nama": "mujas",
+                "barang": {
+                    "1": {
+                        "nama": "Telur",
+                        "harga_beli": 20,
+                        "harga_jual": 20,
+                        "stock": 10,
+                        "status": "belum dijual"
                     }
                 }
             },
