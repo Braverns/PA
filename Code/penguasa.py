@@ -29,19 +29,11 @@ def penguasa_main(username):
                 elif choice == f"|{'2. Perbarui Pinjaman':<{105}}|":
                     pass
                 elif choice == f"|{'3. Perbarui Kebijakan Barang':<{105}}|":
-                    while True:
-                        choice = perbarui_kebijakan_barang(header('Perbarui Kebijakan Barang'))
-                        if choice == f"|{'1. Perbarui Nama Barang':<{105}}|":
-                            continue
-                        elif choice == f"|{'2. Perbarui Harga Barang':<{105}}|":
-                            perbarui_harga_barang(username, 'admin')
-                            continue
-                        elif choice == f"|{'3. Perbarui Stock Barang':<{105}}|":
-                            continue
-                        else:
-                            break
+                    perbarui_kebijakan_barang(username, 'admin')
+                    continue
                 elif choice == f"|{'4. Tarik Barang Dari Penjualan':<{105}}|":
-                    pass
+                    tarik_barang(username, 'admin')
+                    continue
                 else:
                     break
             

@@ -13,7 +13,9 @@ def pedagang_main(username):
                     beli_barang_user(username, 'user')
                     continue
                 elif choice == f"|{'2. Menjual Barang':<{105}}|":
-                    pass
+                    os.system('cls || clear')
+                    menjual_barang(username, 'toko')
+                    continue
                 elif choice == f"|{'3. Lihat Stok':<{105}}|":
                     os.system('cls || clear')
                     data, table_width = daftar_barang(username, 'toko')
@@ -25,7 +27,8 @@ def pedagang_main(username):
                 elif choice == f"|{'4. Ubah Harga Barang':<{105}}|":
                     pass
                 elif choice == f"|{'5. Tarik Penjualan Barang':<{105}}|":
-                    pass
+                    tarik_barang(username, 'jualan')
+                    continue
                 elif choice == f"|{'6. Mengajukan Pinjaman':<{105}}|":
                     pass
                 else:

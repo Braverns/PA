@@ -5,70 +5,58 @@
         "barang": {
             "1": {
                 "nama": "Salep",
-                "harga": 200,
-                "stock": 15,
-                "stock_show": 13
+                "harga": 100,
+                "stock": 50,
+                "stock_show": 19
             },
             "2": {
                 "nama": "Belati",
                 "harga": 500,
                 "stock": 10,
-                "stock_show": 10
+                "stock_show": 3
             },
             "3": {
                 "nama": "Kopi Hitam",
                 "harga": 150,
                 "stock": 30,
-                "stock_show": 2
+                "stock_show": 5
             },
             "4": {
                 "nama": "Ikan",
                 "harga": 120,
                 "stock": 200,
-                "stock_show": 2
+                "stock_show": 188
             },
             "5": {
                 "nama": "Toples",
                 "harga": 250,
                 "stock": 50,
-                "stock_show": 10
+                "stock_show": 35
             },
             "6": {
-                "nama": "Ikan Bawal",
+                "nama": "Tisu",
                 "harga": 150,
                 "stock": 20,
+                "stock_show": 16
+            },
+            "11": {
+                "nama": "Panci",
+                "harga": 300,
+                "stock": 10,
                 "stock_show": 8
             },
-            "7": {
-                "nama": "Ikan Kembung",
-                "harga": 80,
-                "stock": 198,
-                "stock_show": 119
-            },
-            "8": {
-                "nama": "Ikan Patin",
-                "harga": 200,
-                "stock": 50,
-                "stock_show": 11
-            },
-            "9": {
-                "nama": "Ikan Kakap",
-                "harga": 180,
-                "stock": 10,
-                "stock_show": 5
-            },
-            "10": {
-                "nama": "Telur",
-                "harga": 20,
-                "stock": 90,
-                "stock_show": 30
+            "12": {
+                "nama": "Perban",
+                "harga": 50,
+                "stock": 98,
+                "stock_show": 31
             }
         }
     },
     "muja": {
         "password": "muja1234",
         "role": "user",
-        "gold": 640,
+        "gold": 180,
         "data": {
             "toko": {
                 "nama": "op",
@@ -77,7 +65,21 @@
                         "nama": "Ikan Kembung",
                         "harga_beli": 80,
                         "harga_jual": 80,
+                        "stock": 3,
+                        "status": "belum dijual"
+                    },
+                    "2": {
+                        "nama": "Ikan Patin",
+                        "harga_beli": 200,
+                        "harga_jual": 200,
                         "stock": 1,
+                        "status": "belum dijual"
+                    },
+                    "3": {
+                        "nama": "Perban",
+                        "harga_beli": 50,
+                        "harga_jual": 50,
+                        "stock": 2,
                         "status": "belum dijual"
                     }
                 }

@@ -186,7 +186,7 @@ def menu_laporan(menu):
     ).execute()
     return choice
 
-def perbarui_kebijakan_barang(menu):
+def kebijakan_barang(menu):
     os.system('cls || clear')
     print(menu)
     choice = inquirer.select(
@@ -223,6 +223,8 @@ def perbarui_kebijakan(menu):
     ).execute()
     return choice
 
+
+
 def pesan_berhasil(isi):
     os.system('cls || clear')
     print(f'{BOLD}{BLACK}{atas}{RESET}')
@@ -233,3 +235,21 @@ def pesan_berhasil(isi):
     print(f'{BOLD}{GREEN}{REVERSE}{tengah}{RESET}')
     input(f'\n    {BOLD}{GREEN}{f'{UNDERLINE}Tekan Enter Untuk Melanjutkan...{RESET}' :^{107}}{RESET}')  
 
+def perbarui_kebijakans(menu):
+    os.system('cls || clear')
+    print(menu)
+    choice = inquirer.select(
+        message=f"   |{' '*105}|",
+        choices=[
+            f"|{'1. Perbarui Pajak':<{105}}|",
+            f"|{'2. Perbarui Pinjaman':<{105}}|",
+            f"|{'3. Perbarui Kebijakan Barang':<{105}}|",
+            f"|{'4. Tarik Barang Dari Penjualan':<{105}}|",
+            f"|{'5. Kembali':<{105}}|",
+            Separator(f"|{'_'*105}|")
+        ],
+        pointer="💠 ",
+        qmark="",
+        style=custom_style,   
+    ).execute()
+    return choice

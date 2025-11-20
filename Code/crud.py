@@ -1,6 +1,7 @@
 import inquirer, time, os
 from data import *
 from login import *
+from menu import *
 from prettytable import PrettyTable
 from random import randint, choice
 
@@ -266,58 +267,13 @@ def proses_pengajuan():
     except:
         ValueError
         print("Pilihan tidak valid.\n")
-
-# user pembelian
-gold_user = 1000
-
-def tambah_pembelian():
-    global gold_user
-    print("\n===Tambah Pembelian Barang===")
-    nama_barang = input("Masukkan nama barang yang ingin dibeli: ")
-    harga = int(input("Masukkan harga per unit (Gold): "))
-    jumlah = int(input("Masukkan jumlah barang: "))
-    total_harga = harga * jumlah
-
-    if total_harga > gold_user:
-        print("\n Gold anda tidak mencukupi.")
-        return
-    gold_user -= total_harga
-    Pembelian = {
-        "nama" : nama_barang,
-        "harga" : harga,
-        "jumlah" : jumlah,
-        "total" : total_harga
-    }
-    laporan_pembelian.append(Pembelian)
-    print(f"\n pembelian {nama_barang} sebanyak {jumlah}")
-    print(f"Gold tersisa: {gold_user} Gold.\n")
-
-
-def lihat_laporan_pembelian():
-    print("\n=== LAPORAN PEMBELIAN BARANG ===")
-    if not laporan_pembelian:
-        print("Belum ada data pembelian.\n")
-        return
-    
-    total_pengeluaran = 0
-    for i, item in enumerate(laporan_pembelian, 1):
-        print(f"{i}. {item['nama']} (x{item['jumlah']})")
-        print(f" Harga per unit: {item['harga']} Gold")
-        print(f" Total harga : {item['total']} Gold\n")
-        total_pengeluaran += item['total'] 
-
-    print(f"Total Pengeluaran : {total_pengeluaran} Gold")
-    print(f" Sisa Gold Saat Ini : {gold_user} Gold\n")
     
 def ubah_harga_user(username):
     data_toko = users_db[username]['data']['toko']['barang']
-
     if not data_toko:
         return error_message('Tidak Ada Barang Di Toko', '', 'Tidak Ada Barang Di Toko', '', 'Tidak Ada Barang Di Toko')
 
-    print()
-    print(f"{CYAN}{BOLD}=== DAFTAR BARANG TOKO ANDA ==={RESET}")
-    daftar_barang(username, 'toko')  
+    daftar_barang(username, 'jualan')
 
     no_barang = input(f'{CYAN} No Barang yang ingin diubah harganya : {RESET}').strip()
     print('\033[F', end='')
@@ -333,13 +289,9 @@ def ubah_harga_user(username):
 
         if not harga_baru.isdigit() or int(harga_baru) <= 0:
             return error_message('Harga Harus Angka dan Lebih dari 0', '', 'Harga Harus Angka dan Lebih dari 0', '', 'Harga Harus Angka dan Lebih dari 0')
-
-        harga_baru = int(harga_baru)
-
         
-        data_toko[no_barang]['harga_jual'] = harga_baru
+        data_toko[no_barang]['harga_jual'] = int(harga_baru)
         save_users()
-
         print(f"\n{GREEN}Harga barang '{data_toko[no_barang]['nama']}' berhasil diubah menjadi {harga_baru} Gold!{RESET}\n")
         return True
 
@@ -354,7 +306,6 @@ def daftar_barang(username, akses):
     ansi = re.compile(r'\x1b\[[0-9;]*m')
 
     table = PrettyTable()
-
     if akses == 'admin':
         data = users_db[username]['barang']
         table.field_names = [
@@ -365,10 +316,10 @@ def daftar_barang(username, akses):
             f"{BOLD}{GOLD}Stock Asli{RESET}"
         ]
         
-        for id_barang, s in data.items():
+        for nomor_urut, (id_barang, s) in enumerate(data.items(), start=1):
             s["stock_show"] = randint(1, s["stock"])
             table.add_row([
-                f'{GOLD}{id_barang:^{3}}{RESET}',
+                f'{GOLD}{nomor_urut:^{3}}{RESET}',
                 f'{GOLD}{s["nama"] :<{20}}{RESET}',
                 f'{GOLD}{s["harga"]:^{20}}{RESET}',
                 f'{GOLD}{s['stock_show']:^{20}}{RESET}',
@@ -385,16 +336,63 @@ def daftar_barang(username, akses):
             f"{BOLD}{GOLD}Stock{RESET}"
         ]
         
-        for id_barang, s in data.items():
+        for nomor_urut, (id_barang, s) in enumerate(data.items(), start=1):
             s["stock_show"] = randint(1, s["stock"])
             table.add_row([
-                f'{GOLD}{id_barang:^{3}}{RESET}',
+                f'{GOLD}{nomor_urut:^{3}}{RESET}',
                 f'{GOLD}{s["nama"] :<{20}}{RESET}',
                 f'{GOLD}{s["harga"]:^{20}}{RESET}',
                 f'{GOLD}{s['stock_show']:^{20}}{RESET}'
             ])
             save_users()
     # untuk tabel toko user akses dengan (username, 'toko')
+    elif akses == 'toko':
+        data = users_db[username]['data']['toko']['barang']
+        if not data:
+            return None, None
+ 
+        table.field_names = [
+            f"{BOLD}{GOLD}NO{RESET}",
+            f"{BOLD}{GOLD}Nama{RESET}",
+            f"{BOLD}{GOLD}Harga{RESET}",
+            f"{BOLD}{GOLD}Stock{RESET}",
+            f"{BOLD}{GOLD}Status{RESET}"
+        ]
+        
+        for nomor_urut, (id_barang, s) in enumerate(data.items(), start=1):
+            table.add_row([
+                f'{GOLD}{nomor_urut:^{3}}{RESET}',
+                f'{GOLD}{s["nama"] :<{20}}{RESET}',
+                f'{GOLD}{s["harga_jual"]:^{20}}{RESET}',
+                f'{GOLD}{s['stock']:^{20}}{RESET}',
+                f'{GOLD}{s['status']:^{20}}{RESET}'
+            ])
+            save_users()
+    elif akses == 'jualan':
+        data = users_db[username]['data']['toko']['barang']
+        if not data:
+            return None, None
+ 
+        table.field_names = [
+            f"{BOLD}{GOLD}NO{RESET}",
+            f"{BOLD}{GOLD}Nama{RESET}",
+            f"{BOLD}{GOLD}Harga{RESET}",
+            f"{BOLD}{GOLD}Stock{RESET}",
+            f"{BOLD}{GOLD}Status{RESET}"
+        ]
+        
+        for nomor_urut, (id_barang, s) in enumerate(data.items(), start=1):
+            if s['status'] == 'dijual':
+                table.add_row([
+                    f'{GOLD}{nomor_urut:^{3}}{RESET}',
+                    f'{GOLD}{s["nama"] :<{20}}{RESET}',
+                    f'{GOLD}{s["harga_jual"]:^{20}}{RESET}',
+                    f'{GOLD}{s['stock']:^{20}}{RESET}',
+                    f'{GOLD}{s['status']:^{20}}{RESET}'
+                ])
+                save_users()
+            else:
+                continue
     else:
         data = users_db[username]['data']['toko']['barang']
         if not data:
@@ -408,16 +406,19 @@ def daftar_barang(username, akses):
             f"{BOLD}{GOLD}Status{RESET}"
         ]
         
-        for id_barang, s in data.items():
-            table.add_row([
-                f'{GOLD}{id_barang:^{3}}{RESET}',
-                f'{GOLD}{s["nama"] :<{20}}{RESET}',
-                f'{GOLD}{s["harga_jual"]:^{20}}{RESET}',
-                f'{GOLD}{s['stock']:^{20}}{RESET}',
-                f'{GOLD}{s['status']:^{20}}{RESET}'
-            ])
-            save_users()
-            
+        for nomor_urut, (id_barang, s) in enumerate(data.items(), start=1):
+            if s['status'] == 'belum dijual':
+                table.add_row([
+                    f'{GOLD}{nomor_urut:^{3}}{RESET}',
+                    f'{GOLD}{s["nama"] :<{20}}{RESET}',
+                    f'{GOLD}{s["harga_jual"]:^{20}}{RESET}',
+                    f'{GOLD}{s['stock']:^{20}}{RESET}',
+                    f'{GOLD}{s['status']:^{20}}{RESET}'
+                ])
+                save_users()
+            else:
+                continue
+
     table.junction_char = f"{BOLD}{CYAN}╬{RESET}"
     table.horizontal_char = f"{BOLD}{CYAN}═{RESET}"
     table.vertical_char = f"{BOLD}{CYAN}║{RESET}"
@@ -488,9 +489,9 @@ def beli_barang_user(username, akses):
         return error_message('No Barang Tidak Valid', '', 'No Barang Tidak Valid', '', 'No Barang Tidak Valid')
     stock = users_db['admin']['barang'][no_barang]["stock_show"]
 
-    jumlah_beli = input(f'{CYAN}{' Jumlah yang ingin dibeli : '}{RESET}').strip()
+    jumlah_beli = input(f'{CYAN}{' Jumlah yang ingin dibeli    : '}{RESET}').strip()
     print('\033[F', end='') 
-    print(f'{CYAN} Jumlah yang ingin dibeli : {RESET}{GOLD}{jumlah_beli}{RESET}')
+    print(f'{CYAN} Jumlah yang ingin dibeli   : {RESET}{GOLD}{jumlah_beli}{RESET}')
     if not jumlah_beli.isdigit() or int(jumlah_beli) <= 0:
         return error_message('Jumlah Beli Harus Angka dan Lebih dari 0', '', 'Jumlah Beli Harus Angka dan Lebih dari 0', '', 'Jumlah Beli Harus Angka dan Lebih dari 0')
     jumlah_beli = int(jumlah_beli)
@@ -506,25 +507,160 @@ def beli_barang_user(username, akses):
     data[no_barang]['stock_show'] -= jumlah_beli
     id_barang = int(max(data_user.keys())) + 1 if data_user else 1
     #belum selesai
-    data_user[str(id_barang)] = {
-        'nama': data[no_barang]['nama'],
-        'harga_beli': data[no_barang]['harga'],
-        'harga_jual': data[no_barang]['harga'],
-        'stock': jumlah_beli,
-        'status': 'belum dijual'
-    }
+    nama_barang = data[no_barang]['nama']
+    barang_ditemukan = False
+
+    for id_brg, item in data_user.items():
+        if item['nama'].lower() == nama_barang.lower():
+            data_user[id_brg]['stock'] += jumlah_beli
+            barang_ditemukan = True
+            break
+
+    if not barang_ditemukan:
+        id_barang = int(max(data_user.keys())) + 1 if data_user else 1
+        data_user[str(id_barang)] = {
+            'nama': nama_barang,
+            'harga_beli': data[no_barang]['harga'],
+            'harga_jual': data[no_barang]['harga'],
+            'stock': jumlah_beli,
+            'status': 'belum dijual'
+        }
     save_users()
     pesan_berhasil(f'BERHASIL MEMBELI {data[no_barang]['nama']}')
     return True
 
-def perbarui_harga_barang(username, akses):
-    daftar_barang(username, akses)
-    data = users_db[username]['barang']
-    no_barang = input(f'{CYAN}{' No Barang Yang Ingin Diubah : '}{RESET}').strip()
+def perbarui_kebijakan_barang(username, akses):
+    while True:
+        os.system('cls || clear')
+        daftar_barang(username, akses)
+        data = users_db[username]['barang']
+        no_barang = input(f'{CYAN}{' No Barang Yang Ingin Diubah : '}{RESET}').strip()
+        print('\033[F', end='')   
+        print(f'{CYAN} No Barang Yang Ingin Diubah : {RESET}{GOLD}{no_barang}{RESET}')
+        if no_barang not in data:
+            return error_message('No Barang Tidak Valid', '', 'No Barang Tidak Valid', '', 'No Barang Tidak Valid')
+        data_nama = users_db[username]['barang'][no_barang]['nama']
+        data_harga = users_db[username]['barang'][no_barang]['harga']
+        data_stock = users_db[username]['barang'][no_barang]['stock']
+        choice = kebijakan_barang(header(data_nama))
+        if choice == f"|{'1. Perbarui Nama Barang':<{105}}|":
+            os.system('cls || clear')
+            print(header(f'MEMPERBARUI NAMA {data_nama}'))
+            print(f'   {BOLD}{CYAN}{panjang}{RESET}')
+            print(f'{CYAN}   |{f' Nama Lama : {RESET}{GOLD}{data_nama}':<{114}}{RESET}{CYAN}|{RESET}')
+            nama_barang = input(f'{CYAN}   |{' Nama Baru : ':<{13}}{RESET}').strip()
+            print('\033[F', end='')   
+            print(f'{CYAN}   |{f' Nama Baru : {RESET}{GOLD}{nama_barang}':<{114}}{RESET}{CYAN}|{RESET}')
+            print(f'   {BOLD}{CYAN}{tengah}{RESET}')
+            sleep(1)
+            data_nama_lama = data_nama
+            users_db[username]['barang'][no_barang]['nama'] = nama_barang
+            save_users()
+            pesan_berhasil(f'{data_nama_lama} Berhasil Diubah Menjadi {data_nama}')
+            continue
+        elif choice == f"|{'2. Perbarui Harga Barang':<{105}}|":
+            os.system('cls || clear')
+            print(header(f'MEMPERBARUI HARGA {data_nama}'))
+            print(f'   {BOLD}{CYAN}{panjang}{RESET}')
+            print(f'{CYAN}   |{f' Harga Lama : {RESET}{GOLD}{data_harga}':<{114}}{RESET}{CYAN}|{RESET}')
+            harga_barang = input(f'{CYAN}   |{' Harga Baru : ':<{14}}{RESET}').strip()
+            print('\033[F', end='')   
+            print(f'{CYAN}   |{f' Harga Baru : {RESET}{GOLD}{harga_barang}':<{114}}{RESET}{CYAN}|{RESET}')
+            print(f'   {BOLD}{CYAN}{tengah}{RESET}')
+            sleep(1)
+            data_harga_lama = data_harga
+            users_db[username]['barang'][no_barang]['harga'] = int(harga_barang)
+            save_users()
+            pesan_berhasil(f'{data_nama} {data_harga_lama } Berhasil Diubah Menjadi {data_nama} {harga_barang}')
+            continue
+        elif choice == f"|{'3. Perbarui Stock Barang':<{105}}|":
+            os.system('cls || clear')
+            print(header(f'MEMPERBARUI STOCK {data_stock}'))
+            print(f'   {BOLD}{CYAN}{panjang}{RESET}')
+            print(f'{CYAN}   |{f' Stock Lama : {RESET}{GOLD}{data_stock}':<{114}}{RESET}{CYAN}|{RESET}')
+            stock_barang = input(f'{CYAN}   |{' Stock Baru : ':<{14}}{RESET}').strip()
+            print('\033[F', end='')   
+            print(f'{CYAN}   |{f' Stock Baru : {RESET}{GOLD}{stock_barang}':<{114}}{RESET}{CYAN}|{RESET}')
+            print(f'   {BOLD}{CYAN}{tengah}{RESET}')
+            sleep(1)
+            stock_barang_lama = data_stock
+            users_db[username]['barang'][no_barang]['stock'] = int(stock_barang)
+            save_users()
+            pesan_berhasil(f'{stock_barang_lama} {data_nama} Berhasil Diubah Menjadi {stock_barang} {data_nama}')
+            continue
+        else:
+            break
+    return 
+
+def tarik_barang(username, akses):
+    os.system('cls || clear')
+    
+    if akses == 'admin':
+        daftar_barang(username, akses)
+        data_admin = users_db[username]['barang']
+        keys = list(data_admin.keys())
+
+        no_pilih = input(f'{CYAN}{'Nomor barang yang ingin dihapus : ':<{14}}{RESET}').strip()
+        print('\033[F', end='')   
+        print(f'{CYAN}{f'Nomor barang yang ingin dihapus : {RESET}{GOLD}{no_pilih}':<{114}}{RESET}{CYAN}{RESET}')
+
+        if not no_pilih:
+            return error_message('Input Tidak Boleh Kosong', '', 'Input Tidak Boleh Kosong', '', 'Input Tidak Boleh Kosong')
+        if not no_pilih.isdigit():
+            return error_message('Input Harus Angka', '', 'Input Harus Angka', '', 'Input Harus Angka')
+        idx = int(no_pilih) - 1
+        if idx < 0 or idx >= len(keys):
+            return error_message('Nomor Tidak Valid', '','Nomor Tidak Valid', '', 'Nomor Tidak Valid')
+
+        key_asli = keys[idx]
+        nama_barang = data_admin[key_asli]["nama"]
+        del data_admin[key_asli]
+        save_users()
+        pesan_berhasil(f"{nama_barang} berhasil dihapus!")
+    else:
+        daftar_barang(username, akses)
+        data_user = users_db[username]['data']['toko']['barang']
+        keys = list(data_user.keys())
+
+        no_pilih = input(f'{CYAN}{'Nomor barang yang ingin ditarik dari penjualan : ':<{14}}{RESET}').strip()
+        print('\033[F', end='')   
+        print(f'{CYAN}{f'Nomor barang yang ingin ditarik dari penjualan : {RESET}{GOLD}{no_pilih}':<{114}}{RESET}{CYAN}{RESET}')
+
+        if not no_pilih:
+            return error_message('Input Tidak Boleh Kosong', '', 'Input Tidak Boleh Kosong', '', 'Input Tidak Boleh Kosong')
+        if not no_pilih.isdigit():
+            return error_message('Input Harus Angka', '', 'Input Harus Angka', '', 'Input Harus Angka')
+        idx = int(no_pilih) - 1
+        if idx < 0 or idx >= len(keys):
+            return error_message('Nomor Tidak Valid', '','Nomor Tidak Valid', '', 'Nomor Tidak Valid')
+
+
+        key_asli = keys[idx]
+        nama_barang = data_user[key_asli]["nama"]
+        data_user[key_asli]['status'] = 'belum dijual'
+        save_users()
+        pesan_berhasil(f"{nama_barang} berhasil ditarik dari penjualan!")
+            
+def menjual_barang(username, akses):
+    daftar_barang(username, 'toko')
+    data_user = users_db[username]['data']['toko']['barang']
+    keys = list(data_user.keys())
+
+    no_pilih = input(f'{CYAN}{'Nomor barang yang ingin dijual : ':<{14}}{RESET}').strip()
     print('\033[F', end='')   
-    print(f'{CYAN} No Barang Yang Ingin Diubah : {RESET}{GOLD}{no_barang}{RESET}')
-    if no_barang not in data:
-        return error_message('No Barang Tidak Valid', '', 'No Barang Tidak Valid', '', 'No Barang Tidak Valid')
+    print(f'{CYAN}{f'Nomor barang yang ingin dijual : {RESET}{GOLD}{no_pilih}':<{114}}{RESET}{CYAN}{RESET}')
 
-    pass
+    if not no_pilih:
+        return error_message('Input Tidak Boleh Kosong', '', 'Input Tidak Boleh Kosong', '', 'Input Tidak Boleh Kosong')
+    if not no_pilih.isdigit():
+        return error_message('Input Harus Angka', '', 'Input Harus Angka', '', 'Input Harus Angka')
+    idx = int(no_pilih) - 1
+    if idx < 0 or idx >= len(keys):
+        return error_message('Nomor Tidak Valid', '','Nomor Tidak Valid', '', 'Nomor Tidak Valid')
 
+
+    key_asli = keys[idx]
+    nama_barang = data_user[key_asli]["nama"]
+    data_user[key_asli]['status'] = 'dijual'
+    save_users()
+    pesan_berhasil(f"{nama_barang} berhasil dijual!")
