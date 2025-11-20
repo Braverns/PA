@@ -35,14 +35,14 @@ def save_users():
 def login():
     print(header('LOGIN PENGUASA / PEDAGANG'))
     print(f'{CYAN}   {panjang}{RESET}')
-    username = input(f'{CYAN}   |{' Username anda : ':<{17}}{RESET}').strip()
+    username = input(f'{CYAN}   |{' Username anda : ':<{17}}{RESET}').strip().lower()
     print('\033[F', end='')   
     print(f'{CYAN}   |{f' Username anda : {username}':<{105}}|{RESET}')
     user = users_db.get(username)
     if not user:
         error_message('Username Tidak Ditemukan', '', 'Username Tidak Ditemukan', '', 'Username Tidak Ditemukan')
         return None, None
-    password = input(f'{CYAN}   |{' Password anda : ':<{17}}{RESET}').strip()
+    password = input(f'{CYAN}   |{' Password anda : ':<{17}}{RESET}').strip().lower()
     print('\033[F', end='')   
     print(f'{CYAN}   |{f' Password anda : {len(password) * '*'}':<{105}}|{RESET}')
     print(f'{CYAN}   {tengah}{RESET}')
@@ -63,7 +63,7 @@ def register_user():
     
     print(header('PENDAFTARAN PEDAGANG'))
     print(f'{CYAN}   {panjang}{RESET}')
-    username = input(f'{CYAN}   |{' Username anda   : ':<{19}}{RESET}').strip()
+    username = input(f'{CYAN}   |{' Username anda   : ':<{19}}{RESET}').strip().lower()
     print('\033[F', end='')   
     print(f'{CYAN}   |{f' Username anda   : {username}':<{105}}|{RESET}')
     if not username:
@@ -109,7 +109,9 @@ def register_user():
         'role': 'user',
         'gold': 1000,
         'data': {'toko': {'nama': namat, 
-                          'barang': {}
+                          'barang': {},
+                          'keuntungan' : {},
+                          'target_keuntungan_per_minggu' : 1000
                           },
                 'surat': []}
     }

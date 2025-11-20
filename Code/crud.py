@@ -551,6 +551,8 @@ def perbarui_kebijakan_barang(username, akses):
             nama_barang = input(f'{CYAN}   |{' Nama Baru : ':<{13}}{RESET}').strip()
             print('\033[F', end='')   
             print(f'{CYAN}   |{f' Nama Baru : {RESET}{GOLD}{nama_barang}':<{114}}{RESET}{CYAN}|{RESET}')
+            if nama_barang.isalnum() or nama_barang == '' or nama_barang > 20:
+                return error_message('Nama Barang Tidak Boleh Angka', '', 'Nama Barang Tidak Boleh Kosong', '', 'Nama Barang Tidak Boleh Lebih Dari 20 Karakter')
             print(f'   {BOLD}{CYAN}{tengah}{RESET}')
             sleep(1)
             data_nama_lama = data_nama
@@ -566,6 +568,8 @@ def perbarui_kebijakan_barang(username, akses):
             harga_barang = input(f'{CYAN}   |{' Harga Baru : ':<{14}}{RESET}').strip()
             print('\033[F', end='')   
             print(f'{CYAN}   |{f' Harga Baru : {RESET}{GOLD}{harga_barang}':<{114}}{RESET}{CYAN}|{RESET}')
+            if not harga_barang.isdigit() or int(harga_barang) <= 0:
+                return error_message('Harga Harus Angka', 'Harga Harus Lebih Dari 0', 'Harga Harus Angka', 'Harga Harus Lebih Dari 0', 'Harga Harus Angka') 
             print(f'   {BOLD}{CYAN}{tengah}{RESET}')
             sleep(1)
             data_harga_lama = data_harga
@@ -575,12 +579,14 @@ def perbarui_kebijakan_barang(username, akses):
             continue
         elif choice == f"|{'3. Perbarui Stock Barang':<{105}}|":
             os.system('cls || clear')
-            print(header(f'MEMPERBARUI STOCK {data_stock}'))
+            print(header(f'MEMPERBARUI STOCK {data_nama}'))
             print(f'   {BOLD}{CYAN}{panjang}{RESET}')
             print(f'{CYAN}   |{f' Stock Lama : {RESET}{GOLD}{data_stock}':<{114}}{RESET}{CYAN}|{RESET}')
             stock_barang = input(f'{CYAN}   |{' Stock Baru : ':<{14}}{RESET}').strip()
             print('\033[F', end='')   
             print(f'{CYAN}   |{f' Stock Baru : {RESET}{GOLD}{stock_barang}':<{114}}{RESET}{CYAN}|{RESET}')
+            if not stock_barang.isdigit() or int(stock_barang) <= 0:
+                return error_message('Stock Harus Angka', 'Stock Harus Lebih Dari 0', 'Stock Harus Angka', 'Stock Harus Lebih Dari 0', 'Stock Harus Angka') 
             print(f'   {BOLD}{CYAN}{tengah}{RESET}')
             sleep(1)
             stock_barang_lama = data_stock
