@@ -21,11 +21,6 @@
                 "stock": 5,
                 "stock_show": 5
             }
-        },
-        "pajak": {
-            "tarif": 4,
-            "tipe": "Sementara",
-            "status": "aktif"
         }
     },
     "muja": {
