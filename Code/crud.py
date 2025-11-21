@@ -23,151 +23,114 @@ id_pinjam = 1
 """ FEATURE ARYA  """
 #CREATE PAJAK
 def kebijakan_pajak():
-    global pajak, hari_ke
+    global pajak
     print('=' * 50)
     print("=== KEBIJAKAN PAJAK BARU ===".center(50))
     print('=' * 50)
 
+    if pajak and pajak.get("status") == "aktif":
+        pajak["status"] = "non-aktif"
+
     try:
         persen = int(input("Masukkan tarif pajak (%): "))
-    except ValueError:
-        print("Input tidak valid. Harus angka!")
+    except:
+        print("Input tidak valid.")
         return
 
-    tipe_durasi = inquirer.list_input("Pilih tipe pajak:", choices=["Sementara", "Permanent"])
-
-    if tipe_durasi == "Sementara":
-        try:
-            durasi_hari = int(input("Masukkan durasi (hari): "))
-        except ValueError:
-            print(f"Input durasi tidak valid.")
-            return
-    else:
-        durasi_hari = None
+    tipe = inquirer.list_input("Pilih tipe pajak:", choices=["Sementara", "Permanent"])
 
     pajak = {
         "tarif": persen,
-        "tipe": tipe_durasi,
-        "durasi": durasi_hari,
-        "hari_mulai": hari_ke,
-        "hari_berakhir": (hari_ke + durasi_hari - 1) if durasi_hari else None,
+        "tipe": tipe,
         "status": "aktif"
     }
 
-    print(f"\n Pajak {persen}% telah diterapkan ({tipe_durasi}).")
-    if durasi_hari:
-        print(f" Berlaku selama {durasi_hari} hari (hari {hari_ke} s.d. {hari_ke + durasi_hari - 1}).")
-    else:
-        print("Berlaku permanen tanpa batas waktu.")
-
-    time.sleep(3)
+    print("Pajak berhasil dibuat.")
+    time.sleep(1)
 
 #READ PAJAK
 def lihat_pajak():
-    global pajak,hari_ke
-    print('=' * 50)
+    global pajak
+    print("=" * 50)
     print("=== STATUS PAJAK ===".center(50))
-    print('=' * 50)
+    print("=" * 50)
 
+    if not pajak:
+        print("Belum ada pajak.")
+        return
+    
     try:
-        if not pajak or pajak.get("status") != "aktif":
-            print("Tidak ada pajak yang aktif saat ini.")
-            raise ValueError("Tidak ada pajak aktif.")
-        
-        print(f"Tarif Pajak : {pajak['tarif']} %")
-        print(f"Tipe pajak : {pajak['tipe']}")
-        if pajak['tipe'] == "Sementara":
-            print(f"Durasi pajak : {pajak['durasi']} hari")
-            print(f"Hari mulai pajak : Hari ke-{pajak['hari_mulai']}")
-            print(f"Hari berakhir pajak : Hari ke-{pajak['hari_berakhir']}")
+        tarif  = pajak["tarif"]
+        tipe   = pajak["tipe"]
+        status = pajak["status"]
+    except KeyError:
+        print("Error: Data pajak tidak lengkap.")
+        return
 
-        else:
-            print("Durasi pajak : Permanent")
+    print(f"Tarif : {tarif}%")
+    print(f"Tipe  : {tipe}")
+    print(f"Status: {status}")
 
-        print(f"Status pajak : {pajak['status']}")
-        print(f"Hari saat ini : Hari ke-{hari_ke}")
-    except ValueError as e:
-        print(e)
+
 
 # UPDATE PAJAK
 def update_pajak():
-    global pajak,hari_ke
-    print('=' * 50)
-    print("=== UPDATE KEBIJAKAN PAJAK ===".center(50))
-    print('=' * 50)
+    global pajak
+    print("=" * 50)
+    print("=== UPDATE PAJAK ===".center(50))
+    print("=" * 50)
 
-    if not pajak or pajak.get("status") != "aktif":
-        print("Tidak ada kebijakan pajak yang aktif untuk diperbarui.")
+    if not pajak or pajak["status"] != "aktif":
+        print("Tidak ada pajak aktif.")
         return
-    
-    print("Kebijakan pajak saat ini : ")
-    print(f" Tarif pajak : {pajak['tarif']} % ")
-    print(f" Tipe pajak : {pajak['tipe']}")
-    print(f" Status pajak : {pajak['status']}")
-    print(f" Hari saat ini : Hari ke-{hari_ke}")
 
-    pilihan = inquirer.list_input("Apa yang ingin diperbarui?",
-               choices = ['Tarif Pajak', ' Durasi Pajak', 'Batalkan'])
+    pilihan = inquirer.list_input(
+        "Apa yang ingin diperbarui?",
+        choices=["Tarif Pajak", "Tipe Pajak", "Batalkan"]
+    )
 
-
-    if pilihan == 'Tarif Pajak':
+    if pilihan == "Tarif Pajak":
         try:
-            tarif_baru = int(input("Masukkan tarif pajak baru (%) : "))
-            pajak['tarif'] = tarif_baru
-            print(f" Tarif pajak berhasi diperbarui menjadi {tarif_baru} % ")
-        except ValueError:
-             print("Input tidak valid. Harus angka!!")
+            baru = int(input("Masukkan tarif baru (%): "))
+            pajak["tarif"] = baru
+            print("Tarif pajak diperbarui.")
+        except:
+            print("Input tidak valid.")
 
-    elif pilihan == 'Durasi Pajak':
-        if pajak['tipe'] == 'Sementara':
-            try:
-                durasi_baru = int(input("Masukkan durasi pajak baru (hari) : "))
-                pajak['durasi'] = durasi_baru
-                pajak['hari_berakhir'] = hari_ke + durasi_baru - 1
-                print(F" Durasi pajak berhasi diperbarui menjadi {durasi_baru} hari.")
-            except ValueError:
-                print("Input tidak valid. Harus angka!!")
-        else:
-            print("Pajak permanent tidak memiliki durasi untuk diperbarui.")
-    
+    elif pilihan == "Tipe Pajak":
+        pajak["tipe"] = inquirer.list_input(
+            "Pilih tipe baru:", choices=["Sementara", "Permanent"]
+        )
+        print("Tipe pajak diperbarui.")
+
     else:
-        print("Pembaruan pajak dibatalkan.")
+        print("Dibatalkan.")
+
 
 #DELETE PAJAK
 def hapus_pajak():
     global pajak
-    print('=' * 50)
-    print("=== HAPUS KEBIJAKAN PAJAK ===".center(50))
-    print('=' * 50)
+    print("=" * 50)
+    print("=== HAPUS PAJAK ===".center(50))
+    print("=" * 50)
 
-    if not pajak or pajak.get("status") != "aktif":
-        print("Tidak ada kebijakan pajak yang aktif untuk dihapus.")
+    if not pajak:
+        print("Tidak ada pajak.")
         return
-    
-    try:
-        confrm = inquirer.confirm(
-            message=f"Apakah kamu yakin ingin menghapus kebijakan pajak {pajak['tarif']} % {pajak['tipe']}?",
-            default = False
-        ).execute()
 
-        if confrm:
-            pajak['status'] = "non-aktif"
-            print(f"Kebijakan pajak {pajak['tarif']} % telah di non-aktifkan.")
-        else:
-            print("Penghapusan kebijakan pajak dibatalkan.")
-    except Exception as e:
-        print(f"Terjadi kesalahan : {e}")
+    confirm = inquirer.confirm(
+        message="Yakin hapus pajak?",
+        default=False
+    ).execute()
 
-def expire_pajak():
-    global pajak,hari_ke
+    if confirm:
+        pajak.clear()
+        print("Pajak berhasil dihapus.")
+    else:
+        print("Dibatalkan.")
 
-    if pajak or pajak.get("status") != "aktif":
-        return
-    
-    if pajak['tipe'] == "Sementara":
-        if hari_ke > pajak['hari_berakhir']:
-            pajak['status'] = "non-aktif"
-            print(f"\nPajak {pajak['tarif']} % telah berakhir karena durasi habis.")
+
+
 
 """ FEATURE YOGA  """
 def pinjam_uang(users_db):
