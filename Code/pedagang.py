@@ -16,16 +16,29 @@ def pedagang_main(username):
                     os.system('cls || clear')
                     menjual_barang(username, 'toko')
                     continue
-                elif choice == f"|{'3. Lihat Stok':<{105}}|":
+                elif choice == f"|{'3. Lihat Barang':<{105}}|":
                     os.system('cls || clear')
-                    data, table_width = daftar_barang(username, 'toko')
-                    if data == None:
-                        error_message('Belum Ada Barang', '', 'Belum Ada Barang', '', 'Belum Ada Barang')
-                        continue
-                    input(f'\n{BOLD}{CYAN}{f'{UNDERLINE}Tekan Enter untuk kembali...{RESET}' :^{table_width}}{RESET}')    
-                    continue
+                    while True:
+                        choice = lihat_barang(header('LIHAT BARANG'))
+                        if choice == f"|{'1. Barang di Toko':<{105}}|":
+                            os.system('cls || clear')
+                            data, table_width = daftar_barang(username, 'toko')
+                            if data == None:
+                                error_message('Belum Ada Barang', '', 'Belum Ada Barang', '', 'Belum Ada Barang')
+                                continue
+                            input(f'\n{BOLD}{CYAN}{f'{UNDERLINE}Tekan Enter untuk kembali...{RESET}' :^{table_width}}{RESET}')
+                        elif choice == f"|{'2. Barang untuk Dijual':<{105}}|":
+                            os.system('cls || clear')
+                            data, table_width = daftar_barang(username, 'jualan')
+                            if data == None:
+                                error_message('Belum Ada Barang untuk Dijual', '', 'Belum Ada Barang untuk Dijual', '', 'Belum Ada Barang untuk Dijual')
+                                continue
+                            input(f'\n{BOLD}{CYAN}{f'{UNDERLINE}Tekan Enter untuk kembali...{RESET}' :^{table_width}}{RESET}')    
+                        else:
+                            break
                 elif choice == f"|{'4. Ubah Harga Barang':<{105}}|":
-                    pass
+                    ubah_harga_barang(username, 'jualan')
+                    continue
                 elif choice == f"|{'5. Tarik Penjualan Barang':<{105}}|":
                     tarik_barang(username, 'jualan')
                     continue

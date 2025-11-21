@@ -336,7 +336,6 @@ def daftar_barang(username, akses):
             nomor_urut += 1
         if len(table._rows) == 0:
             return None, None
-
         save_users()
 
     table.junction_char = f"{BOLD}{CYAN}╬{RESET}"
@@ -376,8 +375,6 @@ def daftar_barang(username, akses):
             return None, None
 
     return data, table_width
-
-
 
 def barang(username, akses):
     data, table_width = daftar_barang(username, akses)
@@ -601,7 +598,6 @@ def menjual_barang(username, akses):
     no_pilih = input(f'{CYAN}{'Nomor barang yang ingin dijual : ':<{14}}{RESET}').strip()
     print('\033[F', end='')   
     print(f'{CYAN}{f'Nomor barang yang ingin dijual : {RESET}{GOLD}{no_pilih}':<{114}}{RESET}{CYAN}{RESET}')
-
     if not no_pilih:
         return error_message('Input Tidak Boleh Kosong', '', 'Input Tidak Boleh Kosong', '', 'Input Tidak Boleh Kosong')
     if not no_pilih.isdigit():
@@ -609,11 +605,54 @@ def menjual_barang(username, akses):
     idx = int(no_pilih) - 1
     if idx < 0 or idx >= len(keys):
         return error_message('Nomor Tidak Valid', '','Nomor Tidak Valid', '', 'Nomor Tidak Valid')
-
+    if data_user[keys[idx]]['status'] == 'dijual':
+        return error_message('Barang Sudah Dijual', '', 'Barang Sudah Dijual', '', 'Barang Sudah Dijual')
+    harga_barang = input(f'{CYAN}{'Harga barang yang ingin dijual : ':<{14}}{RESET}').strip()
+    print('\033[F', end='')   
+    print(f'{CYAN}{f'Harga barang yang ingin dijual : {RESET}{GOLD}{harga_barang}':<{114}}{RESET}{CYAN}{RESET}')
+    if not harga_barang.isdigit() or int(harga_barang) <= 0:
+                return error_message('Harga Harus Angka', 'Harga Harus Lebih Dari 0', 'Harga Harus Angka', 'Harga Harus Lebih Dari 0', 'Harga Harus Angka') 
 
     key_asli = keys[idx]
+    data_user[key_asli]['harga_jual'] = int(harga_barang)
     nama_barang = data_user[key_asli]["nama"]
     data_user[key_asli]['status'] = 'dijual'
     save_users()
     pesan_berhasil(f"{nama_barang} berhasil dijual!")
 
+def ubah_harga_barang(username, akses):
+    while True:
+        os.system('cls || clear')
+        data_user = users_db[username]['data']['toko']['barang']
+        barang_dijual = {k: v for k, v in data_user.items() if v.get("status") == "dijual"}
+
+        if not barang_dijual:
+            return error_message("Tidak ada barang yang sedang dijual", "","Tidak ada barang yang sedang dijual", "","Tidak ada barang yang sedang dijual")
+        daftar_barang(username, "jualan")
+        filtered_keys = list(barang_dijual.keys())
+
+        no_barang = input(f'{CYAN}{' No Barang Yang Ingin Diubah : '}{RESET}').strip()
+        print('\033[F', end='')   
+        print(f'{CYAN} No Barang Yang Ingin Diubah : {RESET}{GOLD}{no_barang}{RESET}')
+        if not no_barang:
+            return error_message("Input Tidak Boleh Kosong","","Input Tidak Boleh Kosong","","Input Tidak Boleh Kosong")
+        if not no_barang.isdigit():
+            return error_message("Input Harus Angka","","Input Harus Angka","","Input Harus Angka")
+        idx = int(no_barang) - 1
+        if idx < 0 or idx >= len(filtered_keys):
+            return error_message("Nomor Tidak Valid","","Nomor Tidak Valid","","Nomor Tidak Valid")
+        key_asli = filtered_keys[idx]
+        data_nama = users_db[username]['data']['toko']['barang'][key_asli]['nama']
+        data_harga = users_db[username]['data']['toko']['barang'][key_asli]['harga_jual']
+        
+        harga_barang = input(f'{CYAN}{' Harga Baru                  : ':<{14}}{RESET}').strip()
+        print('\033[F', end='')
+        print(f'{CYAN} {f" Harga Baru                  : {RESET}{GOLD}{harga_barang}":<{114}}{RESET}{CYAN}{RESET}')
+        if not harga_barang.isdigit() or int(harga_barang) <= 0:
+            return error_message('Harga Harus Angka', 'Harga Harus Lebih Dari 0', 'Harga Harus Angka', 'Harga Harus Lebih Dari 0', 'Harga Harus Angka')
+        data_harga_lama = data_harga
+        users_db[username]['data']['toko']['barang'][key_asli]['harga_jual'] = int(harga_barang)
+        save_users()
+        pesan_berhasil(f'Harga {data_nama} {data_harga_lama } Gold Berhasil Diubah Menjadi {harga_barang} Gold')
+        return  True
+    

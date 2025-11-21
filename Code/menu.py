@@ -155,7 +155,7 @@ def kelola_toko(menu):
         choices=[
             f"|{'1. Membeli Barang':<{105}}|",
             f"|{'2. Menjual Barang':<{105}}|",
-            f"|{'3. Lihat Stok':<{105}}|",
+            f"|{'3. Lihat Barang':<{105}}|",
             f"|{'4. Ubah Harga Barang':<{105}}|",
             f"|{'5. Tarik Penjualan Barang':<{105}}|",
             f"|{'6. Mengajukan Pinjaman':<{105}}|",
@@ -246,6 +246,23 @@ def perbarui_kebijakans(menu):
             f"|{'3. Perbarui Kebijakan Barang':<{105}}|",
             f"|{'4. Tarik Barang Dari Penjualan':<{105}}|",
             f"|{'5. Kembali':<{105}}|",
+            Separator(f"|{'_'*105}|")
+        ],
+        pointer="💠 ",
+        qmark="",
+        style=custom_style,   
+    ).execute()
+    return choice
+
+def lihat_barang(menu):
+    os.system('cls || clear')
+    print(menu)
+    choice = inquirer.select(
+        message=f"   |{' '*105}|",
+        choices=[
+            f"|{'1. Barang di Toko':<{105}}|",
+            f"|{'2. Barang untuk Dijual':<{105}}|",
+            f"|{'3. Kembali':<{105}}|",
             Separator(f"|{'_'*105}|")
         ],
         pointer="💠 ",

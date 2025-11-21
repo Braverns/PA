@@ -6,15 +6,27 @@
             "1": {
                 "nama": "Salep",
                 "harga": 100,
-                "stock": 90,
-                "stock_show": 81
+                "stock": 85,
+                "stock_show": 16
+            },
+            "2": {
+                "nama": "Kopi Hitam",
+                "harga": 100,
+                "stock": 7,
+                "stock_show": 5
+            },
+            "3": {
+                "nama": "Caviar",
+                "harga": 500,
+                "stock": 5,
+                "stock_show": 5
             }
         }
     },
     "muja": {
         "password": "muja1234",
         "role": "user",
-        "gold": 7700,
+        "gold": 4400,
         "data": {
             "toko": {
                 "nama": "MUJA SHOP",
@@ -22,9 +34,23 @@
                     "1": {
                         "nama": "Salep",
                         "harga_beli": 100,
-                        "harga_jual": 100,
-                        "stock": 10,
+                        "harga_jual": 120,
+                        "stock": 15,
+                        "status": "dijual"
+                    },
+                    "2": {
+                        "nama": "Kopi Hitam",
+                        "harga_beli": 100,
+                        "harga_jual": 200,
+                        "stock": 3,
                         "status": "belum dijual"
+                    },
+                    "3": {
+                        "nama": "Caviar",
+                        "harga_beli": 500,
+                        "harga_jual": 300,
+                        "stock": 5,
+                        "status": "dijual"
                     }
                 },
                 "keuntungan": {},
