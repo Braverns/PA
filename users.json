@@ -4,63 +4,78 @@
         "role": "admin",
         "barang": {
             "1": {
-                "nama": "Salep",
-                "harga": 100,
+                "nama": "Potion",
+                "harga": 50,
                 "stock": 100,
-                "stock_show": 41
+                "stock_show": 37
             },
             "2": {
                 "nama": "Belati",
                 "harga": 500,
                 "stock": 10,
-                "stock_show": 6
+                "stock_show": 7
             },
             "3": {
                 "nama": "Kopi Hitam",
                 "harga": 150,
                 "stock": 30,
-                "stock_show": 25
+                "stock_show": 3
             },
             "4": {
                 "nama": "Ikan",
                 "harga": 120,
                 "stock": 200,
-                "stock_show": 96
+                "stock_show": 33
             },
             "5": {
                 "nama": "Toples",
                 "harga": 250,
                 "stock": 50,
-                "stock_show": 21
+                "stock_show": 20
             },
             "6": {
                 "nama": "Tisu",
                 "harga": 150,
                 "stock": 20,
-                "stock_show": 2
+                "stock_show": 16
             },
             "11": {
                 "nama": "Panci",
                 "harga": 300,
                 "stock": 10,
-                "stock_show": 10
+                "stock_show": 8
             },
             "12": {
                 "nama": "Perban",
                 "harga": 50,
-                "stock": 98,
-                "stock_show": 64
+                "stock": 96,
+                "stock_show": 38
             }
         }
     },
     "muja": {
         "password": "muja1234",
         "role": "user",
-        "gold": 1000,
+        "gold": 10000,
         "data": {
             "toko": {
                 "nama": "MUJA SHOP",
-                "barang": {},
+                "barang": {
+                    "1": {
+                        "nama": "Salep",
+                        "harga_beli": 100,
+                        "harga_jual": 100,
+                        "stock": 8,
+                        "status": "belum dijual"
+                    },
+                    "2": {
+                        "nama": "Perban",
+                        "harga_beli": 50,
+                        "harga_jual": 50,
+                        "stock": 2,
+                        "status": "dijual"
+                    }
+                },
                 "keuntungan": {},
                 "target_keuntungan_per_minggu": 1000
             },
