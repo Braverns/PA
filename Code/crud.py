@@ -78,8 +78,8 @@ def lihat_pajak():
         print(f"Tipe pajak : {pajak['tipe']}")
         if pajak['tipe'] == "Sementara":
             print(f"Durasi pajak : {pajak['durasi']} hari")
-            print(f"Hari mulai pajak : Hari ke-{pajak["hari_mulai"]}")
-            print(f"Hari berakhir pajak : Hari ke-{pajak["hari_berakhir"]}")
+            print(f"Hari mulai pajak : Hari ke-{pajak['hari_mulai']}")
+            print(f"Hari berakhir pajak : Hari ke-{pajak['hari_berakhir']}")
 
         else:
             print("Durasi pajak : Permanent")
@@ -107,7 +107,7 @@ def update_pajak():
     print(f" Hari saat ini : Hari ke-{hari_ke}")
 
     pilihan = inquirer.list_input("Apa yang ingin diperbarui?",
-               choiches = ['Tarif Pajak', ' Durasi Pajak', 'Batalkan'])
+               choices = ['Tarif Pajak', ' Durasi Pajak', 'Batalkan'])
 
 
     if pilihan == 'Tarif Pajak':
@@ -119,11 +119,11 @@ def update_pajak():
              print("Input tidak valid. Harus angka!!")
 
     elif pilihan == 'Durasi Pajak':
-        if pajak['tipe'] == 'Semnentara':
+        if pajak['tipe'] == 'Sementara':
             try:
                 durasi_baru = int(input("Masukkan durasi pajak baru (hari) : "))
                 pajak['durasi'] = durasi_baru
-                pajak['hari-berakhir'] = hari_ke + durasi_baru - 1
+                pajak['hari_berakhir'] = hari_ke + durasi_baru - 1
                 print(F" Durasi pajak berhasi diperbarui menjadi {durasi_baru} hari.")
             except ValueError:
                 print("Input tidak valid. Harus angka!!")
@@ -157,6 +157,17 @@ def hapus_pajak():
             print("Penghapusan kebijakan pajak dibatalkan.")
     except Exception as e:
         print(f"Terjadi kesalahan : {e}")
+
+def expire_pajak():
+    global pajak,hari_ke
+
+    if pajak or pajak.get("status") != "aktif":
+        return
+    
+    if pajak['tipe'] == "Sementara":
+        if hari_ke > pajak['hari_berakhir']:
+            pajak['status'] = "non-aktif"
+            print(f"\nPajak {pajak['tarif']} % telah berakhir karena durasi habis.")
 
 """ FEATURE YOGA  """
 def pinjam_uang(users_db):
