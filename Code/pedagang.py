@@ -20,7 +20,7 @@ def pedagang_main(username):
                     os.system('cls || clear')
                     data, table_width = daftar_barang(username, 'toko')
                     if data == None:
-                        error_message('Belum Ada Barang Yang Dijual', '', 'Belum Ada Barang Yang Dijual', '', 'Belum Ada Barang Yang Dijual')
+                        error_message('Belum Ada Barang', '', 'Belum Ada Barang', '', 'Belum Ada Barang')
                         continue
                     input(f'\n{BOLD}{CYAN}{f'{UNDERLINE}Tekan Enter untuk kembali...{RESET}' :^{table_width}}{RESET}')    
                     continue

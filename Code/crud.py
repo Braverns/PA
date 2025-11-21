@@ -304,18 +304,14 @@ def ubah_harga_user(username):
 def daftar_barang(username, akses):
     import re
     ansi = re.compile(r'\x1b\[[0-9;]*m')
-
     table = PrettyTable()
 
-    # ================
-    # DATA ADMIN / USER PASAR
-    # ================
     if akses in ['admin', 'user']:
         if akses == 'admin':
             data = users_db[username]['barang']
         else:
             data = users_db['admin']['barang']
-
+        
         table.field_names = [
             f"{BOLD}{GOLD}NO{RESET}",
             f"{BOLD}{GOLD}Nama{RESET}",
@@ -325,8 +321,6 @@ def daftar_barang(username, akses):
 
         nomor_urut = 1
         for id_barang, s in data.items():
-
-            # Saat user, stock_display tidak mereveal stock asli
             if akses == 'user':
                 s["stock_show"] = randint(1, s["stock"])
                 stock_display = s["stock_show"]
@@ -340,18 +334,9 @@ def daftar_barang(username, akses):
                 f'{GOLD}{stock_display:^{20}}{RESET}'
             ])
             nomor_urut += 1
-
         save_users()
-
-    # ===============
-    # DATA TOKO USER
-    # ===============
-    else:
+    else: 
         data = users_db[username]['data']['toko']['barang']
-
-        if not data:
-            print(f"{RED}Belum ada barang di toko.{RESET}")
-            return None, None
 
         table.field_names = [
             f"{BOLD}{GOLD}NO{RESET}",
@@ -363,15 +348,10 @@ def daftar_barang(username, akses):
 
         nomor_urut = 1
         for id_barang, s in data.items():
-
-            # Kalau menu TARIK PENJUALAN
             if akses == 'jualan' and s['status'] != 'dijual':
                 continue
-
-            # Kalau menu PILIH BARANG UNTUK DIJUAL
             if akses not in ['jualan', 'toko'] and s['status'] != 'belum dijual':
                 continue
-
             table.add_row([
                 f'{GOLD}{nomor_urut:^{3}}{RESET}',
                 f'{GOLD}{s["nama"] :<{20}}{RESET}',
@@ -380,17 +360,11 @@ def daftar_barang(username, akses):
                 f'{GOLD}{s["status"]:^{20}}{RESET}'
             ])
             nomor_urut += 1
-
-        # Jika tidak ada satupun baris berhasil masuk
         if len(table._rows) == 0:
-            print(f"{RED}Tidak ada barang yang dapat ditampilkan.{RESET}")
-            return data, None
+            return None, None
 
         save_users()
 
-    # ===============
-    # CUSTOM BORDER
-    # ===============
     table.junction_char = f"{BOLD}{CYAN}╬{RESET}"
     table.horizontal_char = f"{BOLD}{CYAN}═{RESET}"
     table.vertical_char = f"{BOLD}{CYAN}║{RESET}"
@@ -424,13 +398,15 @@ def daftar_barang(username, akses):
     print(f'{BOLD}{CYAN}║{RESET}{BOLD}{GOLD}{title:^{table_width - 2}}{RESET}{BOLD}{CYAN}║{RESET}')
     print(f'{BOLD}{CYAN}║{" " :^{table_width - 2}}║{RESET}')
     print(table)
+    if not data:
+            return None, None
 
     return data, table_width
 
 
 
 def barang(username, akses):
-    daftar_barang(username, akses)
+    data, table_width = daftar_barang(username, akses)
     nama_barang = input(f'{CYAN}{' Nama Barang : '}{RESET}').strip().title()
     print('\033[F', end='')   
     print(f'{CYAN} Nama Barang  : {RESET}{GOLD}{nama_barang}{RESET}')
@@ -468,11 +444,14 @@ def barang(username, akses):
     return True
 
 def beli_barang_user(username, akses):
-    daftar_barang(username, akses)
+    data, tablewidth = daftar_barang(username, akses)
+    if data == None:
+        return error_message('Belum Ada Barang Di Pasar', '', 'Belum Ada Barang Di Pasar', '', 'Belum Ada Barang Di Pasar')
     data_admin = users_db['admin']['barang']
     data_user  = users_db[username]['data']['toko']['barang']
     keys_urut = list(data_admin.keys())
-
+    if data == None:
+        return None
     no_pilih = input(f"{CYAN} No Barang yang ingin dibeli : {RESET}").strip()
     print('\033[F', end='')
     print(f"{CYAN} No Barang yang ingin dibeli : {RESET}{GOLD}{no_pilih}{RESET}")
@@ -520,7 +499,9 @@ def beli_barang_user(username, akses):
 def perbarui_kebijakan_barang(username, akses):
     while True:
         os.system('cls || clear')
-        daftar_barang(username, akses)
+        data_admin, table_width = daftar_barang(username, akses)
+        if data_admin == None:
+            return error_message('Belum Ada Barang', '', 'Belum Ada Barang', '', 'Belum Ada Barang')
         data = users_db[username]['barang']
         no_barang = input(f'{CYAN}{' No Barang Yang Ingin Diubah : '}{RESET}').strip()
         print('\033[F', end='')   
@@ -590,10 +571,12 @@ def tarik_barang(username, akses):
     os.system('cls || clear')
     
     if akses == 'admin':
-        daftar_barang(username, akses)
+        data, table_width = daftar_barang(username, akses)
         data_admin = users_db[username]['barang']
         keys = list(data_admin.keys())
-
+        if data == None:
+            return error_message('Belum Ada Barang', '', 'Belum Ada Barang', '', 'Belum Ada Barang')
+        
         no_pilih = input(f'{CYAN}{'Nomor barang yang ingin dihapus : ':<{14}}{RESET}').strip()
         print('\033[F', end='')   
         print(f'{CYAN}{f'Nomor barang yang ingin dihapus : {RESET}{GOLD}{no_pilih}':<{114}}{RESET}{CYAN}{RESET}')
@@ -636,10 +619,11 @@ def tarik_barang(username, akses):
         return pesan_berhasil(f"{data_user[key_asli]['nama']} berhasil ditarik dari penjualan!")
             
 def menjual_barang(username, akses):
-    daftar_barang(username, akses)
+    data, table_width = daftar_barang(username, akses)
     data_user = users_db[username]['data']['toko']['barang']
     keys = list(data_user.keys())
-
+    if data == None:
+        return error_message('Belum Ada Barang', '', 'Belum Ada Barang', '', 'Belum Ada Barang')
     no_pilih = input(f'{CYAN}{'Nomor barang yang ingin dijual : ':<{14}}{RESET}').strip()
     print('\033[F', end='')   
     print(f'{CYAN}{f'Nomor barang yang ingin dijual : {RESET}{GOLD}{no_pilih}':<{114}}{RESET}{CYAN}{RESET}')

@@ -14,10 +14,8 @@ def main_menu():
         choice = pilihan_login(header('LOGIN'))
         os.system('cls || clear')
 
-        if choice == f"|{'1. Penguasa / Pedagang':<{105}}|":
-            
+        if choice == f"|{'1. Penguasa / Pedagang':<{105}}|":       
             username, role = login()
-
             if role == 'admin':
                 penguasa_main(username)
                 continue
