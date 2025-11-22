@@ -18,9 +18,9 @@ else:
         'admin': {
             'password': 'admin123',
             'role': 'admin',
-            "barang": {"1": {"nama": "salep", "harga": 200, "stock": 20},
-                        "2": {"nama": "belati", "harga": 500, "stock": 10},
-                        "3": {"nama": "roti", "harga": 100, "stock": 50}
+            "barang": {"1": {"nama": "salep", "harga": 200, "stock": 20, "stock_show": 10},
+                        "2": {"nama": "belati", "harga": 500, "stock": 10, "stock_show": 5},
+                        "3": {"nama": "roti", "harga": 100, "stock": 50, "stock_show": 10}
                    }
         }
     }

@@ -23,10 +23,6 @@ id_pinjam = 1
 """ FEATURE ARYA  """
 #CREATE PAJAK
 def kebijakan_pajak(users_db):
-    print("=" * 50)
-    print("=== KEBIJAKAN PAJAK BARU ===".center(50))
-    print("=" * 50)
-
     try:
         if "pajak" not in users_db["admin"]:
             users_db["admin"]["pajak"] = {}
@@ -621,9 +617,7 @@ def perbarui_kebijakan_barang(username, akses):
             break
     return 
 
-def tarik_barang(username, akses):
-    os.system('cls || clear')
-    
+def tarik_barang(username, akses): 
     if akses == 'admin':
         data, table_width = daftar_barang(username, akses)
         data_admin = users_db[username]['barang']
@@ -705,7 +699,6 @@ def menjual_barang(username, akses):
 
 def ubah_harga_barang(username, akses):
     while True:
-        os.system('cls || clear')
         data_user = users_db[username]['data']['toko']['barang']
         barang_dijual = {k: v for k, v in data_user.items() if v.get("status") == "dijual"}
 

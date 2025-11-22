@@ -4,13 +4,6 @@ from InquirerPy.utils import InquirerPyStyle
 import os 
 from time import sleep
 from data import *
-from waktu import waktu_db, TIME_FILE, DAY_DURATION
-
-def show_header():
-    day = waktu_db.get("day", 1)
-    timer = waktu_db.get("timer", 0)
-    print(f"⏳ {timer:02d}/{DAY_DURATION} detik   |   📅 Hari {day}")
-    print("-" * 110)
 
 menu_welcome = (
     f'   ' + f'{BLACK}{atas}{RESET}\n'
@@ -138,8 +131,6 @@ def create_admin(menu):
     return choice
 
 def menu_user_main(menu):
-    os.system('cls || clear')
-    show_header()
     print(menu)
     choice = inquirer.select(
         message=f"   |{' '*105}|",
@@ -156,7 +147,6 @@ def menu_user_main(menu):
     return choice
 
 def kelola_toko(menu):
-    os.system('cls || clear')
     print(menu)
     choice = inquirer.select(
         message=f"   |{' '*105}|",
@@ -177,7 +167,6 @@ def kelola_toko(menu):
     return choice
 
 def menu_laporan(menu):
-    os.system('cls || clear')
     print(menu)
     choice = inquirer.select(
         message=f"   |{' '*105}|",
@@ -263,7 +252,6 @@ def perbarui_kebijakans(menu):
     return choice
 
 def lihat_barang(menu):
-    os.system('cls || clear')
     print(menu)
     choice = inquirer.select(
         message=f"   |{' '*105}|",
