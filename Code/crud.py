@@ -241,37 +241,6 @@ def proses_pengajuan():
     except:
         ValueError
         print("Pilihan tidak valid.\n")
-    
-def ubah_harga_user(username):
-    data_toko = users_db[username]['data']['toko']['barang']
-    if not data_toko:
-        return error_message('Tidak Ada Barang Di Toko', '', 'Tidak Ada Barang Di Toko', '', 'Tidak Ada Barang Di Toko')
-
-    daftar_barang(username, 'jualan')
-
-    no_barang = input(f'{CYAN} No Barang yang ingin diubah harganya : {RESET}').strip()
-    print('\033[F', end='')
-    print(f'{CYAN} No Barang yang ingin diubah harganya : {RESET}{GOLD}{no_barang}{RESET}')
-
-    if no_barang not in data_toko:
-        return error_message('Nomor Barang Tidak Valid', '', 'Nomor Barang Tidak Valid', '', 'Nomor Barang Tidak Valid')
-
-    try:
-        harga_baru = input(f'{CYAN} Harga jual baru : {RESET}').strip()
-        print('\033[F', end='')
-        print(f'{CYAN} Harga jual baru : {RESET}{GOLD}{harga_baru}{RESET}')
-
-        if not harga_baru.isdigit() or int(harga_baru) <= 0:
-            return error_message('Harga Harus Angka dan Lebih dari 0', '', 'Harga Harus Angka dan Lebih dari 0', '', 'Harga Harus Angka dan Lebih dari 0')
-        
-        data_toko[no_barang]['harga_jual'] = int(harga_baru)
-        save_users()
-        print(f"\n{GREEN}Harga barang '{data_toko[no_barang]['nama']}' berhasil diubah menjadi {harga_baru} Gold!{RESET}\n")
-        return True
-
-    except Exception:
-        return error_message('Terjadi Kesalahan Input', '', 'Terjadi Kesalahan Input', '', 'Terjadi Kesalahan Input')
-
 
 
 """ FEATURE MUJA  """

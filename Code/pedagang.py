@@ -4,6 +4,7 @@ from crud import *
 
 def pedagang_main(username):
     while True:
+
         choice = menu_user_main(menu_pedagang(username))
         if choice == f"|{'1. Kelola Toko':<{105}}|":
             while True:

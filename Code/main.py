@@ -21,7 +21,16 @@ def main_menu():
                 penguasa_main(username)
                 continue
             elif role == 'user':
+                from waktu import waktu_thread, stop_event
+                stop_event.clear()
+                import threading
+                threading.Thread(
+                    target=waktu_thread,
+                    args=(username, users_db, pedagang_main),
+                    daemon=True
+                ).start()
                 pedagang_main(username)
+                stop_event.set()
                 continue
             else:
                 continue
