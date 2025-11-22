@@ -7,7 +7,7 @@ from random import randint, choice
 
 """ DATA ARYA  """
 pajak = {}
-hari_ke = 1
+
 
 
 """  DATA YOGA  """
@@ -22,49 +22,61 @@ id_pinjam = 1
 
 """ FEATURE ARYA  """
 #CREATE PAJAK
-def kebijakan_pajak():
-    global pajak
-    print('=' * 50)
+def kebijakan_pajak(users_db):
+    print("=" * 50)
     print("=== KEBIJAKAN PAJAK BARU ===".center(50))
-    print('=' * 50)
-
-    if pajak and pajak.get("status") == "aktif":
-        pajak["status"] = "non-aktif"
+    print("=" * 50)
 
     try:
+        if "pajak" not in users_db["admin"]:
+            users_db["admin"]["pajak"] = {}
+
         persen = int(input("Masukkan tarif pajak (%): "))
-    except:
-        print("Input tidak valid.")
-        return
 
-    tipe = inquirer.list_input("Pilih tipe pajak:", choices=["Sementara", "Permanent"])
+        # -- PILIH TIPE PAJAK (inquirer universal) --
+        questions = [
+            inquirer.List(
+                "tipe",
+                message="Pilih tipe pajak:",
+                choices=["Sementara", "Permanent"]
+            )
+        ]
+        answers = inquirer.prompt(questions)
+        tipe = answers["tipe"]
 
-    pajak = {
-        "tarif": persen,
-        "tipe": tipe,
-        "status": "aktif"
-    }
 
-    print("Pajak berhasil dibuat.")
-    time.sleep(1)
+        users_db["admin"]["pajak"] = {
+            "tarif": persen,
+            "tipe": tipe,
+            "status": "aktif"
+        }
+
+        save_users()
+        print("Pajak baru berhasil dibuat!")
+
+    except ValueError:
+        print("Input pajak harus berupa angka! Pajak tidak dibuat.")
 
 #READ PAJAK
-def lihat_pajak():
-    global pajak
+def lihat_pajak(users_db):
     print("=" * 50)
     print("=== STATUS PAJAK ===".center(50))
     print("=" * 50)
 
-    if not pajak:
-        print("Belum ada pajak.")
-        return
-    
     try:
+        # Cek apakah key "pajak" ada
+        if "pajak" not in users_db["admin"] or users_db["admin"]["pajak"] == {}:
+            raise KeyError("Data pajak belum tersedia untuk admin!")
+
+        pajak = users_db["admin"]["pajak"]
+
+        # Ambil data pajak, bisa raise KeyError kalau key hilang
         tarif  = pajak["tarif"]
         tipe   = pajak["tipe"]
         status = pajak["status"]
-    except KeyError:
-        print("Error: Data pajak tidak lengkap.")
+
+    except KeyError as e:
+        print(f"Error: {e}")
         return
 
     print(f"Tarif : {tarif}%")
@@ -72,35 +84,47 @@ def lihat_pajak():
     print(f"Status: {status}")
 
 
-
 # UPDATE PAJAK
-def update_pajak():
-    global pajak
+def update_pajak(users_db):
     print("=" * 50)
     print("=== UPDATE PAJAK ===".center(50))
     print("=" * 50)
 
-    if not pajak or pajak["status"] != "aktif":
+    if "pajak" not in users_db["admin"] or users_db["admin"]["pajak"] == {}:
+        print("Tidak ada pajak.")
+        return
+
+    pajak = users_db["admin"]["pajak"]
+
+    if pajak.get("status") != "aktif":
         print("Tidak ada pajak aktif.")
         return
 
-    pilihan = inquirer.list_input(
-        "Apa yang ingin diperbarui?",
-        choices=["Tarif Pajak", "Tipe Pajak", "Batalkan"]
-    )
+    questions = [
+        inquirer.List(
+            "pilihan_update",
+            message="Apa yang ingin diperbarui?",
+            choices=["Tarif Pajak", "Tipe Pajak", "Batalkan"]
+        )
+    ]
+    answers = inquirer.prompt(questions)
+    pilihan_update = answers["pilihan_update"]
 
-    if pilihan == "Tarif Pajak":
+    if pilihan_update == "Tarif Pajak":
         try:
             baru = int(input("Masukkan tarif baru (%): "))
             pajak["tarif"] = baru
+            save_users()
             print("Tarif pajak diperbarui.")
-        except:
-            print("Input tidak valid.")
+        except ValueError:
+            print("Input tidak valid. Harus angka!")
 
-    elif pilihan == "Tipe Pajak":
-        pajak["tipe"] = inquirer.list_input(
+    elif pilihan_update == "Tipe Pajak":
+        tipe_baru = inquirer.list_input(
             "Pilih tipe baru:", choices=["Sementara", "Permanent"]
         )
+        pajak["tipe"] = tipe_baru
+        save_users()
         print("Tipe pajak diperbarui.")
 
     else:
@@ -108,27 +132,36 @@ def update_pajak():
 
 
 #DELETE PAJAK
-def hapus_pajak():
-    global pajak
+def hapus_pajak(users_db):
     print("=" * 50)
     print("=== HAPUS PAJAK ===".center(50))
     print("=" * 50)
 
-    if not pajak:
-        print("Tidak ada pajak.")
+    try:
+        pajak = users_db["admin"]["pajak"]
+        if not pajak:
+            print("Tidak ada pajak yang bisa dihapus.")
+            return
+    except KeyError:
+        print("Data pajak belum dibuat.")
         return
 
-    confirm = inquirer.confirm(
-        message="Yakin hapus pajak?",
-        default=False
-    ).execute()
+    questions = [
+        inquirer.Confirm(
+            "confirm_hapus",
+            message="Yakin hapus pajak?",
+            default=False
+        )
+    ]
+    answers = inquirer.prompt(questions)
+    confirm = answers["confirm_hapus"]
 
     if confirm:
-        pajak.clear()
+        pajak.clear() 
+        save_users()
         print("Pajak berhasil dihapus.")
     else:
         print("Dibatalkan.")
-
 
 
 
