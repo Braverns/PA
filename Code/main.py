@@ -8,9 +8,7 @@ from waktu import waktu_thread, stop_event, waktu_db, save_waktu, stop_waktu
 import threading
 
 def main_menu():
-    print(menu_welcome)
-    print('\n         ', end='')
-    input(f'{BOLD}{WHITE}{f"{UNDERLINE}Tekan Enter untuk melanjutkan...{RESET}" :^{105}}{RESET}')
+    menu_welcome()
     while True:
         choice = pilihan_login(header('LOGIN'))
         os.system('cls || clear')

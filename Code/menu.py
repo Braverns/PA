@@ -5,16 +5,18 @@ import os
 from time import sleep
 from data import *
 
-menu_welcome = (
-    f'   ' + f'{BLACK}{atas}{RESET}\n'
-    + f"   {BOLD}{REVERSE}{WHITE}{panjang}{RESET}\n"
-    + f"   {BOLD}{REVERSE}{WHITE}|{'Governance and Economic Policy: Administration and Trade':^{105}}|{RESET}\n"
-    + f"   {BOLD}{REVERSE}{WHITE}{panjang}{RESET}\n"
-    + f"   {BOLD}{REVERSE}{WHITE}|{'Sebuah simulasi tata kelola pemerintahan dan kebijakan ekonomi.':^{105}}|{RESET}\n"
-    + f"   {BOLD}{REVERSE}{WHITE}|{'terkait dengan administrasi dan perdagangan. Terdapat 2 Peran':^{105}}|{RESET}\n"
-    + f"   {BOLD}{REVERSE}{WHITE}|{'dalam simulasi ini, yaitu "penguasa" dan "user".':^{105}}|{RESET}"
-    + f"\n   {BOLD}{REVERSE}{WHITE}{tengah}{RESET}"
-)
+def menu_welcome(): 
+    print(
+        f'   ' + f'{BLACK}{atas}{RESET}\n'
+        + f"   {BOLD}{REVERSE}{WHITE}{panjang}{RESET}\n"
+        + f"   {BOLD}{REVERSE}{WHITE}|{'Governance and Economic Policy: Administration and Trade':^{105}}|{RESET}\n"
+        + f"   {BOLD}{REVERSE}{WHITE}{panjang}{RESET}\n"
+        + f"   {BOLD}{REVERSE}{WHITE}|{'Sebuah simulasi tata kelola pemerintahan dan kebijakan ekonomi.':^{105}}|{RESET}\n"
+        + f"   {BOLD}{REVERSE}{WHITE}|{'terkait dengan administrasi dan perdagangan. Terdapat 2 Peran':^{105}}|{RESET}\n"
+        + f"   {BOLD}{REVERSE}{WHITE}|{'dalam simulasi ini, yaitu "penguasa" dan "user".':^{105}}|{RESET}"
+        + f"\n   {BOLD}{REVERSE}{WHITE}{tengah}{RESET}"
+    )
+    input(f'{BOLD}{WHITE}{f"{UNDERLINE}Tekan Enter untuk melanjutkan...{RESET}" :^{105}}{RESET}')
 
 
 def menu_pedagang(username):

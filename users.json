@@ -6,31 +6,39 @@
             "1": {
                 "nama": "Salep",
                 "harga": 100,
-                "stock": 85,
-                "stock_show": 64
+                "stock": 79,
+                "stock_show": 61
             },
             "2": {
                 "nama": "Kopi Hitam",
                 "harga": 100,
                 "stock": 7,
-                "stock_show": 3
+                "stock_show": 7
             },
             "3": {
                 "nama": "Caviar",
                 "harga": 500,
                 "stock": 5,
-                "stock_show": 5
+                "stock_show": 2
             }
         }
     },
     "muja": {
         "password": "muja1234",
         "role": "user",
-        "gold": 1000,
+        "gold": 400,
         "data": {
             "toko": {
                 "nama": "Bravern",
-                "barang": {},
+                "barang": {
+                    "1": {
+                        "nama": "Salep",
+                        "harga_beli": 100,
+                        "harga_jual": 100,
+                        "stock": 6,
+                        "status": "belum dijual"
+                    }
+                },
                 "keuntungan": {},
                 "target_keuntungan_per_minggu": 1000
             },
