@@ -7,7 +7,7 @@ from random import randint, choice
 
 """ DATA ARYA  """
 pajak = {}
-hari_ke = 1
+
 
 
 """  DATA YOGA  """
@@ -22,49 +22,61 @@ id_pinjam = 1
 
 """ FEATURE ARYA  """
 #CREATE PAJAK
-def kebijakan_pajak():
-    global pajak
-    print('=' * 50)
+def kebijakan_pajak(users_db):
+    print("=" * 50)
     print("=== KEBIJAKAN PAJAK BARU ===".center(50))
-    print('=' * 50)
-
-    if pajak and pajak.get("status") == "aktif":
-        pajak["status"] = "non-aktif"
+    print("=" * 50)
 
     try:
+        if "pajak" not in users_db["admin"]:
+            users_db["admin"]["pajak"] = {}
+
         persen = int(input("Masukkan tarif pajak (%): "))
-    except:
-        print("Input tidak valid.")
-        return
 
-    tipe = inquirer.list_input("Pilih tipe pajak:", choices=["Sementara", "Permanent"])
+        # -- PILIH TIPE PAJAK (inquirer universal) --
+        questions = [
+            inquirer.List(
+                "tipe",
+                message="Pilih tipe pajak:",
+                choices=["Sementara", "Permanent"]
+            )
+        ]
+        answers = inquirer.prompt(questions)
+        tipe = answers["tipe"]
 
-    pajak = {
-        "tarif": persen,
-        "tipe": tipe,
-        "status": "aktif"
-    }
 
-    print("Pajak berhasil dibuat.")
-    time.sleep(1)
+        users_db["admin"]["pajak"] = {
+            "tarif": persen,
+            "tipe": tipe,
+            "status": "aktif"
+        }
+
+        save_users()
+        print("Pajak baru berhasil dibuat!")
+
+    except ValueError:
+        print("Input pajak harus berupa angka! Pajak tidak dibuat.")
 
 #READ PAJAK
-def lihat_pajak():
-    global pajak
+def lihat_pajak(users_db):
     print("=" * 50)
     print("=== STATUS PAJAK ===".center(50))
     print("=" * 50)
 
-    if not pajak:
-        print("Belum ada pajak.")
-        return
-    
     try:
+        # Cek apakah key "pajak" ada
+        if "pajak" not in users_db["admin"] or users_db["admin"]["pajak"] == {}:
+            raise KeyError("Data pajak belum tersedia untuk admin!")
+
+        pajak = users_db["admin"]["pajak"]
+
+        # Ambil data pajak, bisa raise KeyError kalau key hilang
         tarif  = pajak["tarif"]
         tipe   = pajak["tipe"]
         status = pajak["status"]
-    except KeyError:
-        print("Error: Data pajak tidak lengkap.")
+
+    except KeyError as e:
+        print(f"Error: {e}")
         return
 
     print(f"Tarif : {tarif}%")
@@ -72,35 +84,47 @@ def lihat_pajak():
     print(f"Status: {status}")
 
 
-
 # UPDATE PAJAK
-def update_pajak():
-    global pajak
+def update_pajak(users_db):
     print("=" * 50)
     print("=== UPDATE PAJAK ===".center(50))
     print("=" * 50)
 
-    if not pajak or pajak["status"] != "aktif":
+    if "pajak" not in users_db["admin"] or users_db["admin"]["pajak"] == {}:
+        print("Tidak ada pajak.")
+        return
+
+    pajak = users_db["admin"]["pajak"]
+
+    if pajak.get("status") != "aktif":
         print("Tidak ada pajak aktif.")
         return
 
-    pilihan = inquirer.list_input(
-        "Apa yang ingin diperbarui?",
-        choices=["Tarif Pajak", "Tipe Pajak", "Batalkan"]
-    )
+    questions = [
+        inquirer.List(
+            "pilihan_update",
+            message="Apa yang ingin diperbarui?",
+            choices=["Tarif Pajak", "Tipe Pajak", "Batalkan"]
+        )
+    ]
+    answers = inquirer.prompt(questions)
+    pilihan_update = answers["pilihan_update"]
 
-    if pilihan == "Tarif Pajak":
+    if pilihan_update == "Tarif Pajak":
         try:
             baru = int(input("Masukkan tarif baru (%): "))
             pajak["tarif"] = baru
+            save_users()
             print("Tarif pajak diperbarui.")
-        except:
-            print("Input tidak valid.")
+        except ValueError:
+            print("Input tidak valid. Harus angka!")
 
-    elif pilihan == "Tipe Pajak":
-        pajak["tipe"] = inquirer.list_input(
+    elif pilihan_update == "Tipe Pajak":
+        tipe_baru = inquirer.list_input(
             "Pilih tipe baru:", choices=["Sementara", "Permanent"]
         )
+        pajak["tipe"] = tipe_baru
+        save_users()
         print("Tipe pajak diperbarui.")
 
     else:
@@ -108,139 +132,229 @@ def update_pajak():
 
 
 #DELETE PAJAK
-def hapus_pajak():
-    global pajak
+def hapus_pajak(users_db):
     print("=" * 50)
     print("=== HAPUS PAJAK ===".center(50))
     print("=" * 50)
 
-    if not pajak:
-        print("Tidak ada pajak.")
+    try:
+        pajak = users_db["admin"]["pajak"]
+        if not pajak:
+            print("Tidak ada pajak yang bisa dihapus.")
+            return
+    except KeyError:
+        print("Data pajak belum dibuat.")
         return
 
-    confirm = inquirer.confirm(
-        message="Yakin hapus pajak?",
-        default=False
-    ).execute()
+    questions = [
+        inquirer.Confirm(
+            "confirm_hapus",
+            message="Yakin hapus pajak?",
+            default=False
+        )
+    ]
+    answers = inquirer.prompt(questions)
+    confirm = answers["confirm_hapus"]
 
     if confirm:
-        pajak.clear()
+        pajak.clear() 
+        save_users()
         print("Pajak berhasil dihapus.")
     else:
         print("Dibatalkan.")
 
 
 
-
 """ FEATURE YOGA  """
-def pinjam_uang(users_db):
-    global id_pinjam, pinjam
-    print("=== MINTA PINJAMAN UANG ===")
+def pinjam_uang_user(users_db, username):
+    print("\n=== AJUKAN PINJAMAN ===")
 
-    pilihan_toko = [
-        users_db[user]['data']['toko']['nama']
-        for user in users_db
-        if users_db[user]['role'] == 'user' and 'toko' in users_db[user]['data']
-    ]
+    if "surat" not in users_db[username]["data"]:
+        users_db[username]["data"]["surat"] = []
 
-    if not pilihan_toko:
-        print("Belum ada toko yang terdaftar. Silakan daftar toko terlebih dahulu.")
-        return
+    try:
+        jumlah = input("Masukkan jumlah pinjaman (gold): ").strip()
+        print("\033[F", end="")
+        print(f"Masukkan jumlah pinjaman (gold): {jumlah}")
 
-    toko_pilih = inquirer.list_input("Pilih toko :", choices=pilihan_toko)
-    jumlah_pinjam = int(input("Masukkan jumlah pinjaman (gold): "))
-    bunga = int(input("Masukkan bunga per hari (%): "))
+        if not jumlah.isdigit() or int(jumlah) <= 0:
+            print("Jumlah pinjaman harus angka dan lebih dari 0!")
+            return
+        
+        jumlah = int(jumlah)
 
-    pinjam[id_pinjam] = {
-        "toko": toko_pilih,
-        "jumlah": jumlah_pinjam,
-        "bunga": bunga,
-        "status": "aktif",
-        "tanggal_pinjam": time.strftime("%Y-%m-%d")
-    }
+        
+        surat = {
+            "pesan": f"Mengajukan pinjaman {jumlah} gold",
+            "jumlah": jumlah,
+            "status": "menunggu",   
+            "bunga": None          
+        }
 
-    for user, data in users_db.items():
-        if data['data']['toko']['nama'] == toko_pilih:
-            data['gold'] += jumlah_pinjam
-            break
+        users_db[username]["data"]["surat"].append(surat)
+        save_users()
 
-    print(f"\n Pinjaman {jumlah_pinjam} gold untuk '{toko_pilih}' berhasil dibuat!\n")
-    id_pinjam += 1
-    time.sleep(2)
+        print(f"\nPengajuan pinjaman {jumlah} gold berhasil dikirim ke admin!")
+        print("Status: menunggu persetujuan\n")
+
+    except:
+        print("Terjadi kesalahan input.")
+
 
 #user pinjaman
 def ajukan_pinjaman(username):
-    print("\n===Ajukan pinjaman anda===")
-    pesan = input("Masukkan pesan anda. ")
-    
+    print("\n=== AJUKAN PINJAMAN ===")
+
+
+    pesan = input("Masukkan pesan pengajuan pinjaman: ").strip()
+    print("\033[F", end="")
+    print(f"Masukkan pesan pengajuan pinjaman: {pesan}")
+
+    if pesan == "":
+        print("Pesan tidak boleh kosong!")
+        return
+
+
     pengajuan = {
-        "surat" : pesan,
-        "status" : "Menunggu persetujuan",
-        "bunga" : None
+        "pesan": pesan,                       
+        "status": "Menunggu persetujuan",     
+        "bunga": None                         
     }
-    users_db[username]['data']['surat'].append(pengajuan)
+
+    
+    users_db[username]["data"]["surat"].append(pengajuan)
+
     save_users()
 
-    print("\n===Pengajuan berhasil dikirim ke admin.")
+    print("\nPengajuan pinjaman berhasil dikirim!")
     print("Status: Menunggu persetujuan.\n")
 
-def lihat_laporan_pinjaman():
-    print("\n===LAPORAN PINJAMAN===")
-    if not daftar_surat:
-        print("\nBelum ada pengajuan data pinjaman.")
-        return
+
+def lihat_laporan_pinjaman(username):
+    print("\n=== LAPORAN PINJAMAN ===")
+
+    daftar_surat = users_db[username]["data"]["surat"]
+
     
-    for i, pinjaman in enumerate(daftar_surat, 1):
-        print(f"{i}. {pinjaman['pesan']}")
-        print(f"Status : {pinjaman['pesan']}")
-        if pinjaman["status"] == "Disetujui":
-            print(f"Bunga : {pinjaman['bunga']}%")
-            print()
+    if not daftar_surat:
+        print("Belum ada pengajuan pinjaman.\n")
+        return
+
+    for i, surat in enumerate(daftar_surat, start=1):
+        print(f"{i}. Pesan     : {surat['pesan']}")
+        print(f"   Status    : {surat['status']}")
+        
+        if surat["status"] == "Disetujui":
+            print(f"   Bunga     : {surat['bunga']}%")
+        print()
+
 # Admin pinjaman
 def lihat_daftar_pengajuan():
-    print("\n=== DAFTAR PENGAJUAN DARI PEDAGANG===")
-    if not daftar_surat:
-        print("Belum ada pinjaman data yang di ajukan.\n")
-        return
-    for i, p in enumerate(daftar_surat, 1):
-        print(f"{i}. {p['pengajuan']}")
-        print(f"Status : {p['status']}")
-        if p['bunga'] is not None:
-            print(f"Bunga : {p['bunga']}%")
-        print() 
+    print("\n=== DAFTAR PENGAJUAN PINJAMAN DARI SEMUA PEDAGANG ===")
+
+    ada_pengajuan = False  
+
+    for username, data in users_db.items():
+        
+        if data["role"] == "user":
+            daftar_surat = data["data"].get("surat", [])
+
+            if daftar_surat:  
+                ada_pengajuan = True
+                print(f"\n--- Pengajuan dari: {username.upper()} ---")
+
+                for i, surat in enumerate(daftar_surat, 1):
+                    print(f"{i}. Pesan     : {surat['pesan']}")
+                    print(f"   Status    : {surat['status']}")
+
+                    if surat["bunga"] is not None:
+                        print(f"   Bunga     : {surat['bunga']}%")
+
+                    print()
+
+    if not ada_pengajuan:
+        print("\nBelum ada pengajuan pinjaman dari pedagang.\n")
+
 
 def proses_pengajuan():
-    global gold_pedagang
-    lihat_daftar_pengajuan()
-    if not daftar_surat:
+    print("\n=== PROSES PENGAJUAN PINJAMAN ===")
+
+    semua_pengajuan = []
+    mapping = [] 
+
+    for username, data in users_db.items():
+        if data["role"] == "user":
+            surat_list = data["data"].get("surat", [])
+            for i, surat in enumerate(surat_list):
+                semua_pengajuan.append(surat)
+                mapping.append((username, i))
+
+    if not semua_pengajuan:
+        print("Tidak ada pengajuan pinjaman yang bisa diproses.\n")
         return
+
     
-    try: 
-        pilih = int(input("Masukkan nomor pengajuan yang ingin di proses. ")) - 1
-        if pilih < 0 or pilih > len(daftar_surat):
-            print("Nomor tidak valid.")
+    for idx, surat in enumerate(semua_pengajuan, 1):
+        user_name, indeks = mapping[idx-1]
+        print(f"{idx}. Dari User : {user_name}")
+        print(f"   Pesan     : {surat['pesan']}")
+        print(f"   Status    : {surat['status']}")
+        if surat['bunga'] is not None:
+            print(f"   Bunga     : {surat['bunga']}%")
+        print()
+
+    
+    try:
+        pilih = int(input("Masukkan nomor pengajuan yang ingin diproses: ")) - 1
+        if pilih < 0 or pilih >= len(semua_pengajuan):
+            print("Nomor tidak valid.\n")
+            return
+    except ValueError:
+        print("Input harus angka!\n")
+        return
+
+    
+    username, index_surat = mapping[pilih]
+    surat = users_db[username]["data"]["surat"][index_surat]
+
+    
+    if surat["status"] != "Menunggu persetujuan":
+        print("Pengajuan ini sudah pernah diproses sebelumnya.\n")
+        return
+
+    
+    keputusan = input("Setujui pinjaman ini? (YA/TIDAK): ").lower()
+
+    if keputusan == "ya":
+        try:
+            bunga = float(input("Masukkan besarnya bunga (%): "))
+        except ValueError:
+            print("Bunga harus angka!\n")
             return
 
-        data = daftar_surat[pilih]
-        if data["status"] != "Menunggu persetujuan":
-            print("Pengajuan ini sudah diproses sebelumnya.\n")
-            return
-    
-        keputusan = input("Setujui pinjaman ini? (YA / TIDAK): ").lower()
-        if keputusan == "YA":
-            bunga = float(input("Masukkan besar bunga (%): "))
-            data["status"] = "Disetujui."
-            data["bunga"] = bunga
-            gold_pedagang += int(data["jumlah"])
-            print(f"PINJAMAN ANDA DISETUJUI DENGAN BUNGA {bunga}%")
-            print("Pedagang kini memiliki total {gold_pedagang} Gold.\n")
+        
+        surat["status"] = "Disetujui"
+        surat["bunga"] = bunga
+
+        angka = "".join([c for c in surat["pesan"] if c.isdigit()])
+
+        if angka == "":
+            jumlah = 0
         else:
-            data["status"] = "Ditolak!"
-            print("MAAF PINJAMAN ANDA DITOLAK.")
+            jumlah = int(angka)
 
-    except:
-        ValueError
-        print("Pilihan tidak valid.\n")
+        users_db[username]["gold"] += jumlah
+        save_users()
+
+        print(f"\nPENGAJUAN DISETUJUI! Bunga: {bunga}%")
+        print(f"User {username} sekarang memiliki total {users_db[username]['gold']} gold.\n")
+
+    else:
+        surat["status"] = "Ditolak"
+        save_users()
+        print("\nPengajuan telah ditolak.\n")
+
+
 
 
 """ FEATURE MUJA  """
