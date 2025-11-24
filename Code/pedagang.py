@@ -5,7 +5,7 @@ from waktu import waktu_db, acknowledge_day_change, DAY_DURATION
 import os
 
 
-def show_header():
+def show_header(username):
     day = waktu_db.get("day", 1)
     timer = waktu_db.get("timer", 0)
     print(f"⏳ {GOLD}{timer:02d}{RESET}/{DAY_DURATION} detik   |   📅 Hari {GOLD}{day}")
@@ -21,36 +21,36 @@ def pedagang_main(username):
     while True:
         cek_pergantian_hari()
         os.system('cls || clear')
-        show_header()
+        show_header(username)
         choice = menu_user_main(menu_pedagang(username))
         if choice == f"|{'1. Kelola Toko':<{105}}|":
             while True:
                 cek_pergantian_hari()
                 os.system('cls || clear')
-                show_header()
+                show_header(username)
                 choice = kelola_toko(menu_kelola_toko(users_db[username]['data']['toko']['nama']))
                 if choice == f"|{'1. Membeli Barang':<{105}}|":
                     cek_pergantian_hari()
                     os.system('cls || clear')
-                    show_header()
+                    show_header(username)
                     beli_barang_user(username, 'user')
                     continue
                 elif choice == f"|{'2. Menjual Barang':<{105}}|":
                     cek_pergantian_hari()
                     os.system('cls || clear')
-                    show_header()
+                    show_header(username)
                     menjual_barang(username, 'toko')
                     continue
                 elif choice == f"|{'3. Lihat Barang':<{105}}|":
                     while True:
                         cek_pergantian_hari()
                         os.system('cls || clear')
-                        show_header()
+                        show_header(username)
                         choice = lihat_barang(header('LIHAT BARANG'))
                         if choice == f"|{'1. Barang di Toko':<{105}}|":
                             cek_pergantian_hari()
                             os.system('cls || clear')
-                            show_header()
+                            show_header(username)
                             data, table_width = daftar_barang(username, 'toko')
                             if data == None:
                                 error_message('Belum Ada Barang', '', 'Belum Ada Barang', '', 'Belum Ada Barang')
@@ -59,7 +59,7 @@ def pedagang_main(username):
                         elif choice == f"|{'2. Barang untuk Dijual':<{105}}|":
                             cek_pergantian_hari()
                             os.system('cls || clear')
-                            show_header()
+                            show_header(username)
                             data, table_width = daftar_barang(username, 'jualan')
                             if data == None:
                                 error_message('Belum Ada Barang untuk Dijual', '', 'Belum Ada Barang untuk Dijual', '', 'Belum Ada Barang untuk Dijual')
@@ -70,19 +70,19 @@ def pedagang_main(username):
                 elif choice == f"|{'4. Ubah Harga Barang':<{105}}|":
                     cek_pergantian_hari()
                     os.system('cls || clear')
-                    show_header()
+                    show_header(username)
                     ubah_harga_barang(username, 'jualan')
                     continue
                 elif choice == f"|{'5. Tarik Penjualan Barang':<{105}}|":
                     cek_pergantian_hari()
                     os.system('cls || clear')
-                    show_header()
+                    show_header(username)
                     tarik_barang(username, 'jualan')
                     continue
                 elif choice == f"|{'6. Mengajukan Pinjaman':<{105}}|":
                     cek_pergantian_hari()
                     os.system('cls || clear')
-                    show_header()
+                    show_header(username)
                     pinjam_uang_user(username)
                     continue
                 else:
@@ -91,7 +91,7 @@ def pedagang_main(username):
             while True:
                 cek_pergantian_hari()
                 os.system('cls || clear')
-                show_header()
+                show_header(username)
                 choice = menu_laporan(header('LAPORAN'))
                 if choice == f"|{'1. Laporan Penjualan':<{105}}|":
                     cek_pergantian_hari()
@@ -102,7 +102,7 @@ def pedagang_main(username):
                 elif choice == f"|{'3. Laporan Pinjaman':<{105}}|":
                     cek_pergantian_hari()
                     os.system('cls || clear')
-                    show_header()
+                    show_header(username)
                     laporan_pinjaman_user(username)
                     continue
                 else:

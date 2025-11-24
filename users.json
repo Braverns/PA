@@ -7,31 +7,31 @@
                 "nama": "salep",
                 "harga": 200,
                 "stock": 20,
-                "stock_show": 17
+                "stock_show": 9
             },
             "2": {
                 "nama": "belati",
                 "harga": 500,
                 "stock": 10,
-                "stock_show": 10
+                "stock_show": 2
             },
             "3": {
                 "nama": "roti",
                 "harga": 100,
                 "stock": 9,
-                "stock_show": 4
+                "stock_show": 7
             },
             "4": {
                 "nama": "Kopi Hitam",
                 "harga": 150,
                 "stock": 23,
-                "stock_show": 19
+                "stock_show": 14
             },
             "5": {
                 "nama": "Matcha",
                 "harga": 200,
                 "stock": 50,
-                "stock_show": 30
+                "stock_show": 7
             }
         },
         "pajak": {
@@ -42,7 +42,7 @@
     "muja": {
         "password": "muja1234",
         "role": "user",
-        "gold": 9900,
+        "gold": 10200,
         "data": {
             "toko": {
                 "nama": "POWER",
@@ -58,14 +58,14 @@
                         "nama": "roti",
                         "harga_beli": 100,
                         "harga_jual": 100,
-                        "stock": 12,
+                        "stock": 9,
                         "status": "dijual"
                     }
                 },
                 "keuntungan": {
                     "Kopi Hitam": 400
                 },
-                "keuntungan_harian" : {},
+                "keuntungan_harian": 0,
                 "target_keuntungan_per_minggu": 500,
                 "status_toko": "aktif"
             },
@@ -87,7 +87,7 @@
             "toko": {
                 "nama": "OPM",
                 "barang": {},
-                "keuntungan": {},
+                "keuntungan_harian": 0,
                 "target_keuntungan_per_minggu": 500,
                 "status_toko": "aktif"
             },
@@ -109,7 +109,7 @@
             "toko": {
                 "nama": "OPES",
                 "barang": {},
-                "keuntungan": {},
+                "keuntungan_harian": 0,
                 "target_keuntungan_per_minggu": 500,
                 "status_toko": "aktif"
             },
@@ -131,7 +131,7 @@
             "toko": {
                 "nama": "Bunga",
                 "barang": {},
-                "keuntungan": {},
+                "keuntungan_harian": 0,
                 "target_keuntungan_per_minggu": 500,
                 "status_toko": "aktif"
             },
