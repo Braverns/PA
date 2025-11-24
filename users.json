@@ -42,7 +42,7 @@
     "muja": {
         "password": "muja1234",
         "role": "user",
-        "gold": 10200,
+        "gold": 11100,
         "data": {
             "toko": {
                 "nama": "POWER",
@@ -58,7 +58,7 @@
                         "nama": "roti",
                         "harga_beli": 100,
                         "harga_jual": 100,
-                        "stock": 9,
+                        "stock": 0,
                         "status": "dijual"
                     }
                 },

@@ -7,8 +7,8 @@ import os
 
 def show_header(username):
     day = waktu_db.get("day", 1)
-    timer = waktu_db.get("timer", 0)
-    print(f"⏳ {GOLD}{timer:02d}{RESET}/{DAY_DURATION} detik   |   📅 Hari {GOLD}{day}")
+    timer = waktu_db.get("timer", 0)  
+    print(f"⏳ {GOLD}{timer:02d}{RESET}/{DAY_DURATION} detik   |   📅 Hari {GOLD}{day}   |   💰 Gold: {GOLD}{users_db[username]['gold']}{RESET}   |   🏪 Toko: {GOLD}{users_db[username]['data']['toko']['nama']}{RESET}")
     print(f'{BOLD}{CYAN}{"═" * 110}{RESET}')
     
 def cek_pergantian_hari():
