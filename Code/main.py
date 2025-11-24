@@ -6,8 +6,9 @@ from InquirerPy import inquirer
 from pedagang import *
 from waktu import waktu_thread, stop_event, waktu_db, save_waktu, stop_waktu
 import threading
-
+from bot import bot
 def main_menu():
+    os.system('cls || clear')
     menu_welcome()
     while True:
         choice = pilihan_login(header('LOGIN'))
@@ -26,10 +27,8 @@ def main_menu():
                     args=(username, users_db, pedagang_main),
                     daemon=True
                 ).start()
-
-                # Masuk ke menu pedagang
+                bot(10)
                 pedagang_main(username)
-
                 # Setelah keluar dari menu user
                 stop_waktu()
                 continue

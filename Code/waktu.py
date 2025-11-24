@@ -3,6 +3,7 @@ import json
 import threading
 import os
 import random
+from menu import pesan_berhasil
 
 # ---- Konfigurasi ----
 TIME_FILE = "time_data.json"
@@ -18,9 +19,17 @@ waktu_db = {
     "last_start": 0.0,  # waktu epoch start terakhir (diisi untuk informasi, bukan dipakai untuk resume)
     "day_changed": False
 }
-_thread = None  # penampung thread (jika mau diakses)
+_thread = None  
 
-# ---- Util: load/save ----
+def safe_input(prompt=""):
+    if waktu_db.get("day_changed", False):
+        os.system("cls" if os.name == "nt" else "clear")
+        pesan_berhasil(f"Hari telah berganti! Sekarang Hari ke-{waktu_db['day']}")
+        acknowledge_day_change()
+        os.system("cls" if os.name == "nt" else "clear")
+        return None
+    return input(prompt)
+
 def load_waktu():
     """Muat waktu dari TIME_FILE. Jika file tidak ada, buat default."""
     global waktu_db

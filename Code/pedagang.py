@@ -8,13 +8,13 @@ import os
 def show_header():
     day = waktu_db.get("day", 1)
     timer = waktu_db.get("timer", 0)
-    print(f"⏳ {timer:02d}/{DAY_DURATION} detik   |   📅 Hari {day}")
-    print(f'{BOLD}{GREEN}{"═" * 110}{RESET}')
+    print(f"⏳ {GOLD}{timer:02d}{RESET}/{DAY_DURATION} detik   |   📅 Hari {GOLD}{day}")
+    print(f'{BOLD}{CYAN}{"═" * 110}{RESET}')
     
 def cek_pergantian_hari():
     if waktu_db.get("day_changed", False):
         os.system("cls" if os.name == "nt" else "clear")
-        pesan_berhasil(f"📅 Hari telah berganti! Sekarang Hari ke-{waktu_db['day']}")
+        pesan_berhasil(f"Hari telah berganti! Sekarang Hari ke-{waktu_db['day']}")
         acknowledge_day_change()
 
 def pedagang_main(username):
@@ -81,7 +81,10 @@ def pedagang_main(username):
                     continue
                 elif choice == f"|{'6. Mengajukan Pinjaman':<{105}}|":
                     cek_pergantian_hari()
-                    pass
+                    os.system('cls || clear')
+                    show_header()
+                    pinjam_uang_user(username)
+                    continue
                 else:
                     break
         elif choice == f"|{'2. Laporan':<{105}}|":
@@ -98,7 +101,10 @@ def pedagang_main(username):
                     pass
                 elif choice == f"|{'3. Laporan Pinjaman':<{105}}|":
                     cek_pergantian_hari()
-                    pass
+                    os.system('cls || clear')
+                    show_header()
+                    laporan_pinjaman_user(username)
+                    continue
                 else:
                     break
         else:

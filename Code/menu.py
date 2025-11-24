@@ -16,7 +16,7 @@ def menu_welcome():
         + f"   {BOLD}{REVERSE}{WHITE}|{'dalam simulasi ini, yaitu "penguasa" dan "user".':^{105}}|{RESET}"
         + f"\n   {BOLD}{REVERSE}{WHITE}{tengah}{RESET}"
     )
-    input(f'{BOLD}{WHITE}{f"{UNDERLINE}Tekan Enter untuk melanjutkan...{RESET}" :^{105}}{RESET}')
+    input(f'\n         {BOLD}{WHITE}{f"{UNDERLINE}Tekan Enter untuk melanjutkan...{RESET}" :^{105}}{RESET}')
 
 
 def menu_pedagang(username):
@@ -269,4 +269,19 @@ def lihat_barang(menu):
     ).execute()
     return choice
 
+def konfirmasi_pajak(menu):
+    print(menu)
+    choice = inquirer.select(
+        message=f"   |{' '*105}|",
+        choices=[
+            f"|{'1. Menyetujui Pinjaman':<{105}}|",
+            f"|{'2. Menolak Pinjaman':<{105}}|",
+            f"|{'3. Kembali':<{105}}|",
+            Separator(f"|{'_'*105}|")
+        ],
+        pointer="💠 ",
+        qmark="",
+        style=custom_style,   
+    ).execute()
+    return choice
 

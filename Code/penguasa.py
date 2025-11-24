@@ -10,8 +10,10 @@ def penguasa_main(username):
             while True:
                 choice = create_admin(header('KEBIJAKAN'))
                 if choice == f"|{'1. Kebijakan Pajak':<{105}}|":
-                    pass
+                    kebijakan_pajak()
+                    continue
                 elif choice == f"|{'2. Kebijakan Pinjaman':<{105}}|":
+                    pemberian_pinjaman()
                     continue
                 elif choice == f"|{'3. Kebijakan Barang':<{105}}|":
                     os.system('cls || clear')
@@ -20,14 +22,21 @@ def penguasa_main(username):
                 else:
                     break
         elif choice == f"|{'2. Daftar Toko':<{105}}|":
-            pass
+            os.system('cls || clear')
+            daftar, table_width = daftar_toko('toko')
+            if daftar is None:
+                error_message('Belum Ada Toko Terdaftar', '', 'Belum Ada Toko Terdaftar', '', 'Belum Ada Toko Terdaftar')
+            input(f'\n{BOLD}{CYAN}{f"{UNDERLINE}Tekan Enter untuk kembali...{RESET}" :^{table_width - 2}}{RESET}')
+            continue
         elif choice == f"|{'3. Perbarui Kebijakan':<{105}}|":
             while True:
                 choice = perbarui_kebijakan(header('PERBARUI KEBIJAKAN'))
                 if choice == f"|{'1. Perbarui Pajak':<{105}}|":
-                    pass
+                    update_pajak()
+                    continue
                 elif choice == f"|{'2. Perbarui Pinjaman':<{105}}|":
-                    pass
+                    update_pinjaman()
+                    continue
                 elif choice == f"|{'3. Perbarui Kebijakan Barang':<{105}}|":
                     perbarui_kebijakan_barang(username, 'admin')
                     continue

@@ -11,8 +11,21 @@ if os.path.exists(USERS_FILE):
         with open(USERS_FILE, "r") as f:
             users_db = json.load(f)
     except json.JSONDecodeError:
-        print("File users.json rusak, membuat ulang database kosong.")
-        users_db = {}
+        error_message("File users.json rusak, membuat ulang database kosong.", '', "File users.json rusak, membuat ulang database kosong.", '', "File users.json rusak, membuat ulang database kosong.") 
+        users_db = {
+            'admin': {
+                'password': 'admin123',
+                'role': 'admin',
+                "barang": {"1": {"nama": "salep", "harga": 200, "stock": 20, "stock_show": 10},
+                            "2": {"nama": "belati", "harga": 500, "stock": 10, "stock_show": 5},
+                            "3": {"nama": "roti", "harga": 100, "stock": 50, "stock_show": 10}
+                       },
+                'pajak': {
+                    'tarif': 0,
+                    'status': 'non-aktif'
+                }
+            }
+        }
 else:
     users_db = {
         'admin': {
@@ -21,7 +34,11 @@ else:
             "barang": {"1": {"nama": "salep", "harga": 200, "stock": 20, "stock_show": 10},
                         "2": {"nama": "belati", "harga": 500, "stock": 10, "stock_show": 5},
                         "3": {"nama": "roti", "harga": 100, "stock": 50, "stock_show": 10}
-                   }
+                   },
+            'pajak': {
+                'tarif': 0,
+                'status': 'non-aktif'
+            }
         }
     }
     with open(USERS_FILE, "w") as f:
@@ -60,7 +77,6 @@ def login():
 
 
 def register_user():
-    
     print(header('PENDAFTARAN PEDAGANG'))
     print(f'{CYAN}   {panjang}{RESET}')
     username = input(f'{CYAN}   |{' Username anda   : ':<{19}}{RESET}').strip().lower()
@@ -111,7 +127,8 @@ def register_user():
         'data': {'toko': {'nama': namat, 
                           'barang': {},
                           'keuntungan' : {},
-                          'target_keuntungan_per_minggu' : 1000
+                          'target_keuntungan_per_minggu' : 500,
+                          'status_toko': 'aktif'
                           },
                 'surat': []}
     }

@@ -4,43 +4,136 @@
         "role": "admin",
         "barang": {
             "1": {
-                "nama": "Salep",
-                "harga": 100,
-                "stock": 79,
-                "stock_show": 61
+                "nama": "salep",
+                "harga": 200,
+                "stock": 20,
+                "stock_show": 17
             },
             "2": {
-                "nama": "Kopi Hitam",
-                "harga": 100,
-                "stock": 7,
-                "stock_show": 7
+                "nama": "belati",
+                "harga": 500,
+                "stock": 10,
+                "stock_show": 10
             },
             "3": {
-                "nama": "Caviar",
-                "harga": 500,
-                "stock": 5,
-                "stock_show": 2
+                "nama": "roti",
+                "harga": 100,
+                "stock": 9,
+                "stock_show": 4
+            },
+            "4": {
+                "nama": "Kopi Hitam",
+                "harga": 150,
+                "stock": 23,
+                "stock_show": 19
+            },
+            "5": {
+                "nama": "Matcha",
+                "harga": 200,
+                "stock": 50,
+                "stock_show": 30
             }
+        },
+        "pajak": {
+            "tarif": 12,
+            "status": "aktif"
         }
     },
     "muja": {
         "password": "muja1234",
         "role": "user",
-        "gold": 400,
+        "gold": 9900,
         "data": {
             "toko": {
-                "nama": "Bravern",
+                "nama": "POWER",
                 "barang": {
                     "1": {
-                        "nama": "Salep",
+                        "nama": "Kopi Hitam",
+                        "harga_beli": 150,
+                        "harga_jual": 200,
+                        "stock": 0,
+                        "status": "dijual"
+                    },
+                    "2": {
+                        "nama": "roti",
                         "harga_beli": 100,
                         "harga_jual": 100,
-                        "stock": 6,
-                        "status": "belum dijual"
+                        "stock": 12,
+                        "status": "dijual"
                     }
                 },
+                "keuntungan": {
+                    "Kopi Hitam": 400
+                },
+                "keuntungan_harian" : {},
+                "target_keuntungan_per_minggu": 500,
+                "status_toko": "aktif"
+            },
+            "surat": [
+                {
+                    "surat": "Mengajukan pinjaman 1000 gold",
+                    "jumlah": 1000,
+                    "status": "disetujui",
+                    "bunga": 100
+                }
+            ]
+        }
+    },
+    "mujas": {
+        "password": "muja1234",
+        "role": "user",
+        "gold": 1000,
+        "data": {
+            "toko": {
+                "nama": "OPM",
+                "barang": {},
                 "keuntungan": {},
-                "target_keuntungan_per_minggu": 1000
+                "target_keuntungan_per_minggu": 500,
+                "status_toko": "aktif"
+            },
+            "surat": [
+                {
+                    "surat": "Mengajukan pinjaman 1000 gold",
+                    "jumlah": 1000,
+                    "status": "Menunggu Persetujuan",
+                    "bunga": 5
+                }
+            ]
+        }
+    },
+    "mujahid": {
+        "password": "muja1234",
+        "role": "user",
+        "gold": 1000,
+        "data": {
+            "toko": {
+                "nama": "OPES",
+                "barang": {},
+                "keuntungan": {},
+                "target_keuntungan_per_minggu": 500,
+                "status_toko": "aktif"
+            },
+            "surat": [
+                {
+                    "surat": "Mengajukan pinjaman 2000 gold",
+                    "jumlah": 2000,
+                    "status": "ditolak",
+                    "bunga": null
+                }
+            ]
+        }
+    },
+    "mei_shaa": {
+        "password": "admin123",
+        "role": "user",
+        "gold": 1000,
+        "data": {
+            "toko": {
+                "nama": "Bunga",
+                "barang": {},
+                "keuntungan": {},
+                "target_keuntungan_per_minggu": 500,
+                "status_toko": "aktif"
             },
             "surat": []
         }
