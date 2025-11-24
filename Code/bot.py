@@ -35,10 +35,12 @@ def bot_beli_satu():
     item["stock"] -= 1
 
     # Tambahkan gold ke pedagang
-    users_db[target]["gold"] += harga_total
+    harga_jual = item["harga_jual"]
+    harga_beli = item["harga_beli"]   
+    users_db[target]["gold"] += harga_jual
 
-    # Tambahkan keuntungan harian (INT)
-    toko["keuntungan_harian"] += harga_total
+    profit = harga_jual - harga_beli
+    toko["keuntungan_harian"] += profit
 
     save_users()
 
