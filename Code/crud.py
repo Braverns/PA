@@ -47,42 +47,7 @@ def kebijakan_pajak():
         pesan_berhasil(f"PAJAK DENGAN TARIF {tarif}% BERHASIL DITETAPKAN")
     save_users()
 
-def update_pajak():
-    os.system('cls || clear')
-    print(header('UPDATE PAJAK'))
 
-    if not users_db["admin"].get("pajak"):
-        return error_message("PAJAK BELUM DITETAPKAN", "", "PAJAK BELUM DITETAPKAN", "", "PAJAK BELUM DITETAPKAN")
-
-    try:
-        print(f'   {CYAN}{panjang}{RESET}')
-        tarif = input(f'{CYAN}   |{' Masukkan Tarif Pajak Baru (%): '}{RESET}')
-        tarif = int(tarif.strip())
-        print('\033[F', end='')   
-        print(f'{CYAN}   |{f' Masukkan Tarif Pajak Baru (%): {tarif}':<{105}}|{RESET}')
-        print(f'   {CYAN}{tengah}{RESET}')
-        if tarif > 100 or tarif < 0:
-            return error_message("Tarif Pajak harus antara 0-100!", "", "Tarif Pajak harus antara 0-100!", "", "Tarif Pajak harus antara 0-100!")
-    except ValueError:
-        return error_message("Input Harus Berupa Angka Bulat!", "", "Input Harus Berupa Angka Bulat!", "", "Input Harus Berupa Angka Bulat!")
-
-    sleep(1)
-    if tarif == 0:
-        users_db["admin"]["pajak"] = {
-            "tarif": 0,
-            "status": "non-aktif"
-        }
-        pesan_berhasil("PAJAK DINON-AKTIFKAN")
-        save_users()
-        return
-
-    users_db["admin"]["pajak"] = {
-        "tarif": tarif,
-        "status": "aktif"
-    }
-    pesan_berhasil(f"PAJAK DENGAN TARIF {tarif}% BERHASIL DIPERBARUI")
-    save_users()
-    return
 
 """ FEATURE YOGA  """
 def pinjam_uang_user(username):

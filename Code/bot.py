@@ -53,7 +53,7 @@ def bot_worker():
         time.sleep(3)
 
 
-def bot(jumlah=100):
+def bot(jumlah):
     """Menjalankan banyak bot di background tanpa output."""
     for _ in range(jumlah):
         t = threading.Thread(target=bot_worker, daemon=True)
