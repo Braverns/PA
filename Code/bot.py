@@ -4,7 +4,6 @@ from login import users_db, save_users
 
 def bot_beli_satu():
     """Bot membeli 1 item dari toko pedagang."""
-    # Ambil semua pedagang user
     pedagang_list = [u for u, d in users_db.items() if d.get("role") == "user"]
     if not pedagang_list:
         return
@@ -24,17 +23,9 @@ def bot_beli_satu():
     }
     if not barang_jual:
         return
-
-    # Pilih item random
     id_item, item = random.choice(list(barang_jual.items()))
-
-    # BELI 1 ITEM SAJA
     harga_total = item["harga_jual"]
-
-    # Kurangi stok
     item["stock"] -= 1
-
-    # Tambahkan gold ke pedagang
     harga_jual = item["harga_jual"]
     harga_beli = item["harga_beli"]   
     users_db[target]["gold"] += harga_jual
@@ -48,7 +39,7 @@ def bot_beli_satu():
 def bot_worker():
     """Bot beli satu item setiap 3 detik."""
     while True:
-        if random.choice([True, False]):  # 50% beli
+        if random.choice([True, False]):  
             bot_beli_satu()
         time.sleep(3)
 

@@ -18,7 +18,7 @@ def cek_pergantian_hari():
         acknowledge_day_change()
 
 def pedagang_main(username):
-    while True:
+    while True: 
         cek_pergantian_hari()
         os.system('cls || clear')
         show_header(username)

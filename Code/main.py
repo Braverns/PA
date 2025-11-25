@@ -2,7 +2,6 @@ from data import *
 from login import *
 from menu import *
 from penguasa import *
-from InquirerPy import inquirer
 from pedagang import *
 from waktu import waktu_thread, stop_event, waktu_db, save_waktu, stop_waktu
 import threading
