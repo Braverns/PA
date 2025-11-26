@@ -11,7 +11,7 @@ if os.path.exists(USERS_FILE):
         with open(USERS_FILE, "r") as f:
             users_db = json.load(f)
     except json.JSONDecodeError:
-        error_message("File users.json rusak, membuat ulang database kosong.", '', "File users.json rusak, membuat ulang database kosong.", '', "File users.json rusak, membuat ulang database kosong.") 
+        error_message('File Users Rusak, Membuat Data Base', '', 'File Users Rusak, Membuat Data Base', '', 'File Users Rusak, Membuat Data Base') 
         users_db = {
             'admin': {
                 'password': 'admin123',
@@ -26,6 +26,8 @@ if os.path.exists(USERS_FILE):
                 }
             }
         }
+        with open(USERS_FILE, "w") as f:
+            json.dump(users_db, f, indent=4)
 else:
     users_db = {
         'admin': {
@@ -126,12 +128,18 @@ def register_user():
         'gold': 1000,
         'data': {'toko': {'nama': namat, 
                           'barang': {},
-                          'keuntungan' : {},
+                          'keuntungan_harian' : [],
+                          'keuntungan_per_minggu' : 0,
                           'target_keuntungan_per_minggu' : 500,
                           'status_toko': 'aktif'
                           },
                 'surat': []}
     }
+    print(f'\n{CYAN}{'Membuat Akun Anda':>{66}}{RESET}', end='', flush=True)
+    for _ in range(3):
+        sleep(0.5)
+        print(f'{CYAN}.{RESET}', end='', flush=True)
+    sleep(1)
     save_users()  
     pesan_berhasil('AKUN ANDA BERHASIL DIBUAT')
     return True

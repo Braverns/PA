@@ -8,9 +8,10 @@ import os
 def show_header(username):
     day = waktu_db.get("day", 1)
     timer = waktu_db.get("timer", 0)  
-    print(f"⏳ {GOLD}{timer:02d}{RESET}/{DAY_DURATION} detik   |   📅 Hari {GOLD}{day}   |   💰 Gold: {GOLD}{users_db[username]['gold']}{RESET}   |   🏪 Toko: {GOLD}{users_db[username]['data']['toko']['nama']}{RESET}")
+    print(f"⏳ {GOLD}{timer:02d}{RESET}/{DAY_DURATION} detik   {CYAN}|{RESET}   📅 Hari {GOLD}{day}")
     print(f'{BOLD}{CYAN}{"═" * 110}{RESET}')
-    
+    print(f'🏪 Toko: {GOLD}{users_db[username]['data']['toko']['nama']}{RESET}   {CYAN}|{RESET}   💰 Gold: {GOLD}{int(users_db[username]['gold'])}{RESET}   {CYAN}|{RESET}   📈 Keuntungan: {GOLD}{users_db[username]['data']['toko']['keuntungan_harian']}{RESET}')
+    print(f'{BOLD}{CYAN}{"═" * 110}{RESET}')
 def cek_pergantian_hari():
     if waktu_db.get("day_changed", False):
         os.system("cls" if os.name == "nt" else "clear")
@@ -84,6 +85,12 @@ def pedagang_main(username):
                     os.system('cls || clear')
                     show_header(username)
                     pinjam_uang_user(username)
+                    continue
+                elif choice == f"|{'7. Pelunasan Pinjaman':<{105}}|":
+                    cek_pergantian_hari()
+                    os.system('cls || clear')
+                    show_header(username)
+                    lunas_pinjaman_user(username)
                     continue
                 else:
                     break

@@ -88,8 +88,11 @@ def update_pajak():
 """ FEATURE YOGA  """
 def pinjam_uang_user(username):
     print(header("AJUKAN PINJAMAN UANG"))
-    if users_db[username]["data"]['surat']:
+    if users_db[username]["data"]['surat']['status'] == "Menunggu persetujuan":
         pesan_berhasil("Anda sudah memiliki pengajuan pinjaman yang sedang diproses.")
+        return
+    if users_db[username]["data"]['surat']['status'] == "disetujui":
+        pesan_berhasil("Anda sudah memiliki pinjaman yang belum dilunasi.")
         return
     print(f'   {CYAN}{panjang}{RESET}')
     jumlah = safe_input(f'{CYAN}   | Masukkan jumlah pinjaman (gold): {RESET}').strip()
@@ -122,9 +125,9 @@ def laporan_pinjaman_user(username):
         return error_message("Belum Ada Pengajuan Pinjaman", "", "Belum Ada Pengajuan Pinjaman", "", "Belum Ada Pengajuan Pinjaman")
 
     for i, surat in enumerate(daftar_surat, start=1):
-        if surat["status"].lower() == "disetujui":
+        if surat["status"] == "disetujui":
             pesan_berhasil(f"Pinjaman Disetujui dengan Bunga {surat['bunga']}%")
-        elif surat["status"].lower() == "ditolak":
+        elif surat["status"] == "ditolak":
             pesan_berhasil("Pinjaman Ditolak oleh Penguasa")
         else:
             pesan_berhasil("Pinjaman Masih Menunggu Persetujuan")
@@ -140,7 +143,7 @@ def daftar_toko(akses):
         table.field_names = [
             f"{BOLD}{GOLD}NO{RESET}",
             f"{BOLD}{GOLD}Nama Toko{RESET}",
-            f"{BOLD}{GOLD}Pesan Pinjaman{RESET}",
+            f"{BOLD}{GOLD}Pinjaman{RESET}",
             f"{BOLD}{GOLD}Status{RESET}"
         ]
 
@@ -162,7 +165,7 @@ def daftar_toko(akses):
         table.field_names = [
             f"{BOLD}{GOLD}NO{RESET}",
             f"{BOLD}{GOLD}Nama Toko{RESET}",
-            f"{BOLD}{GOLD}Pesan Pinjaman{RESET}",
+            f"{BOLD}{GOLD}Pinjaman{RESET}",
             f"{BOLD}{GOLD}Status{RESET}",
             f"{BOLD}{GOLD}Bunga (%) {RESET}"
         ]
@@ -199,17 +202,17 @@ def daftar_toko(akses):
             if info["role"] == "user":
                 nama_toko = info["data"]["toko"]["nama"]
                 gold = info["gold"]
-                status_toko = info["data"]["toko"].get("status_toko", "tidak diketahui")
+                status_toko = info["data"]["toko"]["status_toko"]
 
-                daftar_surat = info["data"].get("surat", [])
+                daftar_surat = info["data"]['surat']
                 if daftar_surat:
-                    status_pinjaman = daftar_surat[-1]["status"]
+                    status_pinjaman = daftar_surat[0]["status"]
                 else:
                     status_pinjaman = "tidak ada pinjaman"
 
-                keuntungan_dict = info["data"]["toko"].get("keuntungan", {})
-                if keuntungan_dict:
-                    total_keuntungan = sum(keuntungan_dict.values())
+                keuntungan_per_minggu = info["data"]["toko"]["keuntungan_per_minggu"]
+                if keuntungan_per_minggu:
+                    total_keuntungan = sum(keuntungan_per_minggu)
                 else:
                     total_keuntungan = "belum ada keuntungan"
 
@@ -268,19 +271,21 @@ def pemberian_pinjaman():
     choice = konfirmasi_pajak(header("KONFIRMASI PINJAMAN"))
     if choice == f"|{'1. Menyetujui Pinjaman':<{105}}|":
         os.system('cls || clear')
-        print(header(f"UPDATE BUNGA PINJAMAN TOKO {nama_toko}"))
+        print(header(f"PINJAMAN TOKO {nama_toko}"))
         print(f'   {CYAN}{panjang}{RESET}')
-        bunga = input(f'{CYAN}   | Masukkan Bunga Baru (%): {RESET}').strip()
+        print(f"   {CYAN}|{f' Jumlah Pinjaman        : {RESET}{GOLD}{surat['jumlah']} gold{RESET}':<{118}}{CYAN}|{RESET}")
+        bunga = input(f'{CYAN}   | Masukkan Bunga (%)     : {RESET}').strip()
         print("\033[F", end="")
-        print(f"   {CYAN}|{f' Masukkan Bunga Baru (%): {RESET}{GOLD}{bunga}{RESET}':<{118}}{CYAN}|{RESET}")
+        print(f"   {CYAN}|{f' Masukkan Bunga %)     : {RESET}{GOLD}{bunga}{RESET}':<{118}}{CYAN}|{RESET}")
         print(f'   {CYAN}{tengah}{RESET}')
         if not bunga.isdigit():
-            return error_message("Bunga Harus Angka", "", "Bunga Harus Angka", "", "Bunga Harus Angka")
+            return error_message("Bunga Harus Bilangan Bulat", "", "Bunga Harus Bilangan Bulat", "", "Bunga Harus Bilangan Bulat")
         bunga = int(bunga)
         if bunga <= 0 or bunga > 100:
             return error_message("Bunga Harus Antara 1-100", "", "Bunga Harus Antara 1-100", "", "Bunga Harus Antara 1-100")
         surat["status"] = "disetujui"
         surat["bunga"] = bunga
+        users_db[user]["gold"] += surat["jumlah"]
         save_users()
         sleep(1)
         pesan_berhasil("Pinjaman berhasil disetujui!")
@@ -330,6 +335,39 @@ def update_pinjaman():
     save_users()
     sleep(1)
     pesan_berhasil(f"Bunga pinjaman toko {nama_toko} berhasil diperbarui menjadi {bunga_baru}%!")
+
+def lunas_pinjaman_user(username):
+    print(header("PELUNASAN PINJAMAN"))
+    daftar_surat = users_db[username]["data"].get("surat", [])
+    pinjaman_aktif = None
+
+    for surat in daftar_surat:
+        if surat["status"]== "disetujui":
+            pinjaman_aktif = surat
+            break
+
+    if not pinjaman_aktif:
+        return error_message("Tidak Ada Pinjaman Aktif untuk Dilunasi", "", "Tidak Ada Pinjaman Aktif untuk Dilunasi", "", "Tidak Ada Pinjaman Aktif untuk Dilunasi")
+    jumlah_pinjaman = pinjaman_aktif["jumlah"]
+    bunga = pinjaman_aktif["bunga"]
+    total_harus_dibayar = jumlah_pinjaman + (jumlah_pinjaman * bunga / 100)
+    print(f'   {CYAN}{panjang}{RESET}')
+    print(f'{CYAN}   |{f' Jumlah Pinjaman        : {RESET}{GOLD}{jumlah_pinjaman} Gold{RESET}':<{118}}{CYAN}|{RESET}')
+    print(f'{CYAN}   |{f' Bunga Pinjaman        : {RESET}{GOLD}{bunga}%{RESET}':<{118}}{CYAN}|{RESET}')
+    print(f'{CYAN}   |{f' Total yang Harus Dibayar : {RESET}{GOLD}{total_harus_dibayar} Gold{RESET}':<{118}}{CYAN}|{RESET}')
+    print(f'   {CYAN}{tengah}{RESET}')
+    if users_db[username]["gold"] < total_harus_dibayar:
+        return error_message("Gold Anda Tidak Cukup untuk Melunasi Pinjaman", "", "Gold Anda Tidak Cukup untuk Melunasi Pinjaman", "", "Gold Anda Tidak Cukup untuk Melunasi Pinjaman")
+    choice = konfirmasi_pinjaman(header("KONFIRMASI PELUNASAN PINJAMAN"))
+    if choice == f"|{'1. Lunasi Pinjaman':<{105}}|":
+        users_db[username]["gold"] -= total_harus_dibayar
+        daftar_surat.remove(pinjaman_aktif)
+        save_users()
+        sleep(1)
+        pesan_berhasil("Pinjaman berhasil dilunasi!")
+    else:  
+        return
+
 
 """ FEATURE MUJA  """
 def daftar_barang(username, akses):

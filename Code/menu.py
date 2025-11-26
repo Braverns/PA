@@ -159,7 +159,8 @@ def kelola_toko(menu):
             f"|{'4. Ubah Harga Barang':<{105}}|",
             f"|{'5. Tarik Penjualan Barang':<{105}}|",
             f"|{'6. Mengajukan Pinjaman':<{105}}|",
-            f"|{'7. Kembali':<{105}}|",
+            f"|{'7. Pelunasan Pinjaman':<{105}}|",
+            f"|{'8. Kembali':<{105}}|",
             Separator(f"|{'_'*105}|")
         ],
         pointer="💠 ",
@@ -285,3 +286,17 @@ def konfirmasi_pajak(menu):
     ).execute()
     return choice
 
+def konfirmasi_pinjaman(menu):
+    print(menu)
+    choice = inquirer.select(
+        message=f"   |{' '*105}|",
+        choices=[
+            f"|{'1. Lunasi Pinjaman':<{105}}|",
+            f"|{'2. Tidak Setuju':<{105}}|",
+            Separator(f"|{'_'*105}|")
+        ],
+        pointer="💠 ",
+        qmark="",
+        style=custom_style,   
+    ).execute()
+    return choice
