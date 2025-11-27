@@ -41,6 +41,23 @@ def bot_beli_satu():
 
     # Pilih item dan kurangi stok
     id_item, item = random.choice(list(barang_jual.items()))
+    harga_jual = item["harga_jual"]
+
+    # Barang > 1000 → peluang beli 20%
+    if harga_jual > 1000:
+        keputusan = random.choice(["tidak", "tidak", "beli", "tidak", "tidak"])
+        if keputusan != "beli":
+            return  # bot batal beli
+
+    # Barang > 500 → peluang beli 33%
+    elif harga_jual > 500:
+        keputusan = random.choice(["tidak", "beli", "tidak"])
+        if keputusan != "beli":
+            return
+    else:
+        keputusan = random.choice(["beli", "tidak"])
+        if keputusan != "beli":
+            return
     item["stock"] -= 1
 
     harga_jual = item["harga_jual"]
