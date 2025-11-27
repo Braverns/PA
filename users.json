@@ -7,13 +7,13 @@
                 "nama": "salep",
                 "harga": 200,
                 "stock": 3,
-                "stock_show": 2
+                "stock_show": 3
             },
             "2": {
                 "nama": "belati",
                 "harga": 500,
                 "stock": 6,
-                "stock_show": 4
+                "stock_show": 2
             },
             "3": {
                 "nama": "roti",
@@ -25,18 +25,18 @@
                 "nama": "Kopi Hitam",
                 "harga": 150,
                 "stock": 5,
-                "stock_show": 5
+                "stock_show": 2
             },
             "5": {
                 "nama": "Matcha",
                 "harga": 200,
                 "stock": 9,
-                "stock_show": 6
+                "stock_show": 1
             }
         },
         "pajak": {
-            "tarif": 12,
-            "status": "aktif"
+            "tarif": 0,
+            "status": "non-aktif"
         }
     },
     "muja": {
@@ -150,7 +150,15 @@
             "toko": {
                 "nama": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "barang": {},
-                "keuntungan_harian": [],
+                "keuntungan_harian": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
                 "keuntungan_per_minggu": 0,
                 "target_keuntungan_per_minggu": 1000,
                 "status_toko": "aktif",

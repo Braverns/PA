@@ -17,13 +17,17 @@ def show_header(username):
         toko["keuntungan_harian"] = [0] * 7
 
     # Hitung index hari ini
+    if not users_db["admin"]["pajak"]["tarif"]:
+        pajak = "Belum Ada Pajak"
+    else:
+        pajak = f'{users_db["admin"]["pajak"]["tarif"]}%'
     day = waktu_db.get("day", 1)
     index = (day - 1) % 7
     keuntungan_hari_ini = toko["keuntungan_harian"][index]
     gold_user = int(users_db[username]['gold'])
     print(f"⏳ {GOLD}{timer:02d}{RESET}/{DAY_DURATION} detik   {CYAN}|{RESET}   📅 Hari {GOLD}{day}")
     print(f'{BOLD}{CYAN}{"═" * 130}{RESET}')
-    print(f'🏪 Toko: {GOLD}{toko['nama']}{RESET}   {CYAN}|{RESET}   💰 Gold: {GOLD}{gold_user}{RESET}   {CYAN}|{RESET}   📈 Keuntungan Hari ini: {GOLD}{keuntungan_hari_ini}{RESET}    {CYAN}|{RESET}   🧈 Pajak: {GOLD}{users_db["admin"]["pajak"]["tarif"]}%{RESET}')
+    print(f'🏪 Toko: {GOLD}{toko['nama']}{RESET}   {CYAN}|{RESET}   💰 Gold: {GOLD}{gold_user}{RESET}   {CYAN}|{RESET}   📈 Keuntungan Hari ini: {GOLD}{keuntungan_hari_ini}{RESET}    {CYAN}|{RESET}   🧈 Pajak: {GOLD}{pajak}{RESET}')
     print(f'{BOLD}{CYAN}{"═" * 130}{RESET}')
 def cek_pergantian_hari():
     if waktu_db.get("day_changed", False):
