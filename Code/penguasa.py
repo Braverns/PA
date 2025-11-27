@@ -29,7 +29,7 @@ def penguasa_main(username):
             daftar, table_width = daftar_toko('toko')
             if daftar is None:
                 error_message('Belum Ada Toko Terdaftar', '', 'Belum Ada Toko Terdaftar', '', 'Belum Ada Toko Terdaftar')
-                return
+                continue
             input(f'\n{BOLD}{CYAN}{f"{UNDERLINE}Tekan Enter untuk kembali...{RESET}" :^{table_width - 2}}{RESET}')
             continue
         elif choice == f"|{'3. Perbarui Kebijakan':<{105}}|":
