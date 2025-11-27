@@ -410,7 +410,6 @@ def lunas_pinjaman_user(username):
         users_db[username]["gold"] -= total_harus_dibayar
         daftar_surat.remove(pinjaman_aktif)
         save_users()
-        sleep(1)
         pesan_berhasil("Pinjaman berhasil dilunasi!")
     else:  
         return

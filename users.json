@@ -6,168 +6,25 @@
             "1": {
                 "nama": "salep",
                 "harga": 200,
-                "stock": 3,
-                "stock_show": 3
+                "stock": 20,
+                "stock_show": 10
             },
             "2": {
                 "nama": "belati",
                 "harga": 500,
-                "stock": 6,
-                "stock_show": 2
+                "stock": 10,
+                "stock_show": 5
             },
             "3": {
                 "nama": "roti",
                 "harga": 100,
-                "stock": 0,
-                "stock_show": 0
-            },
-            "4": {
-                "nama": "Kopi Hitam",
-                "harga": 150,
-                "stock": 5,
-                "stock_show": 2
-            },
-            "5": {
-                "nama": "Matcha",
-                "harga": 200,
-                "stock": 9,
-                "stock_show": 1
+                "stock": 50,
+                "stock_show": 10
             }
         },
         "pajak": {
             "tarif": 0,
             "status": "non-aktif"
-        }
-    },
-    "muja": {
-        "password": "muja1234",
-        "role": "user",
-        "gold": 11900,
-        "data": {
-            "toko": {
-                "nama": "ONE PUNCH MAN",
-                "barang": {
-                    "1": {
-                        "nama": "roti",
-                        "harga_beli": 100,
-                        "harga_jual": 200,
-                        "stock": 0,
-                        "status": "dijual"
-                    },
-                    "2": {
-                        "nama": "Matcha",
-                        "harga_beli": 200,
-                        "harga_jual": 300,
-                        "stock": 0,
-                        "status": "dijual"
-                    },
-                    "3": {
-                        "nama": "Kopi Hitam",
-                        "harga_beli": 150,
-                        "harga_jual": 300,
-                        "stock": 0,
-                        "status": "dijual"
-                    },
-                    "4": {
-                        "nama": "belati",
-                        "harga_beli": 500,
-                        "harga_jual": 1000,
-                        "stock": 0,
-                        "status": "dijual"
-                    },
-                    "5": {
-                        "nama": "salep",
-                        "harga_beli": 200,
-                        "harga_jual": 300,
-                        "stock": 0,
-                        "status": "dijual"
-                    }
-                },
-                "keuntungan_harian": [
-                    1900,
-                    200,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-                ],
-                "keuntungan_per_minggu": 8400,
-                "target_keuntungan_per_minggu": 1000,
-                "status_toko": "aktif",
-                "minggu_selesai": true,
-                "minggu_kemarin": 3250,
-                "laporan_harian": [],
-                "laporan_mingguan": [
-                    {
-                        "nama_barang": "salep",
-                        "jumlah": 17,
-                        "pendapatan": 5100
-                    },
-                    {
-                        "nama_barang": "Matcha",
-                        "jumlah": 4,
-                        "pendapatan": 1200
-                    }
-                ]
-            },
-            "surat": []
-        }
-    },
-    "ikan": {
-        "password": "IKAN1234",
-        "role": "user",
-        "gold": 1000,
-        "data": {
-            "toko": {
-                "nama": "PUFFER FISH",
-                "barang": {},
-                "keuntungan_harian": [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-                ],
-                "keuntungan_per_minggu": 0,
-                "target_keuntungan_per_minggu": 1000,
-                "status_toko": "aktif",
-                "minggu_selesai": true,
-                "minggu_kemarin": 0,
-                "laporan_harian": [],
-                "laporan_mingguan": []
-            },
-            "surat": []
-        }
-    },
-    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": {
-        "password": "muja1234",
-        "role": "user",
-        "gold": 1000,
-        "data": {
-            "toko": {
-                "nama": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "barang": {},
-                "keuntungan_harian": [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-                ],
-                "keuntungan_per_minggu": 0,
-                "target_keuntungan_per_minggu": 1000,
-                "status_toko": "aktif",
-                "minggu_selesai": false,
-                "minggu_kemarin": 0,
-                "laporan_harian": [],
-                "laporan_mingguan": []
-            },
-            "surat": []
         }
     }
 }
