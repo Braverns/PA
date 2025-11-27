@@ -118,7 +118,8 @@ def pedagang_main(username):
                     os.system('cls || clear')
                     laporan, table_width = laporan_user(username, 'harian')
                     if laporan is None:
-                        return error_message('Tidak Ada Penjualan Hari Ini', '', 'Tidak Ada Penjualan Hari Ini', '', 'Tidak Ada Penjualan Hari Ini')
+                        error_message('Tidak Ada Penjualan Hari Ini', '', 'Tidak Ada Penjualan Hari Ini', '', 'Tidak Ada Penjualan Hari Ini')
+                        continue
                     safe_input(f'\n     {BOLD}{CYAN}{f"{UNDERLINE}Tekan Enter untuk kembali...{RESET}" :^{table_width - 2}}{RESET}')
                     continue
                 elif choice == f"|{'2. Laporan Penjualan Mingguan':<{105}}|":
@@ -126,9 +127,9 @@ def pedagang_main(username):
                     os.system('cls || clear')
                     laporan, table_width = laporan_user(username, 'mingguan')
                     if laporan is None:
-                        return error_message('Tidak Ada Penjualan Hari Ini', '', 'Tidak Ada Penjualan Hari Ini', '', 'Tidak Ada Penjualan Hari Ini')
+                        error_message('Tidak Ada Penjualan Hari Ini', '', 'Tidak Ada Penjualan Hari Ini', '', 'Tidak Ada Penjualan Hari Ini')
+                        continue
                     safe_input(f'\n     {BOLD}{CYAN}{f"{UNDERLINE}Tekan Enter untuk kembali...{RESET}" :^{table_width - 2}}{RESET}')
-                    pass
                     continue
                 elif choice == f"|{'3. Laporan Pinjaman':<{105}}|":
                     cek_pergantian_hari()
