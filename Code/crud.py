@@ -923,7 +923,7 @@ def penggusuran_toko():
     else:
         return
     
-def laporan(username, akses):
+def laporan_user(username, akses):
     import re
     ansi = re.compile(r'\x1b\[[0-9;]*m')
     table = PrettyTable()
@@ -952,7 +952,7 @@ def laporan(username, akses):
                 f"{GOLD}{item['pendapatan']:^{20}}{RESET}"
             ])
             nomor += 1
-    if akses == 'mingguan':
+    elif akses == 'mingguan':
         title = "LAPORAN PENJUALAN MINGGUAN"
         toko = users_db[username]["data"]["toko"]
         laporan = toko["laporan_mingguan"]

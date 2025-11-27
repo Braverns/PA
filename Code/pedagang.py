@@ -21,11 +21,10 @@ def show_header(username):
     index = (day - 1) % 7
     keuntungan_hari_ini = toko["keuntungan_harian"][index]
     gold_user = int(users_db[username]['gold'])
-    space_gold = len(f'{gold_user}') + 112
     print(f"⏳ {GOLD}{timer:02d}{RESET}/{DAY_DURATION} detik   {CYAN}|{RESET}   📅 Hari {GOLD}{day}")
-    print(f'{BOLD}{CYAN}{"═" * space_gold}{RESET}')
+    print(f'{BOLD}{CYAN}{"═" * 130}{RESET}')
     print(f'🏪 Toko: {GOLD}{toko['nama']}{RESET}   {CYAN}|{RESET}   💰 Gold: {GOLD}{gold_user}{RESET}   {CYAN}|{RESET}   📈 Keuntungan Hari ini: {GOLD}{keuntungan_hari_ini}{RESET}    {CYAN}|{RESET}   🧈 Pajak: {GOLD}{users_db["admin"]["pajak"]["tarif"]}%{RESET}')
-    print(f'{BOLD}{CYAN}{"═" * space_gold}{RESET}')
+    print(f'{BOLD}{CYAN}{"═" * 130}{RESET}')
 def cek_pergantian_hari():
     if waktu_db.get("day_changed", False):
         os.system("cls" if os.name == "nt" else "clear")
@@ -117,7 +116,7 @@ def pedagang_main(username):
                 if choice == f"|{'1. Laporan Penjualan Harian':<{105}}|":
                     cek_pergantian_hari()
                     os.system('cls || clear')
-                    laporan, table_width = laporan(username, 'harian')
+                    laporan, table_width = laporan_user(username, 'harian')
                     if laporan is None:
                         return error_message('Tidak Ada Penjualan Hari Ini', '', 'Tidak Ada Penjualan Hari Ini', '', 'Tidak Ada Penjualan Hari Ini')
                     safe_input(f'\n     {BOLD}{CYAN}{f"{UNDERLINE}Tekan Enter untuk kembali...{RESET}" :^{table_width - 2}}{RESET}')
@@ -125,7 +124,7 @@ def pedagang_main(username):
                 elif choice == f"|{'2. Laporan Penjualan Mingguan':<{105}}|":
                     cek_pergantian_hari()
                     os.system('cls || clear')
-                    laporan, table_width = laporan(username, 'mingguan')
+                    laporan, table_width = laporan_user(username, 'mingguan')
                     if laporan is None:
                         return error_message('Tidak Ada Penjualan Hari Ini', '', 'Tidak Ada Penjualan Hari Ini', '', 'Tidak Ada Penjualan Hari Ini')
                     safe_input(f'\n     {BOLD}{CYAN}{f"{UNDERLINE}Tekan Enter untuk kembali...{RESET}" :^{table_width - 2}}{RESET}')

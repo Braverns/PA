@@ -7,13 +7,13 @@
                 "nama": "salep",
                 "harga": 200,
                 "stock": 3,
-                "stock_show": 1
+                "stock_show": 2
             },
             "2": {
                 "nama": "belati",
                 "harga": 500,
                 "stock": 6,
-                "stock_show": 3
+                "stock_show": 4
             },
             "3": {
                 "nama": "roti",
@@ -31,7 +31,7 @@
                 "nama": "Matcha",
                 "harga": 200,
                 "stock": 9,
-                "stock_show": 4
+                "stock_show": 6
             }
         },
         "pajak": {
@@ -97,13 +97,7 @@
                 "status_toko": "aktif",
                 "minggu_selesai": true,
                 "minggu_kemarin": 3250,
-                "laporan_harian": [
-                    {
-                        "nama_barang": "salep",
-                        "jumlah": 2,
-                        "pendapatan": 600
-                    }
-                ],
+                "laporan_harian": [],
                 "laporan_mingguan": [
                     {
                         "nama_barang": "salep",
