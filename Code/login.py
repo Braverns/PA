@@ -121,7 +121,12 @@ def register_user():
     if namat in users_db:
         error_message('Nama Toko Sudah Digunakan, Silahkan Pilih Nama Yang Lain', '', 'Nama Toko Sudah Digunakan, Silahkan Pilih Nama Yang Lain', '', 'Nama Toko Sudah Digunakan, Silahkan Pilih Nama Yang Lain')
         return False
-
+    for nama, info in users_db.items():
+        if info["role"] == "user" and info["data"]["toko"]["target_keuntungan_per_minggu"]:
+            target = info["data"]["toko"]["target_keuntungan_per_minggu"]
+            break
+        else:
+            target = 0
     users_db[username] = {
         'password': password,
         'role': 'user',
@@ -130,8 +135,12 @@ def register_user():
                           'barang': {},
                           'keuntungan_harian' : [],
                           'keuntungan_per_minggu' : 0,
-                          'target_keuntungan_per_minggu' : 500,
-                          'status_toko': 'aktif'
+                          'target_keuntungan_per_minggu' : target,
+                          'status_toko': 'aktif',
+                          'minggu_selesai' : False,
+                          'minggu_kemarin' : 0,
+                          'laporan_harian' : [],
+                          'laporan_mingguan' : []
                           },
                 'surat': []}
     }

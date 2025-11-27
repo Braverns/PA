@@ -13,7 +13,7 @@ def menu_welcome():
         + f"   {BOLD}{REVERSE}{WHITE}{panjang}{RESET}\n"
         + f"   {BOLD}{REVERSE}{WHITE}|{'Sebuah simulasi tata kelola pemerintahan dan kebijakan ekonomi.':^{105}}|{RESET}\n"
         + f"   {BOLD}{REVERSE}{WHITE}|{'terkait dengan administrasi dan perdagangan. Terdapat 2 Peran':^{105}}|{RESET}\n"
-        + f"   {BOLD}{REVERSE}{WHITE}|{'dalam simulasi ini, yaitu "penguasa" dan "user".':^{105}}|{RESET}"
+        + f"   {BOLD}{REVERSE}{WHITE}|{'dalam simulasi ini, yaitu "penguasa (admin)" dan "pedagang (user)"':^{105}}|{RESET}"
         + f"\n   {BOLD}{REVERSE}{WHITE}{tengah}{RESET}"
     )
     input(f'\n         {BOLD}{WHITE}{f"{UNDERLINE}Tekan Enter untuk melanjutkan...{RESET}" :^{105}}{RESET}')
@@ -123,7 +123,8 @@ def create_admin(menu):
             f"|{'1. Kebijakan Pajak':<{105}}|",
             f"|{'2. Kebijakan Pinjaman':<{105}}|",
             f"|{'3. Kebijakan Barang':<{105}}|",
-            f"|{'4. Kembali':<{105}}|",
+            f"|{'4. Kebijakan Keuntungan':<{105}}|",
+            f"|{'5. Kembali':<{105}}|",
             Separator(f"|{'_'*105}|")
         ],
         pointer="💠 ",
@@ -174,8 +175,8 @@ def menu_laporan(menu):
     choice = inquirer.select(
         message=f"   |{' '*105}|",
         choices=[
-            f"|{'1. Laporan Penjualan':<{105}}|",
-            f"|{'2. Laporan Harian':<{105}}|",
+            f"|{'1. Laporan Penjualan Harian':<{105}}|",
+            f"|{'2. Laporan Penjualan Mingguan':<{105}}|",
             f"|{'3. Laporan Pinjaman':<{105}}|",
             f"|{'4. Kembali':<{105}}|",
             Separator(f"|{'_'*105}|")
@@ -214,7 +215,8 @@ def perbarui_kebijakan(menu):
             f"|{'2. Perbarui Pinjaman':<{105}}|",
             f"|{'3. Perbarui Kebijakan Barang':<{105}}|",
             f"|{'4. Tarik Barang Dari Penjualan':<{105}}|",
-            f"|{'5. Kembali':<{105}}|",
+            f"|{'5. Perbarui Kebijakan Keuntungan':<{105}}|",
+            f"|{'6. Kembali':<{105}}|",
             Separator(f"|{'_'*105}|")
         ],
         pointer="💠 ",
@@ -293,6 +295,21 @@ def konfirmasi_pinjaman(menu):
         choices=[
             f"|{'1. Lunasi Pinjaman':<{105}}|",
             f"|{'2. Tidak Setuju':<{105}}|",
+            Separator(f"|{'_'*105}|")
+        ],
+        pointer="💠 ",
+        qmark="",
+        style=custom_style,   
+    ).execute()
+    return choice
+
+def konfirmasi_menggusur(menu):
+    print(menu)
+    choice = inquirer.select(
+        message=f"   |{' '*105}|",
+        choices=[
+            f"|{'1. Gusur Toko':<{105}}|",
+            f"|{'2. Urungkan Keputusan':<{105}}|",
             Separator(f"|{'_'*105}|")
         ],
         pointer="💠 ",

@@ -56,7 +56,8 @@ def update_pajak():
 
     try:
         print(f'   {CYAN}{panjang}{RESET}')
-        tarif = input(f'{CYAN}   |{' Masukkan Tarif Pajak Baru (%): '}{RESET}')
+        print(f'   {CYAN}|{f" Tarif Pajak Saat Ini          : {GOLD}{users_db['admin']['pajak']['tarif']}%":<{110}}{CYAN}|{RESET}')
+        tarif = input(f'{CYAN}   |{' Masukkan Tarif Pajak Baru (%) : '}{RESET}')
         tarif = int(tarif.strip())
         print('\033[F', end='')   
         print(f'{CYAN}   |{f' Masukkan Tarif Pajak Baru (%): {tarif}':<{105}}|{RESET}')
@@ -192,7 +193,7 @@ def daftar_toko(akses):
             f"{BOLD}{GOLD}Nama Toko{RESET}",
             f"{BOLD}{GOLD}Gold{RESET}",
             f"{BOLD}{GOLD}Status Pinjaman{RESET}",
-            f"{BOLD}{GOLD}Total Keuntungan{RESET}",
+            f"{BOLD}{GOLD}Keuntungan Mingguan{RESET}",
             f"{BOLD}{GOLD}Status Toko{RESET}"
         ]
 
@@ -212,10 +213,9 @@ def daftar_toko(akses):
 
                 keuntungan_per_minggu = info["data"]["toko"]["keuntungan_per_minggu"]
                 if keuntungan_per_minggu:
-                    total_keuntungan = sum(keuntungan_per_minggu)
+                    total_keuntungan = keuntungan_per_minggu
                 else:
-                    total_keuntungan = "belum ada keuntungan"
-
+                    total_keuntungan = 'belum ada keuntungan'
                 daftar.append(user)
                 table.add_row([
                     f'{GOLD}{nomor:^{3}}{RESET}',
@@ -227,6 +227,52 @@ def daftar_toko(akses):
                     f'{GOLD}{status_toko:<{15}}{RESET}'
                 ])
                 nomor += 1
+    elif akses == 'penggusuran':
+        table.field_names = [
+            f"{BOLD}{GOLD}NO{RESET}",
+            f"{BOLD}{GOLD}Nama User{RESET}",
+            f"{BOLD}{GOLD}Nama Toko{RESET}",
+            f"{BOLD}{GOLD}Target Mingguan{RESET}",
+            f"{BOLD}{GOLD}Keuntungan Minggu Lalu{RESET}",
+            f"{BOLD}{GOLD}Status Evaluasi{RESET}",
+            f"{BOLD}{GOLD}Status Toko{RESET}"
+        ]
+
+        daftar = []
+        nomor = 1
+
+        for user, info in users_db.items():
+            if info["role"] != "user":
+                continue
+
+            toko = info["data"]["toko"]
+            nama_toko = toko["nama"]
+            target = toko.get("target_keuntungan_per_minggu", 0)
+            minggu_kemarin = toko.get("minggu_kemarin", 0)
+            status_toko = toko.get("status_toko", "aktif")
+
+            # status evaluasi minggu lalu
+            if toko.get("minggu_selesai", False):
+                if minggu_kemarin < target:
+                    status_eval = f"{RED}Gagal{RESET}"
+                else:
+                    status_eval = f"{GREEN}Lolos{RESET}"
+            else:
+                status_eval = f"{GOLD}Belum Evaluasi{RESET}"
+
+            # Tambahkan ke daftar (untuk pemilihan dalam menu)
+            daftar.append(user)
+
+            table.add_row([
+                f"{GOLD}{nomor:<3}{RESET}",
+                f"{GOLD}{user:<15}{RESET}",
+                f"{GOLD}{nama_toko:<15}{RESET}",
+                f"{GOLD}{target:^15}{RESET}",
+                f"{GOLD}{minggu_kemarin:^23}{RESET}",
+                f"{status_eval:<20}",
+                f"{GOLD}{status_toko:<15}{RESET}",
+            ])
+            nomor += 1
 
     if not daftar:
         return None, None
@@ -257,7 +303,7 @@ def daftar_toko(akses):
 def pemberian_pinjaman():
     os.system("cls || clear")
     daftar, table_width = daftar_toko('pinjaman')
-    if daftar == None:
+    if daftar is None:
         return error_message("Tidak Ada Pengajuan Pinjaman", "", "Tidak Ada Pengajuan Pinjaman", "", "Tidak Ada Pengajuan Pinjaman")
     try:
         pilihan = input(f'\n{CYAN}   Masukkan No Toko : {RESET}').strip()
@@ -780,4 +826,177 @@ def ubah_harga_barang(username, akses):
         save_users()
         pesan_berhasil(f'Harga {data_nama} {data_harga_lama } Gold Berhasil Diubah Menjadi {harga_barang} Gold')
         return  True
+
+def kebijakan_keuntungan():
+    os.system('cls || clear')
+    print(header('KEBIJAKAN KEUNTUNGAN'))
+    # mengecek apakah sudah ada kebijakan keuntungan di akun user dengan for 
+    for username, info in users_db.items():
+        if info["role"] == "user" and info["data"]["toko"]["target_keuntungan_per_minggu"]:
+            error_message("SUDAH ADA TARGET KEUNTUNGAN YANG DITETAPKAN", "", "SUDAH ADA TARGET KEUNTUNGAN YANG DITETAPKAN", "", "SUDAH ADA TARGET KEUNTUNGAN YANG DITETAPKAN")
+            return
+    try:
+        print(f'   {CYAN}{panjang}{RESET}')
+        tarif = input(f'{CYAN}   | Masukkan Target Keuntungan Mingguan : {RESET}')
+        tarif = int(tarif.strip())
+        print('\033[F', end='')
+        print(f'{CYAN}   |{f" Masukkan Target Keuntungan Mingguan : {tarif}":<{105}}|{RESET}')
+        print(f'   {CYAN}{tengah}{RESET}')
+
+        if tarif < 0:
+            error_message("Target tidak boleh negatif!", '', "Target tidak boleh negatif!", '', "Target tidak boleh negatif!")
+            return
+    except ValueError:
+        error_message("Input harus angka bulat!", '', "Input harus angka bulat!", '', "Input harus angka bulat!")
+        return
+
+    for username, info in users_db.items():
+        if info["role"] == "user":
+            info["data"]["toko"]["target_keuntungan_per_minggu"] = tarif
+    sleep(1)
+    pesan_berhasil(f"TARGET KEUNTUNGAN {tarif} BERHASIL DITETAPKAN")
+    save_users()
+
+
+def update_keuntungan():
+    os.system('cls || clear')
+    print(header('PERBARUI TARGET KEUNTUNGAN'))
+    try:
+        print(f'   {CYAN}{panjang}{RESET}')
+        for username, info in users_db.items():
+            if info["role"] == "user":
+                current_target = info["data"]["toko"]["target_keuntungan_per_minggu"]
+                break
+        print(f'{CYAN}   |{f" Target Keuntungan Mingguan Saat Ini      : {GOLD}{current_target}":<{110}}{CYAN}|{RESET}')
+        tarif = input(f'{CYAN}   | Masukkan Target Keuntungan Mingguan Baru : {RESET}')
+        tarif = int(tarif.strip())
+        print('\033[F', end='')
+        print(f'{CYAN}   |{f" Masukkan Target Keuntungan Mingguan Baru : {GOLD}{tarif}":<{105}}{CYAN}|{RESET}')
+        print(f'   {CYAN}{tengah}{RESET}')
+
+        if tarif < 0:
+            error_message("Target tidak boleh negatif!", '', "Target tidak boleh negatif!", '', "Target tidak boleh negatif!")
+            return
+    except ValueError:
+        error_message("Input harus angka bulat!", '', "Input harus angka bulat!", '', "Input harus angka bulat!")
+        return
+
+    for username, info in users_db.items():
+        if info["role"] == "user":
+            info["data"]["toko"]["target_keuntungan_per_minggu"] = tarif
+    sleep(1)
+    pesan_berhasil(f"TARGET KEUNTUNGAN BERHASIL DIPERBARUI MENJADI {tarif}")
+    save_users()
+
+def penggusuran_toko():
+    os.system("cls || clear")
+    daftar, table_width = daftar_toko('penggusuran')
+    if daftar is None:
+        return error_message('Tidak Ada Toko yang Bisa Digusur', '', 'Tidak Ada Toko yang Bisa Digusur', '', 'Tidak Ada Toko yang Bisa Digusur')
+    try:
+        pilihan = input(f'\n{CYAN}   Masukkan No Toko : {RESET}').strip()
+        print("\033[F", end="")
+        print(f"   {CYAN}Masukkan No Toko : {RESET}{GOLD}{pilihan}{RESET}")
+        idx = int(pilihan) - 1
+        user = daftar[idx]         
+    except:
+        return error_message('Masukkan Angka Bulat Positif', '', 'Masukkan Angka Bulat Positif', '', 'Masukkan Angka Bulat Positif')
+
+    toko = users_db[user]["data"]["toko"]
+    nama_toko = toko["nama"]
+    target = toko['target_keuntungan_per_minggu']
+    minggu_kemarin = toko['minggu_kemarin']
+    minggu_selesai = toko['minggu_selesai']
+
+    if not minggu_selesai:
+        return error_message('Toko Belum Dievaluasi Minggu Kemarin', '', 'Toko Belum Dievaluasi Minggu Kemarin', '', 'Toko Belum Dievaluasi Minggu Kemarin')
+
+    if minggu_kemarin >= target:
+        return error_message('Toko Tidak Bisa Digusur Karena Mencapai Target Keuntungan', '', 'Toko Tidak Bisa Digusur Karena Mencapai Target Keuntungan', '', 'Toko Tidak Bisa Digusur Karena Mencapai Target Keuntungan')
+
+    os.system('cls || clear')
+    konfirmasi = konfirmasi_menggusur(header(f'KONFIRMASI PENGGUSURAN TOKO {nama_toko}'))
+    if konfirmasi == f"|{'1. Gusur Toko':<{105}}|":
+        del users_db[user] 
+        save_users()
+        pesan_berhasil(f"Toko {nama_toko} milik {user} berhasil digusur!")
+    else:
+        return
     
+def laporan(username, akses):
+    import re
+    ansi = re.compile(r'\x1b\[[0-9;]*m')
+    table = PrettyTable()
+
+    if akses == 'harian':
+        title = "LAPORAN PENJUALAN HARIAN"
+        toko = users_db[username]["data"]["toko"]
+        laporan = toko["laporan_harian"]
+
+        if not laporan:
+            return None, None
+        
+        table.field_names = [
+            f"{BOLD}{GOLD}NO{RESET}",
+            f"{BOLD}{GOLD}Nama Barang{RESET}",
+            f"{BOLD}{GOLD}Jumlah{RESET}",
+            f"{BOLD}{GOLD}Pendapatan{RESET}"
+        ]
+
+        nomor = 1
+        for item in laporan:
+            table.add_row([
+                f"{GOLD}{nomor:^{3}}{RESET}",
+                f"{GOLD}{item['nama_barang']:<{20}}{RESET}",
+                f"{GOLD}{item['jumlah']:^{20}}{RESET}",
+                f"{GOLD}{item['pendapatan']:^{20}}{RESET}"
+            ])
+            nomor += 1
+    if akses == 'mingguan':
+        title = "LAPORAN PENJUALAN MINGGUAN"
+        toko = users_db[username]["data"]["toko"]
+        laporan = toko["laporan_mingguan"]
+
+        if not laporan:
+            return None, None
+        
+        table.field_names = [
+            f"{BOLD}{GOLD}NO{RESET}",
+            f"{BOLD}{GOLD}Nama Barang{RESET}",
+            f"{BOLD}{GOLD}Jumlah{RESET}",
+            f"{BOLD}{GOLD}Pendapatan{RESET}"
+        ]
+
+        nomor = 1
+        for item in laporan:
+            table.add_row([
+                f"{GOLD}{nomor:^{3}}{RESET}",
+                f"{GOLD}{item['nama_barang']:<{20}}{RESET}",
+                f"{GOLD}{item['jumlah']:^{20}}{RESET}",
+                f"{GOLD}{item['pendapatan']:^{20}}{RESET}"
+            ])
+            nomor += 1
+
+    table.junction_char = f"{BOLD}{CYAN}╬{RESET}"
+    table.horizontal_char = f"{BOLD}{CYAN}═{RESET}"
+    table.vertical_char = f"{BOLD}{CYAN}║{RESET}"
+    table.left_junction_char = f"{BOLD}{CYAN}╠{RESET}"
+    table.right_junction_char = f"{BOLD}{CYAN}╣{RESET}"
+    table.top_junction_char = f"{BOLD}{CYAN}╦{RESET}"
+    table.bottom_junction_char = f"{BOLD}{CYAN}╩{RESET}"
+    table.top_left_junction_char = f"{BOLD}{CYAN}╠{RESET}"
+    table.top_right_junction_char = f"{BOLD}{CYAN}╣{RESET}"
+    table.bottom_left_junction_char = f"{BOLD}{CYAN}╚{RESET}"
+    table.bottom_right_junction_char = f"{BOLD}{CYAN}╝{RESET}"
+
+    table_str = table.get_string()
+    clean_lines = [ansi.sub('', line) for line in table_str.split("\n")]
+    table_width = max(len(line) for line in clean_lines)
+
+    print(f'{BOLD}{CYAN}╔{"═" * (table_width - 2)}╗{RESET}')
+    print(f'{BOLD}{CYAN}║{" " :^{table_width - 2}}║{RESET}')
+    print(f'{BOLD}{CYAN}║{RESET}{BOLD}{GOLD}{title:^{table_width - 2}}{RESET}{BOLD}{CYAN}║{RESET}')
+    print(f'{BOLD}{CYAN}║{" " :^{table_width - 2}}║{RESET}')
+    print(table)
+
+    return laporan, table_width

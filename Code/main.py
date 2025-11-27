@@ -50,4 +50,5 @@ def main_menu():
             print(f'{BOLD}{WHITE}{REVERSE}{tengah}{RESET}')
             print('\n\n\n')
             break
+
 main_menu()

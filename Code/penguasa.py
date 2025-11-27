@@ -19,6 +19,9 @@ def penguasa_main(username):
                     os.system('cls || clear')
                     barang(username, 'admin')
                     continue
+                elif choice == f"|{'4. Kebijakan Keuntungan':<{105}}|":
+                    kebijakan_keuntungan()
+                    continue
                 else:
                     break
         elif choice == f"|{'2. Daftar Toko':<{105}}|":
@@ -43,10 +46,14 @@ def penguasa_main(username):
                 elif choice == f"|{'4. Tarik Barang Dari Penjualan':<{105}}|":
                     tarik_barang(username, 'admin')
                     continue
+                elif choice == f"|{'5. Perbarui Kebijakan Keuntungan':<{105}}|":
+                    update_keuntungan()
+                    continue
                 else:
                     break
             
         elif choice == f"|{'4. Menggusur Toko':<{105}}|":
-            pass
+            penggusuran_toko()
+            continue
         else:
             break

@@ -6,32 +6,32 @@
             "1": {
                 "nama": "salep",
                 "harga": 200,
-                "stock": 20,
-                "stock_show": 17
+                "stock": 3,
+                "stock_show": 1
             },
             "2": {
                 "nama": "belati",
                 "harga": 500,
-                "stock": 10,
-                "stock_show": 9
+                "stock": 6,
+                "stock_show": 3
             },
             "3": {
                 "nama": "roti",
                 "harga": 100,
-                "stock": 9,
-                "stock_show": 6
+                "stock": 0,
+                "stock_show": 0
             },
             "4": {
                 "nama": "Kopi Hitam",
                 "harga": 150,
-                "stock": 23,
-                "stock_show": 22
+                "stock": 5,
+                "stock_show": 5
             },
             "5": {
                 "nama": "Matcha",
                 "harga": 200,
-                "stock": 50,
-                "stock_show": 26
+                "stock": 9,
+                "stock_show": 4
             }
         },
         "pajak": {
@@ -42,15 +42,80 @@
     "muja": {
         "password": "muja1234",
         "role": "user",
-        "gold": 1000,
+        "gold": 11900,
         "data": {
             "toko": {
                 "nama": "ONE PUNCH MAN",
-                "barang": {},
-                "keuntungan_harian": [],
-                "keuntungan_per_minggu": 0,
-                "target_keuntungan_per_minggu": 500,
-                "status_toko": "aktif"
+                "barang": {
+                    "1": {
+                        "nama": "roti",
+                        "harga_beli": 100,
+                        "harga_jual": 200,
+                        "stock": 0,
+                        "status": "dijual"
+                    },
+                    "2": {
+                        "nama": "Matcha",
+                        "harga_beli": 200,
+                        "harga_jual": 300,
+                        "stock": 0,
+                        "status": "dijual"
+                    },
+                    "3": {
+                        "nama": "Kopi Hitam",
+                        "harga_beli": 150,
+                        "harga_jual": 300,
+                        "stock": 0,
+                        "status": "dijual"
+                    },
+                    "4": {
+                        "nama": "belati",
+                        "harga_beli": 500,
+                        "harga_jual": 1000,
+                        "stock": 0,
+                        "status": "dijual"
+                    },
+                    "5": {
+                        "nama": "salep",
+                        "harga_beli": 200,
+                        "harga_jual": 300,
+                        "stock": 0,
+                        "status": "dijual"
+                    }
+                },
+                "keuntungan_harian": [
+                    1900,
+                    200,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "keuntungan_per_minggu": 8400,
+                "target_keuntungan_per_minggu": 1000,
+                "status_toko": "aktif",
+                "minggu_selesai": true,
+                "minggu_kemarin": 3250,
+                "laporan_harian": [
+                    {
+                        "nama_barang": "salep",
+                        "jumlah": 2,
+                        "pendapatan": 600
+                    }
+                ],
+                "laporan_mingguan": [
+                    {
+                        "nama_barang": "salep",
+                        "jumlah": 17,
+                        "pendapatan": 5100
+                    },
+                    {
+                        "nama_barang": "Matcha",
+                        "jumlah": 4,
+                        "pendapatan": 1200
+                    }
+                ]
             },
             "surat": []
         }
@@ -63,42 +128,42 @@
             "toko": {
                 "nama": "PUFFER FISH",
                 "barang": {},
-                "keuntungan_harian": [],
+                "keuntungan_harian": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
                 "keuntungan_per_minggu": 0,
-                "target_keuntungan_per_minggu": 500,
-                "status_toko": "aktif"
+                "target_keuntungan_per_minggu": 1000,
+                "status_toko": "aktif",
+                "minggu_selesai": true,
+                "minggu_kemarin": 0,
+                "laporan_harian": [],
+                "laporan_mingguan": []
             },
             "surat": []
         }
     },
-    "ayam": {
-        "password": "AYAM1234",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": {
+        "password": "muja1234",
         "role": "user",
         "gold": 1000,
         "data": {
             "toko": {
-                "nama": "HOT SIDE STORY",
+                "nama": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "barang": {},
                 "keuntungan_harian": [],
                 "keuntungan_per_minggu": 0,
-                "target_keuntungan_per_minggu": 500,
-                "status_toko": "aktif"
-            },
-            "surat": []
-        }
-    },
-    "bebek": {
-        "password": "BEBEK1234",
-        "role": "user",
-        "gold": 1000,
-        "data": {
-            "toko": {
-                "nama": "BEBEK GORENG",
-                "barang": {},
-                "keuntungan_harian": [],
-                "keuntungan_per_minggu": 0,
-                "target_keuntungan_per_minggu": 500,
-                "status_toko": "aktif"
+                "target_keuntungan_per_minggu": 1000,
+                "status_toko": "aktif",
+                "minggu_selesai": false,
+                "minggu_kemarin": 0,
+                "laporan_harian": [],
+                "laporan_mingguan": []
             },
             "surat": []
         }
