@@ -880,7 +880,9 @@ def update_keuntungan():
     except ValueError:
         error_message("Input harus angka bulat!", '', "Input harus angka bulat!", '', "Input harus angka bulat!")
         return
-
+    except UnboundLocalError:
+        error_message("Akun User Belum Ada",'', "Akun User Belum Ada", '', "Akun User Belum Ada")
+        return
     for username, info in users_db.items():
         if info["role"] == "user":
             info["data"]["toko"]["target_keuntungan_per_minggu"] = tarif
