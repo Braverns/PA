@@ -89,12 +89,14 @@ def update_pajak():
 """ FEATURE YOGA  """
 def pinjam_uang_user(username):
     print(header("AJUKAN PINJAMAN UANG"))
-    if users_db[username]["data"]['surat']['status'] == "Menunggu persetujuan":
-        pesan_berhasil("Anda sudah memiliki pengajuan pinjaman yang sedang diproses.")
-        return
-    if users_db[username]["data"]['surat']['status'] == "disetujui":
-        pesan_berhasil("Anda sudah memiliki pinjaman yang belum dilunasi.")
-        return
+    surat = users_db[username]['data']['surat']
+    if len(surat) > 0:
+        if surat[0]["status"] == "Menunggu persetujuan":
+            pesan_berhasil("Anda sudah memiliki pengajuan pinjaman yang sedang diproses.")
+            return
+        if surat[0]['status'] == "disetujui":
+            pesan_berhasil("Anda sudah memiliki pinjaman yang belum dilunasi.")
+            return
     print(f'   {CYAN}{panjang}{RESET}')
     jumlah = safe_input(f'{CYAN}   | Masukkan jumlah pinjaman (gold): {RESET}').strip()
     print("\033[F", end="")
@@ -115,7 +117,6 @@ def pinjam_uang_user(username):
     users_db[username]["data"]["surat"].append(surat)
     save_users()
     pesan_berhasil(f"Pengajuan pinjaman sebesar {jumlah} gold berhasil dikirim! Status: Menunggu persetujuan")
-
 
 def laporan_pinjaman_user(username):
     print(header("LAPORAN PINJAMAN"))
