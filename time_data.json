@@ -1,6 +1,6 @@
 {
     "day": 0,
-    "timer": 0,
-    "last_start": 0.0,
+    "timer": 25,
+    "last_start": 1764256648.83767,
     "day_changed": false
 }
