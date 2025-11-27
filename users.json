@@ -26,40 +26,5 @@
             "tarif": 0,
             "status": "non-aktif"
         }
-    },
-    "muja": {
-        "password": "muja1234",
-        "role": "user",
-        "gold": 1000,
-        "data": {
-            "toko": {
-                "nama": "Power",
-                "barang": {},
-                "keuntungan_harian": [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-                ],
-                "keuntungan_per_minggu": 0,
-                "target_keuntungan_per_minggu": 0,
-                "status_toko": "aktif",
-                "minggu_selesai": false,
-                "minggu_kemarin": 0,
-                "laporan_harian": [],
-                "laporan_mingguan": []
-            },
-            "surat": [
-                {
-                    "surat": "Mengajukan pinjaman 100000 gold",
-                    "jumlah": 100000,
-                    "status": "ditolak",
-                    "bunga": null
-                }
-            ]
-        }
     }
 }
